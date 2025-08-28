@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics - Super Tic-Tac-Toe{% endblock %}
+
+{% block content %}
+<div class="dev-container">
+    <!-- Header -->
+    <div style="text-align: center; margin-bottom: 4rem;">
+        <h1 class="mono" style="color: var(--dev-white); font-size: 2.5rem; margin-bottom: 1rem;">
+            > user_stats.exe --display
+        </h1>
+        <p class="mono" style="color: var(--dev-text-gray); font-size: 1.1rem;">
+            // Track your progress and improvement over time
+        </p>
+    </div>
+
+    <!-- Overall Stats -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 4rem;">
+        <div class="dev-card" style="text-align: center; padding: 2rem;">
+            <div style="color: var(--dev-blue); font-size: 2rem; margin-bottom: 1rem;">
+                <i class="fas fa-gamepad"></i>
+            </div>
+            <div class="mono" style="color: var(--dev-blue); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ stats.total_games }}</div>
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Total Games</div>
+        </div>
+        
+        <div class="dev-card" style="text-align: center; padding: 2rem;">
+            <div style="color: var(--dev-green); font-size: 2rem; margin-bottom: 1rem;">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <div class="mono" style="color: var(--dev-green); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ stats.victories }}</div>
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Victories</div>
+        </div>
+        
+        <div class="dev-card" style="text-align: center; padding: 2rem;">
+            <div style="color: var(--dev-yellow); font-size: 2rem; margin-bottom: 1rem;">
+                <i class="fas fa-percentage"></i>
+            </div>
+            <div class="mono" style="color: var(--dev-yellow); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ stats.win_rate }}%</div>
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Win Rate</div>
+        </div>
+        
+        <div class="dev-card" style="text-align: center; padding: 2rem;">
+            <div style="color: var(--dev-blue-light); font-size: 2rem; margin-bottom: 1rem;">
+                <i class="fas fa-handshake"></i>
+            </div>
+            <div class="mono" style="color: var(--dev-blue-light); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ stats.draws }}</div>
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Draws</div>
+        </div>
+    </div>
+
+    <!-- Game Mode Breakdown -->
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-bottom: 4rem;">
+        
+        <!-- AI Performance -->
+        <div class="dev-card">
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem;">
+                // AI Performance
+            </h2>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <!-- Easy AI -->
+                <div class="dev-card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark);">
+                    <div>
+                        <div class="mono" style="color: var(--dev-green); font-size: 1rem; margin-bottom: 0.25rem;">
+                            <i class="fas fa-seedling" style="margin-right: 0.5rem;"></i>Easy AI
+                        </div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem;">
+                            {{ stats.ai_stats.easy.wins }} wins / {{ stats.ai_stats.easy.total_games }} games
+                        </div>
+                    </div>
+                    <div class="mono" style="color: var(--dev-green); font-size: 1.25rem; font-weight: 600;">
+                        {{ "%.1f"|format((stats.ai_stats.easy.wins * 100 / stats.ai_stats.easy.total_games) if stats.ai_stats.easy.total_games > 0 else 0) }}%
+                    </div>
+                </div>
+                
+                <!-- Medium AI -->
+                <div class="dev-card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark);">
+                    <div>
+                        <div class="mono" style="color: var(--dev-yellow); font-size: 1rem; margin-bottom: 0.25rem;">
+                            <i class="fas fa-brain" style="margin-right: 0.5rem;"></i>Medium AI
+                        </div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem;">
+                            {{ stats.ai_stats.medium.wins }} wins / {{ stats.ai_stats.medium.total_games }} games
+                        </div>
+                    </div>
+                    <div class="mono" style="color: var(--dev-yellow); font-size: 1.25rem; font-weight: 600;">
+                        {{ "%.1f"|format((stats.ai_stats.medium.wins * 100 / stats.ai_stats.medium.total_games) if stats.ai_stats.medium.total_games > 0 else 0) }}%
+                    </div>
+                </div>
+                
+                <!-- Hard AI -->
+                <div class="dev-card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark);">
+                    <div>
+                        <div class="mono" style="color: var(--dev-red); font-size: 1rem; margin-bottom: 0.25rem;">
+                            <i class="fas fa-fire" style="margin-right: 0.5rem;"></i>Hard AI
+                        </div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem;">
+                            {{ stats.ai_stats.hard.wins }} wins / {{ stats.ai_stats.hard.total_games }} games
+                        </div>
+                    </div>
+                    <div class="mono" style="color: var(--dev-red); font-size: 1.25rem; font-weight: 600;">
+                        {{ "%.1f"|format((stats.ai_stats.hard.wins * 100 / stats.ai_stats.hard.total_games) if stats.ai_stats.hard.total_games > 0 else 0) }}%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multiplayer Performance -->
+        <div class="dev-card">
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem;">
+                // Multiplayer Performance
+            </h2>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <!-- Local PvP -->
+                <div class="dev-card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark);">
+                    <div>
+                        <div class="mono" style="color: var(--dev-green); font-size: 1rem; margin-bottom: 0.25rem;">
+                            <i class="fas fa-users" style="margin-right: 0.5rem;"></i>Local PvP
+                        </div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem;">
+                            {{ stats.pvp_stats.wins }} wins / {{ stats.pvp_stats.total_games }} games
+                        </div>
+                    </div>
+                    <div class="mono" style="color: var(--dev-green); font-size: 1.25rem; font-weight: 600;">
+                        {{ "%.1f"|format((stats.pvp_stats.wins * 100 / stats.pvp_stats.total_games) if stats.pvp_stats.total_games > 0 else 0) }}%
+                    </div>
+                </div>
+                
+                <!-- Online PvP -->
+                <div class="dev-card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark); opacity: 0.6;">
+                    <div>
+                        <div class="mono" style="color: var(--dev-blue); font-size: 1rem; margin-bottom: 0.25rem;">
+                            <i class="fas fa-globe" style="margin-right: 0.5rem;"></i>Online PvP
+                        </div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem;">
+                            Coming Soon
+                        </div>
+                    </div>
+                    <div class="mono" style="color: var(--dev-text-gray); font-size: 1.25rem; font-weight: 600;">
+                        --
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Game History -->
+    {% if stats.recent_games and stats.recent_games|length > 0 %}
+    <div class="dev-card" style="margin-bottom: 4rem;">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem;">
+            // Recent Game History
+        </h2>
+        
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
+                        <th style="text-align: left; padding: 1rem 0.75rem; border-bottom: 2px solid var(--border-color);">Date</th>
+                        <th style="text-align: left; padding: 1rem 0.75rem; border-bottom: 2px solid var(--border-color);">Game Type</th>
+                        <th style="text-align: left; padding: 1rem 0.75rem; border-bottom: 2px solid var(--border-color);">Opponent</th>
+                        <th style="text-align: left; padding: 1rem 0.75rem; border-bottom: 2px solid var(--border-color);">Result</th>
+                        <th style="text-align: left; padding: 1rem 0.75rem; border-bottom: 2px solid var(--border-color);">Duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for game in stats.recent_games %}
+                    <tr class="mono" style="color: var(--dev-white); font-size: 0.9rem;">
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                            {{ game.date if game.date else 'N/A' }}
+                        </td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                            {% if game.game_type == 'pvai' %}
+                                <span style="color: var(--dev-blue);">vs {{ game.ai_difficulty|title }} AI</span>
+                            {% elif game.game_type == 'pvp_local' %}
+                                <span style="color: var(--dev-green);">Local PvP</span>
+                            {% elif game.game_type == 'pvp_online' %}
+                                <span style="color: var(--dev-blue);">Online PvP</span>
+                            {% else %}
+                                {{ game.game_type|title }}
+                            {% endif %}
+                        </td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                            {% if game.game_type == 'pvai' %}
+                                <span style="color: var(--dev-text-gray);">AI</span>
+                            {% else %}
+                                <span style="color: var(--dev-text-gray);">{{ game.opponent if game.opponent else 'Player 2' }}</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                            {% if game.result == 'win' %}
+                                <span style="color: var(--dev-green); font-weight: 600;">Victory</span>
+                            {% elif game.result == 'lose' %}
+                                <span style="color: var(--dev-red); font-weight: 600;">Defeat</span>
+                            {% elif game.result == 'draw' %}
+                                <span style="color: var(--dev-yellow); font-weight: 600;">Draw</span>
+                            {% else %}
+                                <span style="color: var(--dev-text-gray);">{{ game.result|title }}</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                            <span style="color: var(--dev-text-gray);">{{ game.duration if game.duration else 'N/A' }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {% if stats.total_games > 10 %}
+        <div style="text-align: center; margin-top: 2rem;">
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
+                // Showing last 10 games of {{ stats.total_games }} total
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Performance Insights -->
+    <div class="dev-card">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem;">
+            // Performance Insights
+        </h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+            {% if stats.total_games > 0 %}
+            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 6px;">
+                <div class="mono" style="color: var(--dev-blue); font-size: 1rem; margin-bottom: 0.5rem;">
+                    <i class="fas fa-chart-line" style="margin-right: 0.5rem;"></i>Overall Progress
+                </div>
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
+                    {% if stats.win_rate >= 70 %}
+                        Excellent performance! You're dominating the game.
+                    {% elif stats.win_rate >= 50 %}
+                        Good progress! Keep practicing to improve further.
+                    {% elif stats.win_rate >= 30 %}
+                        You're learning fast! Focus on strategic positioning.
+                    {% else %}
+                        Every expert was once a beginner. Keep playing!
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 6px;">
+                <div class="mono" style="color: var(--dev-green); font-size: 1rem; margin-bottom: 0.5rem;">
+                    <i class="fas fa-target" style="margin-right: 0.5rem;"></i>Recommended Focus
+                </div>
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
+                    {% if stats.ai_stats.hard.total_games == 0 %}
+                        Try challenging the Hard AI to test your skills!
+                    {% elif stats.ai_stats.hard.wins == 0 and stats.ai_stats.hard.total_games > 0 %}
+                        Keep practicing against Hard AI - you'll break through!
+                    {% elif stats.ai_stats.medium.total_games < stats.ai_stats.easy.total_games %}
+                        Try more Medium AI games to build intermediate skills.
+                    {% else %}
+                        Well-rounded player! Try local multiplayer next.
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 6px;">
+                <div class="mono" style="color: var(--dev-blue); font-size: 1rem; margin-bottom: 0.5rem;">
+                    <i class="fas fa-play" style="margin-right: 0.5rem;"></i>Get Started
+                </div>
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
+                    Play your first game to start tracking your progress!
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

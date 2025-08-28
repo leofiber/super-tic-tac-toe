@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Super Tic-Tac-Toe{% endblock %}
+
+{% block content %}
+<div class="dev-container">
+    <!-- Welcome Section -->
+    <div class="dev-card" style="text-align: center; padding: 2.5rem; margin-bottom: 3rem;">
+        {% if current_user.is_authenticated %}
+            <h1 class="mono" style="color: var(--dev-white); font-size: 2rem; margin-bottom: 0.75rem;">
+                > Welcome back, {{ current_user.username }}!
+            </h1>
+        {% else %}
+            <h1 class="mono" style="color: var(--dev-white); font-size: 2rem; margin-bottom: 0.75rem;">
+                > Welcome back, Guest!
+            </h1>
+        {% endif %}
+        <p class="mono" style="color: var(--dev-text-gray); font-size: 1.1rem;">
+            // Ready for your next strategic challenge?
+        </p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 3rem;">
+        <div class="dev-card" style="text-align: center; padding: 2rem;">
+            {% if current_user.is_authenticated %}
+                <div class="mono" style="color: var(--dev-blue); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ current_user.games_played }}</div>
+            {% else %}
+                <div class="mono" style="color: var(--dev-blue); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ guest_stats.games_played if guest_stats else 0 }}</div>
+            {% endif %}
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">games_played</div>
+        </div>
+        <div class="dev-card" style="text-align: center; padding: 2rem;">
+            {% if current_user.is_authenticated %}
+                <div class="mono" style="color: var(--dev-green); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ current_user.games_won }}</div>
+            {% else %}
+                <div class="mono" style="color: var(--dev-green); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ guest_stats.games_won if guest_stats else 0 }}</div>
+            {% endif %}
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">wins</div>
+        </div>
+        <div class="dev-card" style="text-align: center; padding: 2rem;">
+            {% if current_user.is_authenticated %}
+                <div class="mono" style="color: var(--dev-yellow); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "%.1f"|format(current_user.win_rate) }}%</div>
+            {% else %}
+                <div class="mono" style="color: var(--dev-yellow); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "%.1f"|format(guest_stats.win_rate if guest_stats else 0) }}%</div>
+            {% endif %}
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">win_rate</div>
+        </div>
+        <div class="dev-card" style="text-align: center; padding: 2rem;">
+            {% if current_user.is_authenticated %}
+                <div class="mono" style="color: var(--dev-blue-light); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ current_user.games_drawn }}</div>
+            {% else %}
+                <div class="mono" style="color: var(--dev-blue-light); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ guest_stats.games_drawn if guest_stats else 0 }}</div>
+            {% endif %}
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">draws</div>
+        </div>
+    </div>
+
+    <!-- Game Mode Selection -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3rem;">
+        
+        <!-- Challenge AI -->
+        <div class="dev-card" style="text-align: center; padding: 2.5rem;">
+            <div style="color: var(--dev-blue); font-size: 2.5rem; margin-bottom: 1.5rem;">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h3 class="mono" style="color: var(--dev-white); font-size: 1.25rem; margin-bottom: 1rem;">
+                Challenge AI
+            </h3>
+            <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 2rem; line-height: 1.5;">
+                Test your skills against our intelligent AI opponents
+            </p>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <a href="{{ url_for('game.simple_game', difficulty='easy') }}" 
+                   class="mono" style="display: block; padding: 0.75rem 1rem; background: var(--dev-green); color: var(--dev-white); text-decoration: none; border-radius: 4px; font-size: 0.9rem; transition: background 0.2s;"
+                   onmouseover="this.style.background='#22c55e'"
+                   onmouseout="this.style.background='var(--dev-green)'">
+                    <i class="fas fa-seedling" style="margin-right: 0.5rem;"></i>Easy AI
+                </a>
+                <a href="{{ url_for('game.simple_game', difficulty='medium') }}" 
+                   class="mono" style="display: block; padding: 0.75rem 1rem; background: var(--dev-yellow); color: var(--dev-black); text-decoration: none; border-radius: 4px; font-size: 0.9rem; transition: background 0.2s;"
+                   onmouseover="this.style.background='#fbbf24'"
+                   onmouseout="this.style.background='var(--dev-yellow)'">
+                    <i class="fas fa-brain" style="margin-right: 0.5rem;"></i>Medium AI
+                </a>
+                <a href="{{ url_for('game.simple_game', difficulty='hard') }}" 
+                   class="mono" style="display: block; padding: 0.75rem 1rem; background: var(--dev-red); color: var(--dev-white); text-decoration: none; border-radius: 4px; font-size: 0.9rem; transition: background 0.2s;"
+                   onmouseover="this.style.background='#f87171'"
+                   onmouseout="this.style.background='var(--dev-red)'">
+                    <i class="fas fa-fire" style="margin-right: 0.5rem;"></i>Hard AI
+                </a>
+            </div>
+        </div>
+
+        <!-- Local Multiplayer -->
+        <div class="dev-card" style="text-align: center; padding: 2.5rem;">
+            <div style="color: var(--dev-green); font-size: 2.5rem; margin-bottom: 1.5rem;">
+                <i class="fas fa-users"></i>
+            </div>
+            <h3 class="mono" style="color: var(--dev-white); font-size: 1.25rem; margin-bottom: 1rem;">
+                Local Multiplayer
+            </h3>
+            <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 2rem; line-height: 1.5;">
+                Play with a friend on the same device
+            </p>
+            
+            <a href="{{ url_for('game.pvp_local') }}" 
+               class="mono" style="display: inline-block; padding: 1rem 2rem; background: var(--dev-green); color: var(--dev-white); text-decoration: none; border-radius: 4px; font-size: 1rem; transition: background 0.2s;"
+               onmouseover="this.style.background='#22c55e'"
+               onmouseout="this.style.background='var(--dev-green)'">
+                <i class="fas fa-play" style="margin-right: 0.5rem;"></i>Start Local Game
+            </a>
+            
+            <div class="mono" style="color: var(--dev-yellow); font-size: 0.85rem; margin-top: 1rem;">
+                Status: Coming Soon
+            </div>
+        </div>
+
+        <!-- Online Multiplayer -->
+        <div class="dev-card" style="text-align: center; padding: 2.5rem;">
+            <div style="color: var(--dev-red); font-size: 2.5rem; margin-bottom: 1.5rem;">
+                <i class="fas fa-globe"></i>
+            </div>
+            <h3 class="mono" style="color: var(--dev-white); font-size: 1.25rem; margin-bottom: 1rem;">
+                Online Multiplayer
+            </h3>
+            <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 2rem; line-height: 1.5;">
+                Challenge players from around the world
+            </p>
+            
+            <button class="mono" style="padding: 1rem 2rem; background: var(--dev-gray-dark); color: var(--dev-text-gray); border: 1px solid var(--border-color); border-radius: 4px; font-size: 1rem; cursor: not-allowed;"
+                    disabled>
+                <i class="fas fa-lock" style="margin-right: 0.5rem;"></i>Coming Soon
+            </button>
+            
+            <div class="mono" style="color: var(--dev-yellow); font-size: 0.85rem; margin-top: 1rem;">
+                Status: In Development
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Games (if user has played any) -->
+    {% if current_user.is_authenticated and current_user.games_played > 0 %}
+    <div class="dev-card" style="margin-bottom: 3rem;">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.3rem; margin-bottom: 1.5rem;">
+            // Recent Games
+        </h2>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
+                        <th style="text-align: left; padding: 0.75rem; border-bottom: 1px solid var(--border-color);">Game Type</th>
+                        <th style="text-align: left; padding: 0.75rem; border-bottom: 1px solid var(--border-color);">Difficulty</th>
+                        <th style="text-align: left; padding: 0.75rem; border-bottom: 1px solid var(--border-color);">Result</th>
+                        <th style="text-align: left; padding: 0.75rem; border-bottom: 1px solid var(--border-color);">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for game in recent_games[:5] %}
+                    <tr class="mono" style="color: var(--dev-white); font-size: 0.9rem;">
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">{{ game.game_type.upper() }}</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                            {% if game.ai_difficulty %}{{ game.ai_difficulty.title() }}{% else %}-{% endif %}
+                        </td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                            {% if game.winner == current_user.id %}
+                                <span style="color: var(--dev-green);">Win</span>
+                            {% elif game.winner is none %}
+                                <span style="color: var(--dev-yellow);">Draw</span>
+                            {% else %}
+                                <span style="color: var(--dev-red);">Loss</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">{{ game.finished_at.strftime('%m/%d %H:%M') if game.finished_at else 'N/A' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if current_user.games_played > 5 %}
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <a href="{{ url_for('main.statistics') }}" class="mono" style="color: var(--dev-blue); text-decoration: none; font-size: 0.9rem;">
+                // View all games →
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

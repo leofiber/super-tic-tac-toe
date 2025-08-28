@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Super Tic-Tac-Toe{% endblock %}
+
+{% block content %}
+<div class="dev-container" style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <div class="dev-card" style="max-width: 500px; width: 100%; padding: 3rem;">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <div style="color: var(--dev-green); font-size: 3rem; margin-bottom: 1.5rem;">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 0.5rem;">
+                > user_register.exe
+            </h2>
+            <p class="mono" style="color: var(--dev-text-gray); font-size: 1rem;">
+                // Create your account
+            </p>
+        </div>
+        
+        <form method="POST" style="display: flex; flex-direction: column; gap: 1.75rem;">
+            <div>
+                <label for="username" class="mono" style="color: var(--dev-text-gray); font-size: 1rem; margin-bottom: 0.75rem; display: block;">
+                    username:
+                </label>
+                <input id="username" name="username" type="text" required 
+                       style="width: 100%; padding: 1rem 1.25rem; background: var(--dev-black); border: 2px solid var(--border-color); border-radius: 6px; color: var(--dev-white); font-family: var(--font-mono); font-size: 1rem; transition: border-color 0.2s;"
+                       placeholder="Choose username"
+                       onfocus="this.style.borderColor='var(--dev-green)'"
+                       onblur="this.style.borderColor='var(--border-color)'">
+            </div>
+            
+            <div>
+                <label for="email" class="mono" style="color: var(--dev-text-gray); font-size: 1rem; margin-bottom: 0.75rem; display: block;">
+                    email:
+                </label>
+                <input id="email" name="email" type="email" required
+                       style="width: 100%; padding: 1rem 1.25rem; background: var(--dev-black); border: 2px solid var(--border-color); border-radius: 6px; color: var(--dev-white); font-family: var(--font-mono); font-size: 1rem; transition: border-color 0.2s;"
+                       placeholder="your@email.com"
+                       onfocus="this.style.borderColor='var(--dev-green)'"
+                       onblur="this.style.borderColor='var(--border-color)'">
+            </div>
+            
+            <div>
+                <label for="password" class="mono" style="color: var(--dev-text-gray); font-size: 1rem; margin-bottom: 0.75rem; display: block;">
+                    password:
+                </label>
+                <input id="password" name="password" type="password" required
+                       style="width: 100%; padding: 1rem 1.25rem; background: var(--dev-black); border: 2px solid var(--border-color); border-radius: 6px; color: var(--dev-white); font-family: var(--font-mono); font-size: 1rem; transition: border-color 0.2s;"
+                       placeholder="Choose password"
+                       onfocus="this.style.borderColor='var(--dev-green)'"
+                       onblur="this.style.borderColor='var(--border-color)'">
+            </div>
+
+            <div>
+                <label for="confirm_password" class="mono" style="color: var(--dev-text-gray); font-size: 1rem; margin-bottom: 0.75rem; display: block;">
+                    confirm_password:
+                </label>
+                <input id="confirm_password" name="confirm_password" type="password" required
+                       style="width: 100%; padding: 1rem 1.25rem; background: var(--dev-black); border: 2px solid var(--border-color); border-radius: 6px; color: var(--dev-white); font-family: var(--font-mono); font-size: 1rem; transition: border-color 0.2s;"
+                       placeholder="Confirm password"
+                       onfocus="this.style.borderColor='var(--dev-green)'"
+                       onblur="this.style.borderColor='var(--border-color)'">
+            </div>
+
+            <button type="submit" class="mono" style="width: 100%; padding: 1.25rem; background: var(--dev-green); border: 2px solid var(--dev-green); border-radius: 6px; color: var(--dev-white); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 1rem;"
+                    onmouseover="this.style.background='#22c55e'; this.style.borderColor='#22c55e'"
+                    onmouseout="this.style.background='var(--dev-green)'; this.style.borderColor='var(--dev-green)'">
+                <i class="fas fa-user-plus" style="margin-right: 0.5rem;"></i>
+                Register
+            </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+            <p class="mono" style="color: var(--dev-text-gray); font-size: 1rem; margin-bottom: 1rem;">
+                // Already have an account? 
+                <a href="{{ url_for('auth.login') }}" style="color: var(--dev-blue); text-decoration: none; font-weight: 500;">login</a>
+            </p>
+            <p class="mono" style="color: var(--dev-text-gray); font-size: 1rem;">
+                // Or <a href="{{ url_for('auth.guest_login') }}" style="color: var(--dev-green); text-decoration: none; font-weight: 500;">play as guest</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

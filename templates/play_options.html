@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Choose Game Mode - Super Tic-Tac-Toe{% endblock %}
+
+{% block content %}
+<div class="dev-container">
+    <!-- Header -->
+    <div class="text-center mb-xl">
+        <h1 class="mono" style="color: var(--dev-white); font-size: 2.5rem; margin-bottom: 1rem;">
+            > Choose Your Challenge
+        </h1>
+        <p class="mono" style="color: var(--dev-text-gray); font-size: 1.1rem;">
+            // Select how you want to play Super Tic-Tac-Toe
+        </p>
+    </div>
+
+    <!-- Game Modes Grid -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1200px; margin: 0 auto;" class="play-grid">
+        
+        <!-- Player vs AI -->
+        <div class="dev-card" style="text-align: center;">
+            <div style="color: var(--dev-blue); font-size: 2rem; margin-bottom: 1rem;">
+                <i class="fas fa-robot"></i>
+            </div>
+            
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 1rem;">
+                Challenge AI
+            </h2>
+            <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 2rem; line-height: 1.6;">
+                Face off against our sophisticated AI opponents. Choose your difficulty and test your strategic thinking!
+            </p>
+            
+            <!-- AI Difficulty Options -->
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem;">
+                <a href="{{ url_for('game.simple_game', difficulty='easy') }}" 
+                   class="mono" style="display: flex; align-items: center; justify-content: center; padding: 0.75rem 1rem; background: var(--dev-green); color: var(--dev-white); text-decoration: none; border-radius: 4px; font-size: 0.95rem; transition: background 0.2s;"
+                   onmouseover="this.style.background='#22c55e'"
+                   onmouseout="this.style.background='var(--dev-green)'">
+                    <i class="fas fa-seedling" style="margin-right: 0.5rem;"></i>
+                    Easy AI
+                </a>
+                
+                <a href="{{ url_for('game.simple_game', difficulty='medium') }}" 
+                   class="mono" style="display: flex; align-items: center; justify-content: center; padding: 0.75rem 1rem; background: var(--dev-yellow); color: var(--dev-black); text-decoration: none; border-radius: 4px; font-size: 0.95rem; transition: background 0.2s;"
+                   onmouseover="this.style.background='#fbbf24'"
+                   onmouseout="this.style.background='var(--dev-yellow)'">
+                    <i class="fas fa-brain" style="margin-right: 0.5rem;"></i>
+                    Medium AI
+                </a>
+                
+                <a href="{{ url_for('game.simple_game', difficulty='hard') }}" 
+                   class="mono" style="display: flex; align-items: center; justify-content: center; padding: 0.75rem 1rem; background: var(--dev-red); color: var(--dev-white); text-decoration: none; border-radius: 4px; font-size: 0.95rem; transition: background 0.2s;"
+                   onmouseover="this.style.background='#f87171'"
+                   onmouseout="this.style.background='var(--dev-red)'">
+                    <i class="fas fa-fire" style="margin-right: 0.5rem;"></i>
+                    Hard AI
+                </a>
+            </div>
+            
+            <!-- AI Stats -->
+            <div class="dev-card" style="background: var(--dev-darker); margin-top: 1rem; padding: 1rem;">
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; margin-bottom: 0.5rem;">
+                    Your AI Victories:
+                </div>
+                <div class="mono" style="color: var(--dev-blue-light);">
+                    {% if current_user.is_authenticated %}
+                        Easy: {{ current_user.easy_ai_wins or 0 }}, Medium: {{ current_user.medium_ai_wins or 0 }}, Hard: {{ current_user.hard_ai_wins or 0 }}
+                    {% else %}
+                        Easy: 0, Medium: 0, Hard: 0
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Local Multiplayer -->
+        <div class="dev-card" style="text-align: center;">
+            <div style="color: var(--dev-green); font-size: 2rem; margin-bottom: 1rem;">
+                <i class="fas fa-users"></i>
+            </div>
+            
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 1rem;">
+                Local Multiplayer
+            </h2>
+            <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 2rem; line-height: 1.6;">
+                Play with a friend on the same device. Take turns and see who has the better strategy!
+            </p>
+            
+            <!-- Features List -->
+            <div style="text-align: left; margin-bottom: 2rem;">
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; margin-bottom: 0.5rem;">
+                    <i class="fas fa-check" style="color: var(--dev-green); margin-right: 0.5rem;"></i>
+                    Same device gameplay
+                </div>
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; margin-bottom: 0.5rem;">
+                    <i class="fas fa-check" style="color: var(--dev-green); margin-right: 0.5rem;"></i>
+                    No internet required
+                </div>
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; margin-bottom: 0.5rem;">
+                    <i class="fas fa-check" style="color: var(--dev-green); margin-right: 0.5rem;"></i>
+                    Perfect for friends & family
+                </div>
+            </div>
+            
+            <a href="/game/pvp/local" 
+               class="mono" style="display: inline-flex; align-items: center; justify-content: center; padding: 1rem 1.5rem; background: var(--dev-green); color: var(--dev-white); text-decoration: none; border-radius: 4px; font-size: 1rem; transition: background 0.2s;"
+               onmouseover="this.style.background='#22c55e'"
+               onmouseout="this.style.background='var(--dev-green)'">
+                <i class="fas fa-play" style="margin-right: 0.5rem;"></i>
+                Start Local Game
+            </a>
+            
+            <!-- Status -->
+            <div class="dev-card" style="background: var(--dev-darker); margin-top: 1rem; padding: 1rem;">
+                <div class="mono" style="color: var(--dev-yellow); font-size: 0.9rem;">
+                    Status: Coming Soon
+                </div>
+            </div>
+        </div>
+        
+        <!-- Online Multiplayer -->
+        <div class="dev-card" style="text-align: center; opacity: 0.7;">
+            <div style="color: var(--dev-red); font-size: 2rem; margin-bottom: 1rem;">
+                <i class="fas fa-globe"></i>
+            </div>
+            
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 1rem;">
+                Online Multiplayer
+            </h2>
+            <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 2rem; line-height: 1.6;">
+                Challenge players from around the world in real-time matches with live chat!
+            </p>
+            
+            <!-- Features List -->
+            <div style="text-align: left; margin-bottom: 2rem;">
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; margin-bottom: 0.5rem;">
+                    <i class="fas fa-clock" style="color: var(--dev-yellow); margin-right: 0.5rem;"></i>
+                    Real-time multiplayer
+                </div>
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; margin-bottom: 0.5rem;">
+                    <i class="fas fa-clock" style="color: var(--dev-yellow); margin-right: 0.5rem;"></i>
+                    In-game chat
+                </div>
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; margin-bottom: 0.5rem;">
+                    <i class="fas fa-clock" style="color: var(--dev-yellow); margin-right: 0.5rem;"></i>
+                    Room codes for friends
+                </div>
+            </div>
+            
+            <button class="mono" disabled style="display: inline-flex; align-items: center; justify-content: center; padding: 1rem 1.5rem; background: var(--dev-gray-dark); color: var(--dev-text-gray); border: 1px solid var(--border-color); border-radius: 4px; font-size: 1rem; cursor: not-allowed; opacity: 0.6;">
+                <i class="fas fa-lock" style="margin-right: 0.5rem;"></i>
+                Coming Soon
+            </button>
+            
+            <!-- Online Record -->
+            <div class="dev-card" style="background: var(--dev-darker); margin-top: 1rem; padding: 1rem;">
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; margin-bottom: 0.5rem;">
+                    Online Record:
+                </div>
+                <div class="mono" style="color: var(--dev-blue-light);">
+                    0 - 0 - 0 (W-L-D)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

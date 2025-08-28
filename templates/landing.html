@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block title %}Super Tic-Tac-Toe - Ultimate Strategic Gaming{% endblock %}
+
+{% block content %}
+<div class="dev-container">
+    <!-- Hero Section -->
+    <div style="text-align: center; padding: 4rem 0;">
+        <h1 class="mono" style="color: var(--dev-white); font-size: clamp(2rem, 5vw, 4rem); margin-bottom: 1rem;">
+            Super Tic-Tac-Toe
+        </h1>
+        <p class="mono" style="color: var(--dev-text-gray); font-size: 1.2rem; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Experience the ultimate evolution of tic-tac-toe! A 9×9 grid where every move matters and strategy determines victory.
+        </p>
+        
+        <!-- CTA Buttons -->
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 4rem;">
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('main.play_options') }}" class="dev-btn dev-btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                    <i class="fas fa-play"></i>
+                    Start Playing
+                </a>
+                <a href="{{ url_for('main.dashboard') }}" class="dev-btn dev-btn-ghost" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+            {% else %}
+                <a href="{{ url_for('auth.register') }}" class="dev-btn dev-btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                    <i class="fas fa-user-plus"></i>
+                    Register
+                </a>
+                <a href="{{ url_for('auth.guest_login') }}" class="dev-btn dev-btn-ghost" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                    <i class="fas fa-play"></i>
+                    Play as Guest
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Features Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+        
+        <!-- Smart AI Opponents -->
+        <div class="dev-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; min-height: 280px; justify-content: space-between;">
+            <div>
+                <div style="color: var(--dev-blue); font-size: 2rem; margin-bottom: 1rem;">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 1rem;">
+                    Smart AI Opponents
+                </h2>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6; margin-bottom: 1rem;">
+                    Challenge yourself against three difficulty levels – from beginner-friendly to expert-level AI that will test your strategic limits.
+                </p>
+            </div>
+            <div class="mono" style="color: var(--dev-blue-light); font-size: 0.9rem;">
+                Easy • Medium • Hard
+            </div>
+        </div>
+
+        <!-- Multiplayer Modes -->
+        <div class="dev-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; min-height: 280px; justify-content: space-between;">
+            <div>
+                <div style="color: var(--dev-green); font-size: 2rem; margin-bottom: 1rem;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 1rem;">
+                    Multiplayer Modes
+                </h2>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6; margin-bottom: 1rem;">
+                    Play locally with friends on the same device or challenge players worldwide in real-time online matches with live chat.
+                </p>
+            </div>
+            <div class="mono" style="color: var(--dev-green); font-size: 0.9rem;">
+                Local • Online
+            </div>
+        </div>
+
+        <!-- Deep Strategy -->
+        <div class="dev-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; min-height: 280px; justify-content: space-between;">
+            <div>
+                <div style="color: var(--dev-yellow); font-size: 2rem; margin-bottom: 1rem;">
+                    <i class="fas fa-chess"></i>
+                </div>
+                <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 1rem;">
+                    Deep Strategy
+                </h2>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6; margin-bottom: 1rem;">
+                    Every move creates ripple effects across the 9×9 board. Think several moves ahead to outsmart your opponent.
+                </p>
+            </div>
+            <div class="mono" style="color: var(--dev-yellow); font-size: 0.9rem;">
+                9×9 Grid • Strategic Depth
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Rules Section -->
+    <div class="dev-card" style="margin-bottom: 4rem;">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 2rem; text-align: center;">
+            // Game Rules
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+            <div>
+                <h3 class="mono" style="color: var(--dev-blue); font-size: 1.2rem; margin-bottom: 1rem;">
+                    🎯 Objective
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
+                    Win 3 small boards in a row (horizontally, vertically, or diagonally) to claim overall victory. Each small board follows traditional tic-tac-toe rules.
+                </p>
+            </div>
+            <div>
+                <h3 class="mono" style="color: var(--dev-green); font-size: 1.2rem; margin-bottom: 1rem;">
+                    🔄 Movement Rules
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
+                    Your move determines which small board your opponent must play on next. If that board is won or full, they can play anywhere.
+                </p>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <a href="{{ url_for('main.about') }}" class="dev-btn dev-btn-ghost" style="font-size: 1rem; padding: 0.75rem 1.5rem;">
+                <i class="fas fa-book"></i>
+                View Advanced Rules
+            </a>
+        </div>
+    </div>
+
+    <!-- How to Play Quick Guide -->
+    <div class="dev-card" style="margin-bottom: 4rem;">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem; text-align: center;">
+            // How to Play
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+            <div style="text-align: center;">
+                <div class="mono" style="color: var(--dev-blue); font-size: 1.5rem; margin-bottom: 1rem;">
+                    Step 1
+                </div>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
+                    Make your move on any available cell in the 9×9 grid
+                </p>
+            </div>
+            <div style="text-align: center;">
+                <div class="mono" style="color: var(--dev-green); font-size: 1.5rem; margin-bottom: 1rem;">
+                    Step 2
+                </div>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
+                    Your move determines which small board your opponent must play on next
+                </p>
+            </div>
+            <div style="text-align: center;">
+                <div class="mono" style="color: var(--dev-yellow); font-size: 1.5rem; margin-bottom: 1rem;">
+                    Step 3
+                </div>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
+                    Win 3 small boards in a row to claim victory!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Preview Section -->
+    <div class="dev-card" style="margin-bottom: 4rem;">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem; text-align: center;">
+            // Game Preview
+        </h2>
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <div style="display: inline-grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: var(--border-color); padding: 4px; border-radius: 8px; max-width: 300px;">
+                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
+                    <div class="mono" style="width: 20px; height: 20px; background: var(--dev-black); display: flex; align-items: center; justify-content: center; color: var(--dev-blue); font-size: 12px;">1</div>
+                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
+                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
+                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
+                    <div class="mono" style="width: 20px; height: 20px; background: var(--dev-black); display: flex; align-items: center; justify-content: center; color: var(--dev-red); font-size: 12px;">0</div>
+                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
+                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
+                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
+                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
+                </div>
+                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
+                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
+                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
+                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
+                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
+                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
+                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
+                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
+            </div>
+        </div>
+        <p class="mono" style="color: var(--dev-text-gray); text-align: center; line-height: 1.6;">
+            Each of the 9 small boards is a complete tic-tac-toe game.<br>
+            Win small boards to control positions in the larger game.
+        </p>
+    </div>
+</div>
+{% endblock %}

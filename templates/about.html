@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}About - Super Tic-Tac-Toe{% endblock %}
+
+{% block content %}
+<div class="dev-container">
+    <!-- Header -->
+    <div style="text-align: center; margin-bottom: 4rem;">
+        <h1 class="mono" style="color: var(--dev-white); font-size: 2.5rem; margin-bottom: 1rem;">
+            > game_rules.exe --advanced
+        </h1>
+        <p class="mono" style="color: var(--dev-text-gray); font-size: 1.1rem;">
+            // Master the ultimate evolution of tic-tac-toe
+        </p>
+    </div>
+
+    <!-- Basic Rules -->
+    <div class="dev-card" style="margin-bottom: 3rem;">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 2rem;">
+            // Basic Rules
+        </h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
+            <div>
+                <h3 class="mono" style="color: var(--dev-blue); font-size: 1.2rem; margin-bottom: 1rem;">
+                    🎯 The Board
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 2rem; line-height: 1.6;">
+                    Super Tic-Tac-Toe is played on a 9×9 grid, composed of nine 3×3 sub-grids (called "local boards"). 
+                    Each local board follows standard tic-tac-toe rules.
+                </p>
+                
+                <h3 class="mono" style="color: var(--dev-green); font-size: 1.2rem; margin-bottom: 1rem;">
+                    🏆 The Goal
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
+                    Win three local boards in a row (horizontally, vertically, or diagonally) to win the entire game.
+                </p>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <div style="background: var(--dev-gray-dark); padding: 2rem; border-radius: 8px;">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 200px; height: 200px;">
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-blue); font-size: 1.5rem; font-weight: bold;" class="mono">1</div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-red); font-size: 1.5rem; font-weight: bold;" class="mono">0</div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-red); font-size: 1.5rem; font-weight: bold;" class="mono">0</div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color);"></div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-blue); font-size: 1.5rem; font-weight: bold;" class="mono">1</div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color);"></div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color);"></div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color);"></div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-blue); font-size: 1.5rem; font-weight: bold;" class="mono">1</div>
+                    </div>
+                    <p class="mono" style="text-align: center; font-size: 0.9rem; color: var(--dev-blue); margin-top: 1rem;">
+                        1 wins this board
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Strategic Rules -->
+    <div class="dev-card" style="margin-bottom: 3rem;">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 2rem;">
+            // Strategic Constraint
+        </h2>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div>
+                <h3 class="mono" style="color: var(--dev-yellow); font-size: 1.2rem; margin-bottom: 1rem;">
+                    ⚡ The Sending Rule
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
+                    Your move determines which local board your opponent must play on next. If you play in the top-right cell of a local board, your opponent must play somewhere in the top-right local board.
+                </p>
+            </div>
+            
+            <div>
+                <h3 class="mono" style="color: var(--dev-red); font-size: 1.2rem; margin-bottom: 1rem;">
+                    🚫 Completed Boards
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
+                    If you're sent to a local board that's already won or completely filled, you can play anywhere on the entire board.
+                </p>
+            </div>
+            
+            <div>
+                <h3 class="mono" style="color: var(--dev-blue); font-size: 1.2rem; margin-bottom: 1rem;">
+                    🎯 Strategic Depth
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
+                    This constraint creates incredible strategic depth. You must think not only about winning the current local board, but also about where you'll send your opponent and what opportunities that creates.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced Strategy -->
+    <div class="dev-card" style="margin-bottom: 3rem;">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 2rem;">
+            // Advanced Strategy
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            
+            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
+                <h3 class="mono" style="color: var(--dev-green); font-size: 1.1rem; margin-bottom: 1rem;">
+                    <i class="fas fa-chess-pawn" style="margin-right: 0.5rem;"></i>Opening Strategy
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
+                    Control the center local board early. Center moves give you the most flexibility and put pressure on your opponent.
+                </p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
+                <h3 class="mono" style="color: var(--dev-blue); font-size: 1.1rem; margin-bottom: 1rem;">
+                    <i class="fas fa-target" style="margin-right: 0.5rem;"></i>Board Control
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
+                    Try to win local boards in strategic positions. Corner boards are powerful, but edge boards can create surprising threats.
+                </p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
+                <h3 class="mono" style="color: var(--dev-yellow); font-size: 1.1rem; margin-bottom: 1rem;">
+                    <i class="fas fa-route" style="margin-right: 0.5rem;"></i>Sending Tactics
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
+                    Send your opponent to boards where they have limited good options. Avoid sending them to empty boards where they can set up threats.
+                </p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
+                <h3 class="mono" style="color: var(--dev-red); font-size: 1.1rem; margin-bottom: 1rem;">
+                    <i class="fas fa-shield-alt" style="margin-right: 0.5rem;"></i>Defensive Play
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
+                    Sometimes it's better to sacrifice a local board to maintain control. Don't let your opponent dictate the flow of the game.
+                </p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
+                <h3 class="mono" style="color: var(--dev-blue-light); font-size: 1.1rem; margin-bottom: 1rem;">
+                    <i class="fas fa-bolt" style="margin-right: 0.5rem;"></i>Forcing Moves
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
+                    Create threats that force your opponent into bad positions. Multiple simultaneous threats are often game-winning.
+                </p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
+                <h3 class="mono" style="color: var(--dev-green); font-size: 1.1rem; margin-bottom: 1rem;">
+                    <i class="fas fa-clock" style="margin-right: 0.5rem;"></i>Endgame
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
+                    In the endgame, count your threats carefully. Sometimes drawing a local board is better than losing it.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Notation -->
+    <div class="dev-card" style="margin-bottom: 3rem;">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 2rem;">
+            // Game Notation
+        </h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
+            <div>
+                <h3 class="mono" style="color: var(--dev-blue); font-size: 1.2rem; margin-bottom: 1rem;">
+                    📍 Position Notation
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 1.5rem; line-height: 1.6;">
+                    Each cell is identified by two coordinates: first the local board (1-9), then the cell within that board (1-9).
+                </p>
+                
+                <h3 class="mono" style="color: var(--dev-green); font-size: 1.2rem; margin-bottom: 1rem;">
+                    🔢 Board Numbering
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
+                    Boards and cells are numbered 1-9, reading left to right, top to bottom (like reading text).
+                </p>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <div style="background: var(--dev-gray-dark); padding: 2rem; border-radius: 8px;">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 150px; height: 150px;">
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">1</div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">2</div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">3</div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">4</div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">5</div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">6</div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">7</div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">8</div>
+                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">9</div>
+                    </div>
+                    <p class="mono" style="text-align: center; font-size: 0.9rem; color: var(--dev-text-gray); margin-top: 1rem;">
+                        Board numbering pattern
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Difficulties -->
+    <div class="dev-card" style="margin-bottom: 3rem;">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 2rem;">
+            // AI Difficulty Levels
+        </h2>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
+                <div>
+                    <h3 class="mono" style="color: var(--dev-green); font-size: 1.2rem; margin-bottom: 0.5rem;">
+                        <i class="fas fa-seedling" style="margin-right: 0.5rem;"></i>Easy AI
+                    </h3>
+                    <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
+                        Makes random but legal moves. Perfect for learning the rules.
+                    </p>
+                </div>
+                <div class="mono" style="color: var(--dev-green); font-size: 1rem; padding: 0.5rem 1rem; background: var(--dev-black); border-radius: 4px;">
+                    Beginner
+                </div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
+                <div>
+                    <h3 class="mono" style="color: var(--dev-yellow); font-size: 1.2rem; margin-bottom: 0.5rem;">
+                        <i class="fas fa-brain" style="margin-right: 0.5rem;"></i>Medium AI
+                    </h3>
+                    <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
+                        Uses basic strategy and tactical awareness. Provides a good challenge.
+                    </p>
+                </div>
+                <div class="mono" style="color: var(--dev-yellow); font-size: 1rem; padding: 0.5rem 1rem; background: var(--dev-black); border-radius: 4px;">
+                    Intermediate
+                </div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
+                <div>
+                    <h3 class="mono" style="color: var(--dev-red); font-size: 1.2rem; margin-bottom: 0.5rem;">
+                        <i class="fas fa-fire" style="margin-right: 0.5rem;"></i>Hard AI
+                    </h3>
+                    <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
+                        Advanced strategic AI with deep lookahead. Extremely challenging.
+                    </p>
+                </div>
+                <div class="mono" style="color: var(--dev-red); font-size: 1rem; padding: 0.5rem 1rem; background: var(--dev-black); border-radius: 4px;">
+                    Expert
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Game -->
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <a href="{{ url_for('main.play_options') }}" 
+           class="mono" style="display: inline-flex; align-items: center; padding: 1rem 2rem; background: var(--dev-blue); color: var(--dev-white); text-decoration: none; border-radius: 6px; font-size: 1.1rem; transition: background 0.2s;"
+           onmouseover="this.style.background='var(--dev-blue-light)'"
+           onmouseout="this.style.background='var(--dev-blue)'">
+            <i class="fas fa-play" style="margin-right: 0.5rem;"></i>
+            Start Playing
+        </a>
+    </div>
+</div>
+{% endblock %}

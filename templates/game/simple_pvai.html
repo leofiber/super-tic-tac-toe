@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+{% block title %}Play vs AI ({{ difficulty|title }}) - Super Tic-Tac-Toe{% endblock %}
+
+{% block extra_head %}
+<!-- Page-specific styles would go here -->
+{% endblock %}
+
+{% block content %}
+<div class="dev-container">
+    <!-- Game Header -->
+    <div class="dev-game-header">
+        <h1 class="dev-game-title">
+            > super_tic_tac_toe --mode={{ difficulty }}_ai
+        </h1>
+        <p class="dev-game-subtitle mono">
+            // Win 3 small boards in a row to claim victory
+        </p>
+    </div>
+
+    <!-- Game Status -->
+    <div id="status" class="dev-game-status"></div>
+
+    <!-- Game Board Container -->
+    <div class="dev-game-container">
+        <div id="board" class="dev-game-board"></div>
+    </div>
+    
+    <!-- Control Buttons -->
+    <div class="dev-game-controls" style="margin-top: 2rem;">
+        <button id="reset-btn" class="dev-btn" style="background: var(--dev-white); color: var(--dev-dark); border: 1px solid var(--dev-border); font-family: var(--font-mono); font-weight: 500;">
+            <i class="fas fa-refresh"></i>
+            New Game
+        </button>
+        <a href="{{ url_for('main.dashboard') }}" class="dev-btn dev-btn-ghost">
+            <i class="fas fa-arrow-left"></i>
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<!-- Binary Background Animation -->
+<div class="binary-bg" id="binary-bg"></div>
+
+<script>
+// Game state variables
+const sessionId = '{{ session_id }}';
+const boardContainer = document.getElementById("board");
+const statusDisplay = document.getElementById("status");
+let currentBoard = null;
+let gameOver = false;
+let aiThinking = false;
+let legalMoves = [];
+
+function renderBoard(board, smallStatus) {
+  boardContainer.innerHTML = "";
+
+  for (let bigRow = 0; bigRow < 3; bigRow++) {
+    for (let bigCol = 0; bigCol < 3; bigCol++) {
+      const bigIndex = bigRow * 3 + bigCol;
+      const smallBoard = document.createElement("div");
+      smallBoard.className = "dev-small-board";
+      smallBoard.id = `small-board-${bigIndex}`;
+      
+      // Check if this small board is won
+      const smallWinner = smallStatus[bigRow][bigCol];
+      if (smallWinner === 1) {
+        smallBoard.classList.add('won-x');
+      } else if (smallWinner === -1) {
+        smallBoard.classList.add('won-o');
+      }
+      
+      // Highlight current board
+      if (currentBoard && currentBoard[0] === bigRow && currentBoard[1] === bigCol) {
+        smallBoard.classList.add('active');
+      }
+
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          const r = bigRow * 3 + i;
+          const c = bigCol * 3 + j;
+          const val = board[r][c];
+          const cell = document.createElement("div");
+          const isLegal = legalMoves.some(([lr, lc]) => lr === r && lc === c);
+
+          cell.className = "dev-cell";
+          cell.dataset.row = r;
+          cell.dataset.col = c;
+          
+          if (val === 1) {
+            cell.textContent = "1";  // Using 1 instead of X for binary theme
+            cell.classList.add('x', 'filled');
+          } else if (val === -1) {
+            cell.textContent = "0";  // Using 0 instead of O for binary theme
+            cell.classList.add('o', 'filled');
+          } else if (isLegal) {
+            cell.classList.add('legal');
+          }
+
+          if (isLegal && !gameOver && !aiThinking) {
+            cell.addEventListener("click", handleCellClick);
+          }
+
+          smallBoard.appendChild(cell);
+        }
+      }
+
+      boardContainer.appendChild(smallBoard);
+    }
+  }
+}
+
+async function handleCellClick(e) {
+  if (gameOver || aiThinking) return;
+
+  const row = parseInt(e.currentTarget.dataset.row);
+  const col = parseInt(e.currentTarget.dataset.col);
+
+  try {
+    const res = await fetch(`/game/api/move/${sessionId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ row, col }),
+    });
+    if (!res.ok) {
+      const error = await res.json();
+      statusDisplay.textContent = `Error: ${error.error}`;
+      return;
+    }
+    const data = await res.json();
+    updateUI(data);
+
+    if (!data.winner && !data.game_over) {
+      aiThinking = true;
+      statusDisplay.innerHTML = '<i class="fas fa-cog fa-spin"></i> AI_PROCESS running... // Computing optimal move';
+      statusDisplay.className = "dev-game-status status-thinking";
+      
+      // Reasonable delay for AI thinking
+      setTimeout(async () => {
+        const aiRes = await fetch(`/game/api/ai_move/${sessionId}`, { method: "POST" });
+        if (!aiRes.ok) {
+          const error = await aiRes.json();
+          statusDisplay.textContent = `AI Error: ${error.error}`;
+          aiThinking = false;
+          return;
+        }
+        const aiData = await aiRes.json();
+        aiThinking = false;
+        updateUI(aiData);
+      }, 1200); // Give AI more realistic thinking time
+    }
+  } catch (err) {
+    console.error(err);
+    statusDisplay.textContent = "Connection error";
+  }
+}
+
+function updateUI(data) {
+  const {
+    board,
+    small_status,
+    current_board,
+    legal_moves,
+    winner,
+    game_over
+  } = data;
+
+  legalMoves = legal_moves || [];
+  currentBoard = current_board;
+  gameOver = game_over;
+  renderBoard(board, small_status);
+
+  if (winner === 1) {
+    statusDisplay.innerHTML = '<i class="fas fa-check"></i> PLAYER_1 wins! // You defeated the AI';
+    statusDisplay.className = "dev-game-status status-win";
+  } else if (winner === -1) {
+    statusDisplay.innerHTML = '<i class="fas fa-times"></i> AI_PROCESS wins! // Better luck next time';
+    statusDisplay.className = "dev-game-status status-lose";
+  } else if (game_over && winner === 0) {
+    // Only show draw if game is actually over AND winner is 0
+    statusDisplay.innerHTML = '<i class="fas fa-equals"></i> DRAW_STATE // No winner detected';
+    statusDisplay.className = "dev-game-status status-draw";
+  } else if (!aiThinking && !game_over) {
+    statusDisplay.innerHTML = '<i class="fas fa-terminal"></i> AWAITING_INPUT // Your move';
+    statusDisplay.className = "dev-game-status status-turn";
+  }
+}
+
+async function resetGame() {
+  console.log("resetGame() called");
+  gameOver = false;
+  aiThinking = false;
+  currentBoard = null;
+  legalMoves = [];
+  statusDisplay.textContent = "";
+  statusDisplay.className = "text-center mb-6 text-lg text-white";
+  
+  try {
+    const res = await fetch(`/game/api/reset/${sessionId}`, { method: "POST" });
+    if (!res.ok) throw new Error(`Reset failed: ${res.status}`);
+    const data = await res.json();
+    updateUI(data);
+  } catch (err) {
+    console.error(err);
+    statusDisplay.textContent = "Error resetting game";
+  }
+}
+
+// Initialize game
+async function initGame() {
+  try {
+    const res = await fetch(`/game/api/state/${sessionId}`);
+    if (!res.ok) throw new Error(`Failed to load game: ${res.status}`);
+    const data = await res.json();
+    updateUI(data);
+  } catch (err) {
+    console.error(err);
+    statusDisplay.textContent = "Error loading game";
+  }
+}
+
+// Attach listeners after DOM is ready
+console.log("game.js loaded");
+document.addEventListener("DOMContentLoaded", () => {
+  const resetBtn = document.getElementById("reset-btn");
+  console.log("DOMContentLoaded: reset-btn =", resetBtn);
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      console.log("reset-btn clicked");
+      resetGame();
+    });
+  }
+  initGame(); // Load game state instead of resetting
+});
+
+// Binary background animation
+function createBinaryBackground() {
+  const binaryBg = document.getElementById('binary-bg');
+  const chars = ['1', '0'];
+  
+  function createBinaryChar() {
+    const char = document.createElement('div');
+    char.className = 'binary-char';
+    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+    char.style.left = Math.random() * 100 + '%';
+    char.style.animationDelay = Math.random() * 2 + 's';
+    char.style.animationDuration = (Math.random() * 10 + 10) + 's';
+    
+    binaryBg.appendChild(char);
+    
+    // Remove the character after animation
+    setTimeout(() => {
+      if (char.parentNode) {
+        char.parentNode.removeChild(char);
+      }
+    }, 20000);
+  }
+  
+  // Create new characters periodically
+  setInterval(createBinaryChar, 200);
+  
+  // Create initial characters
+  for (let i = 0; i < 50; i++) {
+    setTimeout(createBinaryChar, i * 100);
+  }
+}
+
+// Start binary animation when page loads
+document.addEventListener('DOMContentLoaded', createBinaryBackground);
+</script>
+{% endblock %}

@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - Super Tic-Tac-Toe{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold mb-2">Account Settings</h1>
+        <p class="text-gray-400">Customize your gaming experience</p>
+    </div>
+
+    <!-- User Profile -->
+    <div class="bg-gray-800 rounded-xl p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-6">Profile Information</h2>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Username</label>
+                <input type="text" value="{{ user.username }}" disabled
+                       class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-gray-400">
+                <p class="text-sm text-gray-500 mt-1">Username cannot be changed</p>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                <input type="email" value="{{ user.email or 'Not set' }}" disabled
+                       class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-gray-400">
+                <p class="text-sm text-gray-500 mt-1">Email updates coming soon</p>
+            </div>
+        </div>
+        
+        <div class="mt-6 grid md:grid-cols-2 gap-6">
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Member Since</label>
+                <div class="text-lg">{{ user.created_at.strftime('%B %d, %Y') }}</div>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Last Seen</label>
+                <div class="text-lg">{{ user.last_seen.strftime('%B %d, %Y at %I:%M %p') }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Preferences -->
+    <div class="bg-gray-800 rounded-xl p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-6">Game Preferences</h2>
+        
+        <form id="preferencesForm" class="space-y-6">
+            <!-- Theme Selection -->
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-3">Theme</label>
+                <div class="grid grid-cols-3 gap-4">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="theme" value="dark" 
+                               {% if user.preferred_theme == 'dark' %}checked{% endif %}
+                               class="sr-only">
+                        <div class="border-2 border-gray-600 rounded-lg p-4 text-center hover:border-blue-500 transition-colors
+                                    {% if user.preferred_theme == 'dark' %}border-blue-500 bg-blue-900 bg-opacity-20{% endif %}">
+                            <div class="bg-gray-900 w-12 h-8 rounded mx-auto mb-2"></div>
+                            <div class="text-sm font-medium">Dark</div>
+                        </div>
+                    </label>
+                    
+                    <label class="cursor-pointer">
+                        <input type="radio" name="theme" value="light" 
+                               {% if user.preferred_theme == 'light' %}checked{% endif %}
+                               class="sr-only">
+                        <div class="border-2 border-gray-600 rounded-lg p-4 text-center hover:border-blue-500 transition-colors
+                                    {% if user.preferred_theme == 'light' %}border-blue-500 bg-blue-900 bg-opacity-20{% endif %}">
+                            <div class="bg-white w-12 h-8 rounded mx-auto mb-2"></div>
+                            <div class="text-sm font-medium">Light</div>
+                            <div class="text-xs text-gray-500">Coming Soon</div>
+                        </div>
+                    </label>
+                    
+                    <label class="cursor-pointer">
+                        <input type="radio" name="theme" value="neon" 
+                               {% if user.preferred_theme == 'neon' %}checked{% endif %}
+                               class="sr-only">
+                        <div class="border-2 border-gray-600 rounded-lg p-4 text-center hover:border-blue-500 transition-colors
+                                    {% if user.preferred_theme == 'neon' %}border-blue-500 bg-blue-900 bg-opacity-20{% endif %}">
+                            <div class="bg-gradient-to-r from-purple-500 to-pink-500 w-12 h-8 rounded mx-auto mb-2"></div>
+                            <div class="text-sm font-medium">Neon</div>
+                            <div class="text-xs text-gray-500">Coming Soon</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Sound Settings -->
+            <div>
+                <label class="flex items-center justify-between">
+                    <span class="text-sm font-medium text-gray-300">Sound Effects</span>
+                    <input type="checkbox" name="sound_enabled" 
+                           {% if user.sound_enabled %}checked{% endif %}
+                           class="w-5 h-5 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500">
+                </label>
+                <p class="text-sm text-gray-500 mt-1">Enable game sounds and notifications</p>
+            </div>
+            
+            <!-- Auto-Save -->
+            <div>
+                <label class="flex items-center justify-between">
+                    <span class="text-sm font-medium text-gray-300">Auto-Save Games</span>
+                    <input type="checkbox" checked disabled
+                           class="w-5 h-5 text-blue-600 bg-gray-700 border-gray-600 rounded opacity-50">
+                </label>
+                <p class="text-sm text-gray-500 mt-1">Automatically save game progress (always enabled)</p>
+            </div>
+            
+            <div class="pt-4">
+                <button type="submit" 
+                        class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-save mr-2"></i>
+                    Save Preferences
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Account Actions -->
+    <div class="bg-gray-800 rounded-xl p-6">
+        <h2 class="text-2xl font-bold mb-6">Account Actions</h2>
+        
+        <div class="space-y-4">
+            <div class="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                <div>
+                    <div class="font-semibold">Change Password</div>
+                    <div class="text-sm text-gray-400">Update your account password</div>
+                </div>
+                <button class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded-lg transition-colors">
+                    Coming Soon
+                </button>
+            </div>
+            
+            <div class="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                <div>
+                    <div class="font-semibold">Export Game History</div>
+                    <div class="text-sm text-gray-400">Download your game statistics and history</div>
+                </div>
+                <button class="bg-gray-600 hover:bg-gray-500 px-4 py-2 rounded-lg transition-colors">
+                    Coming Soon
+                </button>
+            </div>
+            
+            {% if not user.is_guest %}
+            <div class="flex items-center justify-between p-4 bg-red-900 bg-opacity-20 border border-red-600 rounded-lg">
+                <div>
+                    <div class="font-semibold text-red-400">Delete Account</div>
+                    <div class="text-sm text-gray-400">Permanently delete your account and all data</div>
+                </div>
+                <button class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-colors">
+                    Delete
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Back to Dashboard -->
+    <div class="text-center mt-8">
+        <a href="{{ url_for('main.dashboard') }}" 
+           class="bg-gray-700 hover:bg-gray-600 px-6 py-3 rounded-lg font-semibold transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('preferencesForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const data = {
+        theme: formData.get('theme'),
+        sound_enabled: formData.get('sound_enabled') === 'on'
+    };
+    
+    try {
+        const response = await fetch('/api/user/settings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+            // Show success message
+            const button = e.target.querySelector('button[type="submit"]');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check mr-2"></i>Saved!';
+            button.classList.add('bg-green-600');
+            button.classList.remove('bg-blue-600');
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.add('bg-blue-600');
+                button.classList.remove('bg-green-600');
+            }, 2000);
+        }
+    } catch (error) {
+        console.error('Error saving preferences:', error);
+    }
+});
+</script>
+{% endblock %}

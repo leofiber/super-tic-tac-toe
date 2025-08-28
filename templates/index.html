@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Super Tic-Tac-Toe</title>
+    <!-- Tailwind CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.x/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <!-- Game script -->
+    <script defer src="{{ url_for('static', filename='game.js') }}"></script>
+  </head>
+  <body class="bg-gray-900 text-white flex flex-col items-center p-6">
+    <h1 class="text-3xl font-bold mb-4">Super Tic-Tac-Toe</h1>
+    <div id="status" class="mb-4 text-lg h-6"></div>
+    <button
+      id="reset-btn"
+      class="mb-6 px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700"
+    >
+      New Game
+    </button>
+
+    <div id="board" class="grid grid-cols-3 gap-6 w-full max-w-md"></div>
+  </body>
+</html>

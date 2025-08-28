@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Super Tic-Tac-Toe{% endblock %}</title>
+    
+    <!-- Developer Theme -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/developer-theme.css') }}?v=9">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Developer Navigation -->
+    <nav class="dev-nav">
+        <div class="dev-nav-content">
+            <!-- Logo -->
+            <a href="{{ url_for('main.landing') }}" class="dev-logo">
+                super_tic_tac_toe.exe
+            </a>
+            
+            <!-- Navigation Links -->
+            <div class="dev-nav-links">
+                <a href="{{ url_for('main.landing') }}" class="dev-nav-link">home</a>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('main.dashboard') }}" class="dev-nav-link">dashboard</a>
+                    <a href="{{ url_for('main.play_options') }}" class="dev-nav-link">play</a>
+                    <a href="{{ url_for('main.statistics') }}" class="dev-nav-link">stats</a>
+                {% endif %}
+                
+                <!-- User Section -->
+                {% if current_user.is_authenticated %}
+                    <div class="dev-nav-stats">
+                        <span>games: {{ current_user.games_played }}</span>
+                        <span>wins: {{ current_user.games_won }}</span>
+                        <span>rate: {{ "%.1f"|format(current_user.win_rate) }}%</span>
+                    </div>
+                    <a href="{{ url_for('auth.logout') }}" class="dev-nav-link">logout</a>
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="dev-nav-link">login</a>
+                    <a href="{{ url_for('auth.register') }}" class="dev-nav-link">register</a>
+                    <a href="{{ url_for('auth.guest_login') }}" class="dev-nav-link">guest</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div style="position: fixed; top: 100px; left: 50%; transform: translateX(-50%); z-index: 1000; width: 90%; max-width: 500px;">
+                {% for category, message in messages %}
+                    <div class="mono flash-message" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); color: var(--dev-white); padding: 1rem 1.5rem; border-radius: 8px; margin-bottom: 0.5rem; box-shadow: 0 8px 24px rgba(0,0,0,0.3); border: 1px solid rgba(255, 255, 255, 0.2); font-size: 0.95rem; text-align: center; opacity: 0; animation: fadeIn 0.5s ease-out forwards;">
+                        {% if category == 'error' %}
+                            <i class="fas fa-exclamation-triangle" style="margin-right: 0.5rem; color: #ff6b6b;"></i>
+                        {% elif category == 'success' %}
+                            <i class="fas fa-check-circle" style="margin-right: 0.5rem; color: #51cf66;"></i>
+                        {% else %}
+                            <i class="fas fa-info-circle" style="margin-right: 0.5rem; color: #74c0fc;"></i>
+                        {% endif %}
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            <style>
+                @keyframes fadeIn {
+                    0% {
+                        opacity: 0;
+                        transform: translateY(-30px) scale(0.95);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                    }
+                }
+                @keyframes fadeOut {
+                    0% {
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                    }
+                    100% {
+                        opacity: 0;
+                        transform: translateY(-30px) scale(0.95);
+                    }
+                }
+            </style>
+            <script>
+                // Auto-hide flash messages after 2 seconds
+                setTimeout(function() {
+                    const flashMessages = document.querySelectorAll('.flash-message');
+                    flashMessages.forEach(function(msg) {
+                        msg.style.animation = 'fadeOut 0.5s ease-out forwards';
+                        setTimeout(function() {
+                            if (msg.parentNode) {
+                                msg.parentNode.remove();
+                            }
+                        }, 500);
+                    });
+                }, 2000);
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    <main class="dev-section">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--dev-dark); border-top: 1px solid var(--border-color); margin-top: 3rem;">
+        <div class="dev-container" style="padding: 2rem 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">
+                    // Built with Flask & binary dreams
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="https://github.com" class="dev-nav-link" style="font-size: 0.8rem;">github</a>
+                    <a href="{{ url_for('main.about') }}" class="dev-nav-link" style="font-size: 0.8rem;">about</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Socket.IO for real-time features -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>
