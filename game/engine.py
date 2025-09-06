@@ -135,7 +135,7 @@ def update_small_board_status(board, small_status):
             if w == PLAYER_X:
                 small_status[i, j] = 1
             elif w == PLAYER_O:
-                small_status[i, j] = 2
+                small_status[i, j] = -1
             else:
                 sub = board[i*SMALL_SIZE:(i+1)*SMALL_SIZE,
                             j*SMALL_SIZE:(j+1)*SMALL_SIZE]
@@ -148,20 +148,20 @@ def check_big_board_winner(small_status):
     for i in range(BOARD_SIZE):
         if all(small_status[i, j] == 1 for j in range(BOARD_SIZE)):
             return PLAYER_X
-        if all(small_status[i, j] == 2 for j in range(BOARD_SIZE)):
+        if all(small_status[i, j] == -1 for j in range(BOARD_SIZE)):
             return PLAYER_O
         if all(small_status[j, i] == 1 for j in range(BOARD_SIZE)):
             return PLAYER_X
-        if all(small_status[j, i] == 2 for j in range(BOARD_SIZE)):
+        if all(small_status[j, i] == -1 for j in range(BOARD_SIZE)):
             return PLAYER_O
     # diagonals
     if all(small_status[d, d] == 1 for d in range(BOARD_SIZE)):
         return PLAYER_X
-    if all(small_status[d, d] == 2 for d in range(BOARD_SIZE)):
+    if all(small_status[d, d] == -1 for d in range(BOARD_SIZE)):
         return PLAYER_O
     if all(small_status[d, BOARD_SIZE-1-d] == 1 for d in range(BOARD_SIZE)):
         return PLAYER_X
-    if all(small_status[d, BOARD_SIZE-1-d] == 2 for d in range(BOARD_SIZE)):
+    if all(small_status[d, BOARD_SIZE-1-d] == -1 for d in range(BOARD_SIZE)):
         return PLAYER_O
     return 0
 

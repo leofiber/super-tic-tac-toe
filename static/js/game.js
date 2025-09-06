@@ -11,11 +11,23 @@ function renderBoard(board, smallStatus) {
   for (let bigRow = 0; bigRow < 3; bigRow++) {
     for (let bigCol = 0; bigCol < 3; bigCol++) {
       const smallBoard = document.createElement("div");
-      smallBoard.className =
-        "grid grid-cols-3 gap-[2px] border-4 rounded-lg p-[2px] " +
-        (currentBoard && currentBoard[0] === bigRow && currentBoard[1] === bigCol
-          ? "border-yellow-400"
-          : "border-gray-500");
+      
+      // Check if this small board is won
+      const smallBoardStatus = smallStatus[bigRow][bigCol];
+      let boardClasses = "dev-small-board";
+      
+      if (smallBoardStatus === 1) {
+        boardClasses += " won-x";
+      } else if (smallBoardStatus === -1) {
+        boardClasses += " won-o";
+      }
+      
+      // Add active class if this is the current board
+      if (currentBoard && currentBoard[0] === bigRow && currentBoard[1] === bigCol) {
+        boardClasses += " active";
+      }
+      
+      smallBoard.className = boardClasses;
 
       for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) {
@@ -27,16 +39,17 @@ function renderBoard(board, smallStatus) {
             ([lr, lc]) => lr === r && lc === c
           );
 
-          cell.className =
-            "w-10 h-10 flex items-center justify-center text-lg font-bold rounded " +
-            (val === 1
-              ? "text-blue-400 bg-gray-800"
-              : val === -1
-              ? "text-red-400 bg-gray-800"
-              : isLegal
-              ? "bg-yellow-300 text-black cursor-pointer hover:bg-yellow-400"
-              : "bg-gray-700 text-gray-500 cursor-not-allowed");
-          cell.textContent = val === 1 ? "X" : val === -1 ? "O" : "";
+          let cellClasses = "dev-cell";
+          if (val === 1) {
+            cellClasses += " player-x";
+          } else if (val === -1) {
+            cellClasses += " player-o";
+          } else if (isLegal && !gameOver && !aiThinking) {
+            cellClasses += " legal-move";
+          }
+
+          cell.className = cellClasses;
+          cell.textContent = val === 1 ? "1" : val === -1 ? "0" : "";
           cell.dataset.row = r;
           cell.dataset.col = c;
 

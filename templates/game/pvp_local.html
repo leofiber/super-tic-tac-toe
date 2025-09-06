@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Play vs AI ({{ difficulty|title }}) - Super Tic-Tac-Toe{% endblock %}
+{% block title %}Local PvP - Super Tic-Tac-Toe{% endblock %}
 
 {% block extra_head %}
-<!-- Page-specific styles would go here -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/developer-theme.css') }}?v=16">
 {% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@
     <!-- Game Header -->
     <div class="dev-game-header">
         <h1 class="dev-game-title">
-            > super_tic_tac_toe --mode={{ difficulty }}_ai
+            > super_tic_tac_toe --mode=local_pvp
         </h1>
 
     </div>
@@ -42,13 +42,14 @@
 
 <script>
 // Game state variables
-const sessionId = '{{ session_id }}';
+const gameId = {{ game_id }};
 const boardContainer = document.getElementById("board");
 const statusDisplay = document.getElementById("status");
 let currentBoard = null;
 let gameOver = false;
-let aiThinking = false;
+let currentPlayer = 1; // 1 for X, -1 for O
 let legalMoves = [];
+let accountOwnerIsPlayer1 = true;
 
 function renderBoard(board, smallStatus) {
   boardContainer.innerHTML = "";
@@ -63,10 +64,10 @@ function renderBoard(board, smallStatus) {
       // Check if this small board is won
       const smallWinner = smallStatus[bigRow][bigCol];
       if (smallWinner === 1) {
-        console.log(`🔵 PLAYER captured board [${bigRow}][${bigCol}]!`);
+        console.log(`🔵 PLAYER 1 captured board [${bigRow}][${bigCol}]!`);
         smallBoard.classList.add('won-x');
       } else if (smallWinner === -1) {
-        console.log(`🔴 AI captured board [${bigRow}][${bigCol}]!`);
+        console.log(`🔴 PLAYER 2 captured board [${bigRow}][${bigCol}]!`);
         smallBoard.classList.add('won-o');
       }
       
@@ -97,7 +98,7 @@ function renderBoard(board, smallStatus) {
             cell.classList.add('legal');
           }
 
-          if (isLegal && !gameOver && !aiThinking) {
+          if (isLegal && !gameOver) {
             cell.addEventListener("click", handleCellClick);
           }
 
@@ -111,44 +112,29 @@ function renderBoard(board, smallStatus) {
 }
 
 async function handleCellClick(e) {
-  if (gameOver || aiThinking) return;
+  if (gameOver) return;
 
   const row = parseInt(e.currentTarget.dataset.row);
   const col = parseInt(e.currentTarget.dataset.col);
 
   try {
-    const res = await fetch(`/game/api/move/${sessionId}`, {
+    const res = await fetch(`/game/api/pvp_move/${gameId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ row, col }),
+      body: JSON.stringify({ row, col, player: currentPlayer }),
     });
+    
     if (!res.ok) {
       const error = await res.json();
       statusDisplay.textContent = `Error: ${error.error}`;
       return;
     }
+    
     const data = await res.json();
     updateUI(data);
-
-    if (!data.winner && !data.game_over) {
-      aiThinking = true;
-      statusDisplay.innerHTML = '<i class="fas fa-cog fa-spin"></i> AI_PROCESS running... // Computing optimal move';
-      statusDisplay.className = "dev-game-status status-thinking";
-      
-      // Reasonable delay for AI thinking
-      setTimeout(async () => {
-        const aiRes = await fetch(`/game/api/ai_move/${sessionId}`, { method: "POST" });
-        if (!aiRes.ok) {
-          const error = await aiRes.json();
-          statusDisplay.textContent = `AI Error: ${error.error}`;
-          aiThinking = false;
-          return;
-        }
-        const aiData = await aiRes.json();
-        aiThinking = false;
-        updateUI(aiData);
-      }, 1200); // Give AI more realistic thinking time
-    }
+    
+    // Player switching is now handled by the backend
+    
   } catch (err) {
     console.error(err);
     statusDisplay.textContent = "Connection error";
@@ -162,66 +148,54 @@ function updateUI(data) {
     current_board,
     legal_moves,
     winner,
-    game_over
+    game_over,
+    current_player,
+    account_owner_is_player1
   } = data;
 
   legalMoves = legal_moves || [];
   currentBoard = current_board;
   gameOver = game_over;
+  currentPlayer = current_player; // Use backend's current player
+  if (account_owner_is_player1 !== undefined) {
+    accountOwnerIsPlayer1 = account_owner_is_player1;
+  }
   renderBoard(board, small_status);
 
   if (winner === 1) {
-    statusDisplay.innerHTML = '<i class="fas fa-check"></i> PLAYER_1 wins! // You defeated the AI';
-    statusDisplay.className = "dev-game-status status-win";
+    const winnerText = accountOwnerIsPlayer1 ? "YOU win!" : "OPPONENT wins!";
+    statusDisplay.innerHTML = `<i class="fas fa-trophy"></i> PLAYER_1 wins! // ${winnerText}`;
+    statusDisplay.className = accountOwnerIsPlayer1 ? "dev-game-status status-win" : "dev-game-status status-lose";
   } else if (winner === -1) {
-    statusDisplay.innerHTML = '<i class="fas fa-times"></i> AI_PROCESS wins! // Better luck next time';
-    statusDisplay.className = "dev-game-status status-lose";
+    const winnerText = !accountOwnerIsPlayer1 ? "YOU win!" : "OPPONENT wins!";
+    statusDisplay.innerHTML = `<i class="fas fa-trophy"></i> PLAYER_2 wins! // ${winnerText}`;
+    statusDisplay.className = !accountOwnerIsPlayer1 ? "dev-game-status status-win" : "dev-game-status status-lose";
   } else if (game_over && winner === 0) {
-    // Only show draw if game is actually over AND winner is 0
     statusDisplay.innerHTML = '<i class="fas fa-equals"></i> DRAW_STATE // No winner detected';
     statusDisplay.className = "dev-game-status status-draw";
-  } else if (!aiThinking && !game_over) {
-    statusDisplay.innerHTML = '<i class="fas fa-terminal"></i> AWAITING_INPUT // Your move';
+  } else if (!game_over) {
+    const playerName = currentPlayer === 1 ? "PLAYER_1" : "PLAYER_2";
+    const symbol = currentPlayer === 1 ? "1" : "0";
+    const isYourTurn = (currentPlayer === 1 && accountOwnerIsPlayer1) || (currentPlayer === -1 && !accountOwnerIsPlayer1);
+    const turnText = isYourTurn ? "Your turn" : "Opponent's turn";
+    statusDisplay.innerHTML = `<i class="fas fa-terminal"></i> ${playerName} (${symbol}) // ${turnText}`;
     statusDisplay.className = "dev-game-status status-turn";
   }
 }
 
 async function resetGame() {
-  console.log("resetGame() called");
   gameOver = false;
-  aiThinking = false;
+  currentPlayer = 1; // Reset to player 1
   currentBoard = null;
   legalMoves = [];
   statusDisplay.textContent = "";
   statusDisplay.className = "text-center mb-6 text-lg text-white";
   
   try {
-    const res = await fetch(`/game/api/reset/${sessionId}`, { method: "POST" });
+    const res = await fetch(`/game/api/pvp_reset/${gameId}`, { method: "POST" });
     if (!res.ok) throw new Error(`Reset failed: ${res.status}`);
     const data = await res.json();
     updateUI(data);
-    
-    // Check if AI should go first after reset
-    const playerStartsFirst = data.player_starts_first !== undefined ? data.player_starts_first : true;
-    if (!playerStartsFirst && !data.game_over) {
-      console.log("AI goes first after reset! player_starts_first =", playerStartsFirst);
-      aiThinking = true;
-      statusDisplay.innerHTML = '<i class="fas fa-cog fa-spin"></i> AI_PROCESS initializing... // Computing first move';
-      statusDisplay.className = "dev-game-status status-thinking";
-      
-      setTimeout(async () => {
-        const aiRes = await fetch(`/game/api/ai_move/${sessionId}`, { method: "POST" });
-        if (!aiRes.ok) {
-          const error = await aiRes.json();
-          statusDisplay.textContent = `AI Error: ${error.error}`;
-          aiThinking = false;
-          return;
-        }
-        const aiData = await aiRes.json();
-        aiThinking = false;
-        updateUI(aiData);
-      }, 1200);
-    }
   } catch (err) {
     console.error(err);
     statusDisplay.textContent = "Error resetting game";
@@ -231,32 +205,10 @@ async function resetGame() {
 // Initialize game
 async function initGame() {
   try {
-    const res = await fetch(`/game/api/state/${sessionId}`);
+    const res = await fetch(`/game/api/pvp_state/${gameId}`);
     if (!res.ok) throw new Error(`Failed to load game: ${res.status}`);
     const data = await res.json();
     updateUI(data);
-    
-    // Check if AI should go first (AI starts when player_starts_first is false)
-    const playerStartsFirst = data.player_starts_first !== undefined ? data.player_starts_first : true;
-    if (!playerStartsFirst && !data.game_over) {
-      console.log("AI goes first! player_starts_first =", playerStartsFirst);
-      aiThinking = true;
-      statusDisplay.innerHTML = '<i class="fas fa-cog fa-spin"></i> AI_PROCESS initializing... // Computing first move';
-      statusDisplay.className = "dev-game-status status-thinking";
-      
-      setTimeout(async () => {
-        const aiRes = await fetch(`/game/api/ai_move/${sessionId}`, { method: "POST" });
-        if (!aiRes.ok) {
-          const error = await aiRes.json();
-          statusDisplay.textContent = `AI Error: ${error.error}`;
-          aiThinking = false;
-          return;
-        }
-        const aiData = await aiRes.json();
-        aiThinking = false;
-        updateUI(aiData);
-      }, 1200);
-    }
   } catch (err) {
     console.error(err);
     statusDisplay.textContent = "Error loading game";
@@ -264,20 +216,15 @@ async function initGame() {
 }
 
 // Attach listeners after DOM is ready
-console.log("game.js loaded");
 document.addEventListener("DOMContentLoaded", () => {
   const resetBtn = document.getElementById("reset-btn");
-  console.log("DOMContentLoaded: reset-btn =", resetBtn);
   if (resetBtn) {
-    resetBtn.addEventListener("click", () => {
-      console.log("reset-btn clicked");
-      resetGame();
-    });
+    resetBtn.addEventListener("click", resetGame);
   }
-  initGame(); // Load game state instead of resetting
+  initGame();
 });
 
-// Binary background animation
+// Binary background animation (reuse from simple_pvai.html)
 function createBinaryBackground() {
   const binaryBg = document.getElementById('binary-bg');
   const chars = ['1', '0'];
@@ -292,7 +239,6 @@ function createBinaryBackground() {
     
     binaryBg.appendChild(char);
     
-    // Remove the character after animation
     setTimeout(() => {
       if (char.parentNode) {
         char.parentNode.removeChild(char);
@@ -300,16 +246,13 @@ function createBinaryBackground() {
     }, 20000);
   }
   
-  // Create new characters periodically
   setInterval(createBinaryChar, 200);
   
-  // Create initial characters
   for (let i = 0; i < 50; i++) {
     setTimeout(createBinaryChar, i * 100);
   }
 }
 
-// Start binary animation when page loads
 document.addEventListener('DOMContentLoaded', createBinaryBackground);
 </script>
 {% endblock %}

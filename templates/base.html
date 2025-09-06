@@ -6,7 +6,7 @@
     <title>{% block title %}Super Tic-Tac-Toe{% endblock %}</title>
     
     <!-- Developer Theme -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/developer-theme.css') }}?v=9">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/developer-theme.css') }}?v=16">
     
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -126,6 +126,75 @@
 
     <!-- Socket.IO for real-time features -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    
+    <!-- Global Typewriter Animation Script -->
+    <script>
+        // Global typewriter animation utility
+        function typewriterAnimation(element, text, speed = 40, startDelay = 300) {
+            // Set placeholder text to maintain layout and prevent shifting
+            const originalText = element.textContent;
+            element.innerHTML = `<span style="opacity: 0;">${text}</span><span class="typewriter-cursor-active">_</span>`;
+            const targetHeight = element.offsetHeight;
+            
+            // Clear and start animation
+            element.style.minHeight = targetHeight + 'px';
+            element.innerHTML = '<span class="typewriter-cursor-active">_</span>';
+            element.style.opacity = '1';
+            
+            let index = 0;
+            
+            function typeWriter() {
+                if (index < text.length) {
+                    const currentText = text.substring(0, index + 1);
+                    element.innerHTML = currentText + '<span class="typewriter-cursor-active">_</span>';
+                    index++;
+                    setTimeout(typeWriter, speed);
+                } else {
+                    // Switch to completed cursor (slower blink)
+                    element.innerHTML = text + '<span class="typewriter-cursor-complete">_</span>';
+                }
+            }
+            
+            setTimeout(typeWriter, startDelay);
+        }
+        
+        // Auto-initialize typewriter animations on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Look for elements with data-typewriter attribute
+            const typewriterElements = document.querySelectorAll('[data-typewriter]');
+            typewriterElements.forEach(function(element) {
+                const text = element.getAttribute('data-typewriter');
+                const speed = parseInt(element.getAttribute('data-typewriter-speed')) || 40;
+                const delay = parseInt(element.getAttribute('data-typewriter-delay')) || 300;
+                
+                element.style.opacity = '0'; // Hide initially
+                typewriterAnimation(element, text, speed, delay);
+            });
+        });
+    </script>
+    
+    <!-- Global Typewriter Styles -->
+    <style>
+        .typewriter-cursor-active {
+            color: var(--dev-white);
+            animation: typewriter-blink-fast 0.6s infinite;
+        }
+        
+        .typewriter-cursor-complete {
+            color: var(--dev-white);
+            animation: typewriter-blink-slow 1.2s infinite;
+        }
+        
+        @keyframes typewriter-blink-fast {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        @keyframes typewriter-blink-slow {
+            0%, 60% { opacity: 1; }
+            61%, 100% { opacity: 0; }
+        }
+    </style>
     
     {% block scripts %}{% endblock %}
 </body>

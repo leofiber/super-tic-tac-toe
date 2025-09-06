@@ -2,7 +2,7 @@
 Super Tic-Tac-Toe Flask Application Factory
 """
 import os
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_socketio import SocketIO
@@ -54,8 +54,28 @@ def create_app(config_name=None):
     from app.routes.websocket import register_socketio_events
     register_socketio_events(socketio)
     
-    # Create database tables
+    # Create database tables with error handling
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+            app.logger.info("Database tables created successfully")
+        except Exception as e:
+            app.logger.error(f"Error creating database tables: {e}")
+            if not app.config.get('TESTING'):
+                raise
+    
+    # Add error handlers for production
+    @app.errorhandler(404)
+    def not_found_error(error):
+        return render_template('errors/404.html'), 404
+    
+    @app.errorhandler(500)
+    def internal_error(error):
+        db.session.rollback()
+        return render_template('errors/500.html'), 500
+    
+    @app.errorhandler(503)
+    def service_unavailable(error):
+        return render_template('errors/503.html'), 503
     
     return app

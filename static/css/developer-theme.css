@@ -344,14 +344,82 @@ p {
   box-shadow: 0 0 0 1px var(--dev-blue);
 }
 
+/* Won states should override active state */
+.dev-small-board.won-x.active {
+  border: 3px solid var(--dev-blue);
+  box-shadow: 0 0 0 1px var(--dev-blue);
+}
+
+.dev-small-board.won-o.active {
+  border: 3px solid var(--dev-red);
+  box-shadow: 0 0 0 1px var(--dev-red);
+}
+
 .dev-small-board.won-x {
-  border-color: var(--dev-green);
-  background: rgba(0, 255, 0, 0.05);
+  border: 3px solid var(--dev-blue) !important;
+  background: rgba(59, 130, 246, 0.15) !important;
+  position: relative !important;
+}
+
+.dev-small-board.won-x::before {
+  content: "1";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 4rem;
+  font-weight: bold;
+  color: var(--dev-blue);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  pointer-events: none;
 }
 
 .dev-small-board.won-o {
-  border-color: var(--dev-red);
-  background: rgba(255, 71, 87, 0.05);
+  border: 3px solid var(--dev-red) !important;
+  background: rgba(239, 68, 68, 0.15) !important;
+  position: relative !important;
+}
+
+.dev-small-board.won-o::before {
+  content: "0";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 5rem;
+  font-weight: bold;
+  color: var(--dev-red);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  z-index: 1000 !important;
+  pointer-events: none;
+}
+
+.dev-small-board.won-x .dev-cell,
+.dev-small-board.won-o .dev-cell {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* Make the big numbers even more prominent */
+.dev-small-board.won-x::before,
+.dev-small-board.won-o::before {
+  font-size: 5rem;
+  text-shadow: 
+    2px 2px 4px rgba(0, 0, 0, 0.8),
+    0 0 10px currentColor;
+  z-index: 1000 !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Force overlay to show even when active */
+.dev-small-board.won-x.active::before,
+.dev-small-board.won-o.active::before {
+  z-index: 1001 !important;
+  display: block !important;
 }
 
 .dev-cell {
@@ -413,25 +481,41 @@ p {
 .binary-char {
   position: absolute;
   font-family: var(--font-mono);
-  font-size: 12px;
-  color: rgba(0, 122, 204, 0.1);
-  animation: binaryFall 10s linear infinite;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.5), 0 0 6px rgba(255, 255, 255, 0.3);
+  animation: binaryFall 8s linear infinite;
+  opacity: 0;
+  animation-fill-mode: both;
 }
 
 @keyframes binaryFall {
   0% {
     transform: translateY(-100vh);
     opacity: 0;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
   }
-  10% {
+  5% {
     opacity: 1;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.6);
   }
-  90% {
-    opacity: 1;
+  50% {
+    opacity: 0.8;
+    color: rgba(255, 255, 255, 0.7);
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.5), 0 0 6px rgba(255, 255, 255, 0.3);
+  }
+  85% {
+    opacity: 0.6;
+    color: rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
   }
   100% {
     transform: translateY(100vh);
     opacity: 0;
+    color: rgba(255, 255, 255, 0.2);
+    text-shadow: none;
   }
 }
 

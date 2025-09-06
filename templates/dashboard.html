@@ -5,187 +5,267 @@
 {% block content %}
 <div class="dev-container">
     <!-- Welcome Section -->
-    <div class="dev-card" style="text-align: center; padding: 2.5rem; margin-bottom: 3rem;">
-        {% if current_user.is_authenticated %}
-            <h1 class="mono" style="color: var(--dev-white); font-size: 2rem; margin-bottom: 0.75rem;">
-                > Welcome back, {{ current_user.username }}!
-            </h1>
-        {% else %}
-            <h1 class="mono" style="color: var(--dev-white); font-size: 2rem; margin-bottom: 0.75rem;">
-                > Welcome back, Guest!
-            </h1>
-        {% endif %}
-        <p class="mono" style="color: var(--dev-text-gray); font-size: 1.1rem;">
-            // Ready for your next strategic challenge?
-        </p>
+    <div class="dev-card" style="display: flex; align-items: center; justify-content: center; min-height: 200px; padding: 3rem 2rem; margin-bottom: 3rem; background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px);">
+        <div style="position: relative; z-index: 1; text-align: center; width: 100%;">
+            {% if current_user.is_authenticated %}
+                <h1 id="dashboard-title" class="mono" style="color: var(--dev-white); font-size: 2.2rem; margin-bottom: 1rem; opacity: 0;"
+                   data-typewriter="> Welcome back, {{ current_user.username }}!" data-typewriter-speed="40" data-typewriter-delay="300">
+                </h1>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 1rem; margin: 0;">
+                    Ready for your next strategic challenge?
+                </p>
+            {% else %}
+                <h1 id="dashboard-title" class="mono" style="color: var(--dev-white); font-size: 2.2rem; margin-bottom: 1rem; opacity: 0;"
+                   data-typewriter="> Welcome back, Guest!" data-typewriter-speed="40" data-typewriter-delay="300">
+                </h1>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 1rem; margin: 0;">
+                    Jump into the action or register to track your progress!
+                </p>
+            {% endif %}
+        </div>
     </div>
 
-    <!-- Quick Stats -->
+    <!-- Quick Stats with Hover Effects -->
     <div class="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 3rem;">
-        <div class="dev-card" style="text-align: center; padding: 2rem;">
+        <div class="stat-card" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%); border: 1px solid rgba(59, 130, 246, 0.2); padding: 2rem; text-align: center; border-radius: 8px; transition: all 0.3s ease; cursor: pointer;"
+             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 30px rgba(59, 130, 246, 0.2)'"
+             onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'">
+            <div style="color: var(--dev-blue); font-size: 2rem; margin-bottom: 1rem;">
+                <i class="fas fa-gamepad"></i>
+            </div>
             {% if current_user.is_authenticated %}
                 <div class="mono" style="color: var(--dev-blue); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ current_user.games_played }}</div>
             {% else %}
                 <div class="mono" style="color: var(--dev-blue); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ guest_stats.games_played if guest_stats else 0 }}</div>
             {% endif %}
-            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">games_played</div>
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Games Played</div>
         </div>
-        <div class="dev-card" style="text-align: center; padding: 2rem;">
+        
+        <div class="stat-card" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.05) 100%); border: 1px solid rgba(34, 197, 94, 0.2); padding: 2rem; text-align: center; border-radius: 8px; transition: all 0.3s ease; cursor: pointer;"
+             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 30px rgba(34, 197, 94, 0.2)'"
+             onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'">
+            <div style="color: var(--dev-green); font-size: 2rem; margin-bottom: 1rem;">
+                <i class="fas fa-trophy"></i>
+            </div>
             {% if current_user.is_authenticated %}
                 <div class="mono" style="color: var(--dev-green); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ current_user.games_won }}</div>
             {% else %}
                 <div class="mono" style="color: var(--dev-green); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ guest_stats.games_won if guest_stats else 0 }}</div>
             {% endif %}
-            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">wins</div>
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Wins</div>
         </div>
-        <div class="dev-card" style="text-align: center; padding: 2rem;">
+        
+        <div class="stat-card" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%); border: 1px solid rgba(251, 191, 36, 0.2); padding: 2rem; text-align: center; border-radius: 8px; transition: all 0.3s ease; cursor: pointer;"
+             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 30px rgba(251, 191, 36, 0.2)'"
+             onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'">
+            <div style="color: var(--dev-yellow); font-size: 2rem; margin-bottom: 1rem;">
+                <i class="fas fa-percentage"></i>
+            </div>
             {% if current_user.is_authenticated %}
                 <div class="mono" style="color: var(--dev-yellow); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "%.1f"|format(current_user.win_rate) }}%</div>
             {% else %}
                 <div class="mono" style="color: var(--dev-yellow); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "%.1f"|format(guest_stats.win_rate if guest_stats else 0) }}%</div>
             {% endif %}
-            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">win_rate</div>
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Win Rate</div>
         </div>
-        <div class="dev-card" style="text-align: center; padding: 2rem;">
+        
+        <div class="stat-card" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%); border: 1px solid rgba(168, 85, 247, 0.2); padding: 2rem; text-align: center; border-radius: 8px; transition: all 0.3s ease; cursor: pointer;"
+             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 30px rgba(168, 85, 247, 0.2)'"
+             onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'">
+            <div style="color: var(--dev-blue-light); font-size: 2rem; margin-bottom: 1rem;">
+                <i class="fas fa-handshake"></i>
+            </div>
             {% if current_user.is_authenticated %}
                 <div class="mono" style="color: var(--dev-blue-light); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ current_user.games_drawn }}</div>
             {% else %}
                 <div class="mono" style="color: var(--dev-blue-light); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ guest_stats.games_drawn if guest_stats else 0 }}</div>
             {% endif %}
-            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">draws</div>
+            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Draws</div>
         </div>
     </div>
 
-    <!-- Game Mode Selection -->
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3rem;">
-        
-        <!-- Challenge AI -->
-        <div class="dev-card" style="text-align: center; padding: 2.5rem;">
+    <!-- Quick Actions -->
+    <div class="actions-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3rem;">
+        <div class="dev-card" style="text-align: center; padding: 2.5rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%); border: 1px solid rgba(59, 130, 246, 0.2);">
             <div style="color: var(--dev-blue); font-size: 2.5rem; margin-bottom: 1.5rem;">
                 <i class="fas fa-robot"></i>
             </div>
             <h3 class="mono" style="color: var(--dev-white); font-size: 1.25rem; margin-bottom: 1rem;">
                 Challenge AI
             </h3>
-            <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 2rem; line-height: 1.5;">
-                Test your skills against our intelligent AI opponents
+            <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.5;">
+                Test your skills against intelligent opponents
             </p>
-            
-            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
                 <a href="{{ url_for('game.simple_game', difficulty='easy') }}" 
-                   class="mono" style="display: block; padding: 0.75rem 1rem; background: var(--dev-green); color: var(--dev-white); text-decoration: none; border-radius: 4px; font-size: 0.9rem; transition: background 0.2s;"
-                   onmouseover="this.style.background='#22c55e'"
-                   onmouseout="this.style.background='var(--dev-green)'">
-                    <i class="fas fa-seedling" style="margin-right: 0.5rem;"></i>Easy AI
+                   class="mono" 
+                   style="display: flex; align-items: center; justify-content: center; padding: 0.75rem 1rem; background: rgba(34, 197, 94, 0.1); color: var(--dev-white); text-decoration: none; border-radius: 6px; font-size: 0.9rem; transition: all 0.3s ease; border: 1px solid rgba(34, 197, 94, 0.3);"
+                   onmouseover="this.style.background='rgba(34, 197, 94, 0.2)'; this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(34, 197, 94, 0.1)'; this.style.transform='translateY(0px)'">
+                    <i class="fas fa-leaf" style="margin-right: 0.5rem; color: #22c55e; font-size: 0.8rem;"></i>
+                    Easy AI
                 </a>
+                
                 <a href="{{ url_for('game.simple_game', difficulty='medium') }}" 
-                   class="mono" style="display: block; padding: 0.75rem 1rem; background: var(--dev-yellow); color: var(--dev-black); text-decoration: none; border-radius: 4px; font-size: 0.9rem; transition: background 0.2s;"
-                   onmouseover="this.style.background='#fbbf24'"
-                   onmouseout="this.style.background='var(--dev-yellow)'">
-                    <i class="fas fa-brain" style="margin-right: 0.5rem;"></i>Medium AI
+                   class="mono" 
+                   style="display: flex; align-items: center; justify-content: center; padding: 0.75rem 1rem; background: rgba(251, 191, 36, 0.1); color: var(--dev-white); text-decoration: none; border-radius: 6px; font-size: 0.9rem; transition: all 0.3s ease; border: 1px solid rgba(251, 191, 36, 0.3);"
+                   onmouseover="this.style.background='rgba(251, 191, 36, 0.2)'; this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(251, 191, 36, 0.1)'; this.style.transform='translateY(0px)'">
+                    <i class="fas fa-brain" style="margin-right: 0.5rem; color: #fbbf24; font-size: 0.8rem;"></i>
+                    Medium AI
                 </a>
+                
                 <a href="{{ url_for('game.simple_game', difficulty='hard') }}" 
-                   class="mono" style="display: block; padding: 0.75rem 1rem; background: var(--dev-red); color: var(--dev-white); text-decoration: none; border-radius: 4px; font-size: 0.9rem; transition: background 0.2s;"
-                   onmouseover="this.style.background='#f87171'"
-                   onmouseout="this.style.background='var(--dev-red)'">
-                    <i class="fas fa-fire" style="margin-right: 0.5rem;"></i>Hard AI
+                   class="mono" 
+                   style="display: flex; align-items: center; justify-content: center; padding: 0.75rem 1rem; background: rgba(239, 68, 68, 0.1); color: var(--dev-white); text-decoration: none; border-radius: 6px; font-size: 0.9rem; transition: all 0.3s ease; border: 1px solid rgba(239, 68, 68, 0.3);"
+                   onmouseover="this.style.background='rgba(239, 68, 68, 0.2)'; this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.background='rgba(239, 68, 68, 0.1)'; this.style.transform='translateY(0px)'">
+                    <i class="fas fa-fire" style="margin-right: 0.5rem; color: #ef4444; font-size: 0.8rem;"></i>
+                    Hard AI
                 </a>
             </div>
         </div>
 
-        <!-- Local Multiplayer -->
-        <div class="dev-card" style="text-align: center; padding: 2.5rem;">
-            <div style="color: var(--dev-green); font-size: 2.5rem; margin-bottom: 1.5rem;">
-                <i class="fas fa-users"></i>
+        <div class="dev-card" style="display: flex; flex-direction: column; justify-content: space-between; text-align: center; padding: 2.5rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.05) 100%); border: 1px solid rgba(34, 197, 94, 0.2); min-height: 300px;">
+            <div>
+                <div style="color: var(--dev-green); font-size: 2.5rem; margin-bottom: 1.5rem;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="mono" style="color: var(--dev-white); font-size: 1.25rem; margin-bottom: 1rem;">
+                    Local Multiplayer
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
+                    Play with a friend on the same device
+                </p>
             </div>
-            <h3 class="mono" style="color: var(--dev-white); font-size: 1.25rem; margin-bottom: 1rem;">
-                Local Multiplayer
-            </h3>
-            <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 2rem; line-height: 1.5;">
-                Play with a friend on the same device
-            </p>
-            
-            <a href="{{ url_for('game.pvp_local') }}" 
-               class="mono" style="display: inline-block; padding: 1rem 2rem; background: var(--dev-green); color: var(--dev-white); text-decoration: none; border-radius: 4px; font-size: 1rem; transition: background 0.2s;"
-               onmouseover="this.style.background='#22c55e'"
-               onmouseout="this.style.background='var(--dev-green)'">
-                <i class="fas fa-play" style="margin-right: 0.5rem;"></i>Start Local Game
+            <a href="/game/pvp/local" 
+               class="mono" 
+               style="display: inline-flex; align-items: center; justify-content: center; padding: 1rem 1.5rem; background: rgba(16, 185, 129, 0.1); color: var(--dev-white); text-decoration: none; border-radius: 6px; font-size: 0.9rem; transition: all 0.3s ease; border: 1px solid rgba(16, 185, 129, 0.3);"
+               onmouseover="this.style.background='rgba(16, 185, 129, 0.2)'; this.style.transform='translateY(-2px)'"
+               onmouseout="this.style.background='rgba(16, 185, 129, 0.1)'; this.style.transform='translateY(0px)'">
+                <i class="fas fa-play" style="margin-right: 0.5rem; color: #10b981; font-size: 0.8rem;"></i>
+                Start Game
             </a>
-            
-            <div class="mono" style="color: var(--dev-yellow); font-size: 0.85rem; margin-top: 1rem;">
-                Status: Coming Soon
-            </div>
         </div>
 
-        <!-- Online Multiplayer -->
-        <div class="dev-card" style="text-align: center; padding: 2.5rem;">
-            <div style="color: var(--dev-red); font-size: 2.5rem; margin-bottom: 1.5rem;">
-                <i class="fas fa-globe"></i>
+        <div class="dev-card" style="display: flex; flex-direction: column; justify-content: space-between; text-align: center; padding: 2.5rem; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%); border: 1px solid rgba(239, 68, 68, 0.2); min-height: 300px;">
+            <div>
+                <div style="color: var(--dev-red); font-size: 2.5rem; margin-bottom: 1.5rem;">
+                    <i class="fas fa-wifi"></i>
+                </div>
+                <h3 class="mono" style="color: var(--dev-white); font-size: 1.25rem; margin-bottom: 1rem;">
+                    Online Multiplayer
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
+                    Challenge players worldwide with real-time matches
+                </p>
             </div>
-            <h3 class="mono" style="color: var(--dev-white); font-size: 1.25rem; margin-bottom: 1rem;">
-                Online Multiplayer
-            </h3>
-            <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 2rem; line-height: 1.5;">
-                Challenge players from around the world
-            </p>
-            
-            <button class="mono" style="padding: 1rem 2rem; background: var(--dev-gray-dark); color: var(--dev-text-gray); border: 1px solid var(--border-color); border-radius: 4px; font-size: 1rem; cursor: not-allowed;"
-                    disabled>
-                <i class="fas fa-lock" style="margin-right: 0.5rem;"></i>Coming Soon
-            </button>
-            
-            <div class="mono" style="color: var(--dev-yellow); font-size: 0.85rem; margin-top: 1rem;">
-                Status: In Development
-            </div>
+            <a href="/game/pvp/online" 
+               class="mono" 
+               style="display: inline-flex; align-items: center; justify-content: center; padding: 1rem 1.5rem; background: rgba(239, 68, 68, 0.1); color: var(--dev-white); text-decoration: none; border-radius: 6px; font-size: 0.9rem; transition: all 0.3s ease; border: 1px solid rgba(239, 68, 68, 0.3);"
+               onmouseover="this.style.background='rgba(239, 68, 68, 0.2)'; this.style.transform='translateY(-2px)'"
+               onmouseout="this.style.background='rgba(239, 68, 68, 0.1)'; this.style.transform='translateY(0px)'">
+                <i class="fas fa-globe" style="margin-right: 0.5rem; color: #ef4444; font-size: 0.8rem;"></i>
+                Join Match
+            </a>
         </div>
     </div>
 
-    <!-- Recent Games (if user has played any) -->
-    {% if current_user.is_authenticated and current_user.games_played > 0 %}
-    <div class="dev-card" style="margin-bottom: 3rem;">
-        <h2 class="mono" style="color: var(--dev-white); font-size: 1.3rem; margin-bottom: 1.5rem;">
-            // Recent Games
+    <!-- Recent Games -->
+    <div class="dev-card" style="margin-bottom: 3rem; background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%); border: 1px solid rgba(168, 85, 247, 0.2);">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.3rem; margin-bottom: 1.5rem; display: flex; align-items: center;">
+            <i class="fas fa-history" style="color: var(--dev-blue-light); margin-right: 0.75rem;"></i>
+            Recent Games
         </h2>
         <div style="overflow-x: auto;">
             <table style="width: 100%; border-collapse: collapse;">
                 <thead>
-                    <tr class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
-                        <th style="text-align: left; padding: 0.75rem; border-bottom: 1px solid var(--border-color);">Game Type</th>
-                        <th style="text-align: left; padding: 0.75rem; border-bottom: 1px solid var(--border-color);">Difficulty</th>
-                        <th style="text-align: left; padding: 0.75rem; border-bottom: 1px solid var(--border-color);">Result</th>
-                        <th style="text-align: left; padding: 0.75rem; border-bottom: 1px solid var(--border-color);">Date</th>
+                    <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                        <th class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem; padding: 1rem; text-align: left; font-weight: 400;">MODE</th>
+                        <th class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem; padding: 1rem; text-align: left; font-weight: 400;">OPPONENT</th>
+                        <th class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem; padding: 1rem; text-align: left; font-weight: 400;">RESULT</th>
+                        <th class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem; padding: 1rem; text-align: left; font-weight: 400;">DATE</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for game in recent_games[:5] %}
-                    <tr class="mono" style="color: var(--dev-white); font-size: 0.9rem;">
-                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">{{ game.game_type.upper() }}</td>
-                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
-                            {% if game.ai_difficulty %}{{ game.ai_difficulty.title() }}{% else %}-{% endif %}
-                        </td>
-                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
-                            {% if game.winner == current_user.id %}
-                                <span style="color: var(--dev-green);">Win</span>
-                            {% elif game.winner is none %}
-                                <span style="color: var(--dev-yellow);">Draw</span>
+                    {% if recent_games %}
+                        {% for game in recent_games %}
+                        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.2s ease;"
+                            onmouseover="this.style.background='rgba(255, 255, 255, 0.03)'"
+                            onmouseout="this.style.background='transparent'">
+                            {% if current_user.is_authenticated %}
+                                <td class="mono" style="color: var(--dev-blue); font-size: 0.85rem; padding: 1rem;">
+                                    {% if game.game_type == 'pvai' %}PvAI {{ game.ai_difficulty|title }}
+                                    {% elif game.game_type == 'pvp_local' %}Local PvP
+                                    {% elif game.game_type == 'pvp_online' %}Online PvP
+                                    {% else %}{{ game.game_type|title }}{% endif %}
+                                </td>
+                                <td class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; padding: 1rem;">
+                                    {% if game.game_type == 'pvai' %}{{ game.ai_difficulty|title }} AI
+                                    {% elif game.game_type in ['pvp_local', 'pvp_online'] %}
+                                        {% if game.player1_id == current_user.id and game.player2_user %}{{ game.player2_user.username }}
+                                        {% elif game.player2_id == current_user.id and game.player1_user %}{{ game.player1_user.username }}
+                                        {% else %}Player{% endif %}
+                                    {% else %}Player{% endif %}
+                                </td>
+                                <td class="mono" style="color: {% if (game.player1_id == current_user.id and game.winner == 1) or (game.player2_id == current_user.id and game.winner == -1) %}var(--dev-green){% elif game.winner == 0 %}var(--dev-yellow){% else %}var(--dev-red){% endif %}; font-size: 0.85rem; padding: 1rem;">
+                                    {% if (game.player1_id == current_user.id and game.winner == 1) or (game.player2_id == current_user.id and game.winner == -1) %}Win
+                                    {% elif game.winner == 0 %}Draw
+                                    {% else %}Loss{% endif %}
+                                </td>
+                                <td class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; padding: 1rem;">{{ game.finished_at.strftime('%m/%d %H:%M') if game.finished_at else game.created_at.strftime('%m/%d %H:%M') }}</td>
                             {% else %}
-                                <span style="color: var(--dev-red);">Loss</span>
+                                <td class="mono" style="color: var(--dev-blue); font-size: 0.85rem; padding: 1rem;">{{ game.mode if game.mode else (game.game_type|title + ' ' + game.ai_difficulty|title if game.ai_difficulty else game.game_type|title) }}</td>
+                                <td class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; padding: 1rem;">{{ game.opponent if game.opponent else (game.ai_difficulty|title + ' AI' if game.ai_difficulty else 'Player') }}</td>
+                                <td class="mono" style="color: {% if game.result == 'Win' or game.result == 'Won' %}var(--dev-green){% elif game.result == 'Loss' or game.result == 'Lost' %}var(--dev-red){% else %}var(--dev-yellow){% endif %}; font-size: 0.85rem; padding: 1rem;">{{ game.result }}</td>
+                                <td class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; padding: 1rem;">{{ game.finished_at }}</td>
                             {% endif %}
-                        </td>
-                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">{{ game.finished_at.strftime('%m/%d %H:%M') if game.finished_at else 'N/A' }}</td>
-                    </tr>
-                    {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; padding: 2rem; text-align: center;">
+                                No recent games yet. Start playing to see your game history!
+                            </td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
-        {% if current_user.games_played > 5 %}
+        
+        {% if current_user.is_authenticated and recent_games|length >= 5 %}
         <div style="text-align: center; margin-top: 1.5rem;">
-            <a href="{{ url_for('main.statistics') }}" class="mono" style="color: var(--dev-blue); text-decoration: none; font-size: 0.9rem;">
-                // View all games →
+            <a href="{{ url_for('main.statistics') }}" class="mono view-more-btn" style="color: var(--dev-blue); text-decoration: none; font-size: 0.9rem; padding: 0.75rem 1.5rem; background: rgba(59, 130, 246, 0.08); border-radius: 6px; border: 1px solid rgba(59, 130, 246, 0.2); display: inline-flex; align-items: center; transition: all 0.2s ease;"
+               onmouseover="this.style.background='rgba(59, 130, 246, 0.15)'; this.style.borderColor='rgba(59, 130, 246, 0.3)'"
+               onmouseout="this.style.background='rgba(59, 130, 246, 0.08)'; this.style.borderColor='rgba(59, 130, 246, 0.2)'">
+                View All Statistics
+                <i class="fas fa-arrow-right" style="margin-left: 0.5rem; font-size: 0.8rem;"></i>
             </a>
         </div>
         {% endif %}
     </div>
-    {% endif %}
 </div>
+
+<style>
+.stat-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transition: left 0.6s;
+}
+
+.stat-card:hover::before {
+    left: 100%;
+}
+</style>
+
 {% endblock %}

@@ -65,13 +65,27 @@ def update_game_stats(game_type, difficulty, winner, player_number=1, board_stat
             }
             stats['recent_games'].insert(0, recent_game)  # Add to front
             stats['recent_games'] = stats['recent_games'][:5]  # Keep only last 5
-        # elif game_type == 'pvp_local':
-        #     pvp_stat = stats['pvp_stats'] 
-        #     pvp_stat['total_games'] += 1
-        #     if winner == player_number:
-        #         pvp_stat['wins'] += 1
-        #     elif winner == 0:
-        #         pvp_stat['draws'] += 1
+        elif game_type in ['pvp_local', 'pvp_online']:
+            pvp_stat = stats['pvp_stats']
+            pvp_stat['total_games'] += 1
+            if winner == 1:  # Player 1 (logged-in user) won
+                pvp_stat['wins'] += 1
+            elif winner == 0:  # Draw
+                pvp_stat['draws'] += 1
+            # If winner == -1, it's a loss (Player 2 won)
+            
+            # Add to recent games
+            from datetime import datetime
+            result = 'Win' if winner == 1 else 'Draw' if winner == 0 else 'Loss'
+            mode = 'Local PvP' if game_type == 'pvp_local' else 'Online PvP'
+            recent_game = {
+                'mode': mode,
+                'opponent': 'Player',  # For guest users, we don't have opponent username
+                'result': result,
+                'finished_at': datetime.now().strftime('%H:%M')
+            }
+            stats['recent_games'].insert(0, recent_game)  # Add to front
+            stats['recent_games'] = stats['recent_games'][:5]  # Keep only last 5
         
         session['game_stats'] = stats  # Ensure session is updated
         
@@ -112,10 +126,14 @@ def update_game_stats(game_type, difficulty, winner, player_number=1, board_stat
                     user.medium_ai_wins += 1
                 elif difficulty == 'hard':
                     user.hard_ai_wins += 1
+            elif game_type in ['pvp_local', 'pvp_online']:
+                user.pvp_wins += 1
         elif winner == 0:  # Draw
             user.games_drawn += 1
         else:  # Player lost
             user.games_lost += 1
+            if game_type in ['pvp_local', 'pvp_online']:
+                user.pvp_losses += 1
         
         db.session.commit()
 
@@ -134,10 +152,18 @@ def get_user_stats():
             'recent_games': []
         })
         
-        # Calculate totals
-        total_games = sum(ai['total_games'] for ai in stats['ai_stats'].values())
-        total_wins = sum(ai['wins'] for ai in stats['ai_stats'].values())
-        total_draws = sum(ai['draws'] for ai in stats['ai_stats'].values())
+        # Calculate totals including PvP
+        ai_total_games = sum(ai['total_games'] for ai in stats['ai_stats'].values())
+        ai_total_wins = sum(ai['wins'] for ai in stats['ai_stats'].values())
+        ai_total_draws = sum(ai['draws'] for ai in stats['ai_stats'].values())
+        
+        pvp_total_games = stats['pvp_stats']['total_games']
+        pvp_total_wins = stats['pvp_stats']['wins']
+        pvp_total_draws = stats['pvp_stats']['draws']
+        
+        total_games = ai_total_games + pvp_total_games
+        total_wins = ai_total_wins + pvp_total_wins
+        total_draws = ai_total_draws + pvp_total_draws
         win_rate = (total_wins / total_games * 100) if total_games > 0 else 0
         
         return {
@@ -176,7 +202,15 @@ def get_user_stats():
                 elif game.winner == 0:
                     ai_stats[difficulty]['draws'] += 1
         
-        pvp_stats = {'wins': 0, 'draws': 0, 'total_games': 0}  # TODO: Implement PvP stats
+        # PvP stats breakdown (both local and online)
+        pvp_games = [g for g in user_games if g.game_type in ['pvp_local', 'pvp_online']]
+        pvp_stats = {
+            'wins': sum(1 for g in pvp_games if 
+                       (g.player1_id == current_user.id and g.winner == 1) or 
+                       (g.player2_id == current_user.id and g.winner == -1)),
+            'draws': sum(1 for g in pvp_games if g.winner == 0),
+            'total_games': len(pvp_games)
+        }
         
         return {
             'total_games': total_games,
@@ -189,14 +223,21 @@ def get_user_stats():
 
 def init_game_session(session_id, difficulty='medium'):
     """Initialize a new game session using the proven engine."""
+    import random
+    
+    # Randomly decide who goes first
+    player_starts_first = random.choice([True, False])
+    starting_player = PLAYER_X if player_starts_first else PLAYER_O
+    
     game_sessions[session_id] = {
         'board': create_board(),
         'small_status': create_small_board_status(),
-        'player': PLAYER_X,
+        'player': starting_player,
         'current_board': None,
         'difficulty': difficulty,
         'game_over': False,
-        'winner': None
+        'winner': None,
+        'player_starts_first': player_starts_first  # Track if human player goes first
     }
     return game_sessions[session_id]
 
@@ -447,8 +488,10 @@ def get_simple_game_state(session_id):
         'current_board': game['current_board'],
         'legal_moves': legal_moves,
         'current_player': game['player'],
+        'player': game['player'],  # For backwards compatibility
         'winner': game['winner'],
-        'game_over': game['game_over']
+        'game_over': game['game_over'],
+        'player_starts_first': game.get('player_starts_first', True)
     })
 
 @game_bp.route('/api/move/<session_id>', methods=['POST'])
@@ -628,7 +671,7 @@ def reset_simple_game(session_id):
         else:
             difficulty = 'medium'
         
-        # Reinitialize game
+        # Reinitialize game (this will randomize starting player)
         game = init_game_session(session_id, difficulty)
         legal_moves = get_available_moves(game['board'], game['small_status'], game['current_board'])
         
@@ -637,8 +680,184 @@ def reset_simple_game(session_id):
             'small_status': game['small_status'].tolist(),
             'current_board': game['current_board'],
             'legal_moves': legal_moves,
+            'current_player': game['player'],
+            'player': game['player'],
             'winner': None,
-            'game_over': False
+            'game_over': False,
+            'player_starts_first': game.get('player_starts_first', True)
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# ==================== PvP Local Game Routes ====================
+
+@game_bp.route('/api/pvp_state/<int:game_id>')
+def get_pvp_game_state(game_id):
+    """Get current state of a PvP game."""
+    session_id = f"pvp_game_{game_id}"
+    
+    if session_id not in game_sessions:
+        # Initialize new PvP game
+        board = create_board()
+        small_status = create_small_board_status()
+        current_board = None
+        legal_moves = get_available_moves(board, small_status, current_board)
+        
+        # Randomly decide if account owner is Player 1 or Player 2
+        import random
+        account_owner_is_player1 = random.choice([True, False])
+        starting_player = PLAYER_X if random.choice([True, False]) else PLAYER_O
+        
+        game_sessions[session_id] = {
+            'board': board,
+            'small_status': small_status,
+            'current_board': current_board,
+            'legal_moves': legal_moves,
+            'winner': None,
+            'game_over': False,
+            'current_player': starting_player,
+            'account_owner_is_player1': account_owner_is_player1  # Track who the account owner is
+        }
+    
+    game = game_sessions[session_id]
+    return jsonify({
+        'board': game['board'].tolist(),
+        'small_status': game['small_status'].tolist(),
+        'current_board': game['current_board'],
+        'legal_moves': game['legal_moves'],
+        'winner': game['winner'],
+        'game_over': game['game_over'],
+        'current_player': game['current_player'],
+        'account_owner_is_player1': game.get('account_owner_is_player1', True)
+    })
+
+@game_bp.route('/api/pvp_move/<int:game_id>', methods=['POST'])
+def make_pvp_move(game_id):
+    """Make a move in PvP game - using EXACT same logic as working AI games."""
+    session_id = f"pvp_game_{game_id}"
+    if session_id not in game_sessions:
+        return jsonify({'error': 'Game not found'}), 404
+    
+    try:
+        data = request.get_json()
+        row = data.get('row')
+        col = data.get('col')
+        player = data.get('player')
+        
+        game = game_sessions[session_id]
+        
+        # Check if game is over
+        if game['game_over']:
+            return jsonify({'error': 'Game is already finished'}), 400
+        
+        # Check if move is legal (EXACT same logic as AI games)
+        legal_moves = get_available_moves(game['board'], game['small_status'], game['current_board'])
+        if (row, col) not in legal_moves:
+            return jsonify({'error': 'Illegal move'}), 400
+        
+        # Apply move (EXACT same logic as AI games)
+        game['board'][row, col] = player
+        update_small_board_status(game['board'], game['small_status'])
+        
+        # Check for winner (EXACT same logic as AI games)
+        winner = check_big_board_winner(game['small_status'])
+        if winner != 0:  # Someone actually won
+            game['winner'] = winner
+            game['game_over'] = True
+        elif len(get_available_moves(game['board'], game['small_status'], game['current_board'])) == 0:
+            # No winner but no moves left = draw
+            game['winner'] = 0
+            game['game_over'] = True
+        
+        # Only update stats when game actually ends
+        if game['game_over']:
+            import json
+            board_json = json.dumps(game['board'].tolist())
+            small_board_json = json.dumps(game['small_status'].tolist())
+            
+            # Determine if account owner won, lost, or drew
+            account_owner_is_player1 = game.get('account_owner_is_player1', True)
+            account_owner_result = game['winner']
+            
+            # Convert game winner to account owner's perspective
+            if account_owner_is_player1:
+                # Account owner is Player 1 (X = 1)
+                account_owner_result = game['winner']  # 1 = won, -1 = lost, 0 = draw
+            else:
+                # Account owner is Player 2 (O = -1)
+                if game['winner'] == 1:
+                    account_owner_result = -1  # Player 1 won, so account owner lost
+                elif game['winner'] == -1:
+                    account_owner_result = 1   # Player 2 won, so account owner won
+                else:
+                    account_owner_result = 0   # Draw stays draw
+            
+            update_game_stats('pvp_local', None, account_owner_result, 1, board_json, small_board_json)
+        
+        # Determine next board (EXACT same logic as AI games)
+        if not game['game_over']:
+            ib, jb = row % SMALL_SIZE, col % SMALL_SIZE
+            if game['small_status'][ib, jb] == 0:
+                game['current_board'] = (ib, jb)
+            else:
+                game['current_board'] = None
+            
+            # Switch player for PvP
+            game['current_player'] = -player
+        
+        legal_moves = get_available_moves(game['board'], game['small_status'], game['current_board'])
+        
+        return jsonify({
+            'board': game['board'].tolist(),
+            'small_status': game['small_status'].tolist(),
+            'current_board': game['current_board'],
+            'legal_moves': legal_moves,
+            'winner': game['winner'],
+            'game_over': game['game_over'],
+            'current_player': game.get('current_player', PLAYER_X)
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@game_bp.route('/api/pvp_reset/<int:game_id>', methods=['POST'])
+def reset_pvp_game(game_id):
+    """Reset a PvP game."""
+    try:
+        session_id = f"pvp_game_{game_id}"
+        
+        # Initialize new game with randomization
+        board = create_board()
+        small_status = create_small_board_status()
+        current_board = None
+        legal_moves = get_available_moves(board, small_status, current_board)
+        
+        # Randomly decide if account owner is Player 1 or Player 2
+        import random
+        account_owner_is_player1 = random.choice([True, False])
+        starting_player = PLAYER_X if random.choice([True, False]) else PLAYER_O
+        
+        game_sessions[session_id] = {
+            'board': board,
+            'small_status': small_status,
+            'current_board': current_board,
+            'legal_moves': legal_moves,
+            'winner': None,
+            'game_over': False,
+            'current_player': starting_player,
+            'account_owner_is_player1': account_owner_is_player1
+        }
+        
+        return jsonify({
+            'board': board.tolist(),
+            'small_status': small_status.tolist(),
+            'current_board': current_board,
+            'legal_moves': legal_moves,
+            'winner': None,
+            'game_over': False,
+            'current_player': starting_player,
+            'account_owner_is_player1': account_owner_is_player1
         })
         
     except Exception as e:

@@ -6,45 +6,50 @@
 <div class="dev-container">
     <!-- Header -->
     <div style="text-align: center; margin-bottom: 4rem;">
-        <h1 class="mono" style="color: var(--dev-white); font-size: 2.5rem; margin-bottom: 1rem;">
-            > user_stats.exe --display
+        <h1 id="stats-title" class="mono" style="color: var(--dev-white); font-size: 2.5rem; margin-bottom: 1rem; opacity: 0;"
+           data-typewriter="> Your Statistics" data-typewriter-speed="40" data-typewriter-delay="300">
         </h1>
-        <p class="mono" style="color: var(--dev-text-gray); font-size: 1.1rem;">
-            // Track your progress and improvement over time
-        </p>
     </div>
 
-    <!-- Overall Stats -->
+    <!-- Overall Stats with Hover Effects -->
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 4rem;">
-        <div class="dev-card" style="text-align: center; padding: 2rem;">
-            <div style="color: var(--dev-blue); font-size: 2rem; margin-bottom: 1rem;">
+        <div class="stat-card" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%); border: 1px solid rgba(59, 130, 246, 0.2); padding: 2rem; text-align: center; border-radius: 8px; transition: all 0.3s ease; cursor: pointer;"
+             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 30px rgba(59, 130, 246, 0.2)'"
+             onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'">
+            <div style="color: var(--dev-blue); font-size: 2.5rem; margin-bottom: 1rem;">
                 <i class="fas fa-gamepad"></i>
             </div>
-            <div class="mono" style="color: var(--dev-blue); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ stats.total_games }}</div>
+            <div class="mono" style="color: var(--dev-blue); font-size: 2.8rem; font-weight: 600; margin-bottom: 0.5rem;">{{ stats.total_games }}</div>
             <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Total Games</div>
         </div>
         
-        <div class="dev-card" style="text-align: center; padding: 2rem;">
-            <div style="color: var(--dev-green); font-size: 2rem; margin-bottom: 1rem;">
+        <div class="stat-card" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.05) 100%); border: 1px solid rgba(34, 197, 94, 0.2); padding: 2rem; text-align: center; border-radius: 8px; transition: all 0.3s ease; cursor: pointer;"
+             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 30px rgba(34, 197, 94, 0.2)'"
+             onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'">
+            <div style="color: var(--dev-green); font-size: 2.5rem; margin-bottom: 1rem;">
                 <i class="fas fa-trophy"></i>
             </div>
-            <div class="mono" style="color: var(--dev-green); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ stats.victories }}</div>
+            <div class="mono" style="color: var(--dev-green); font-size: 2.8rem; font-weight: 600; margin-bottom: 0.5rem;">{{ stats.victories }}</div>
             <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Victories</div>
         </div>
         
-        <div class="dev-card" style="text-align: center; padding: 2rem;">
-            <div style="color: var(--dev-yellow); font-size: 2rem; margin-bottom: 1rem;">
+        <div class="stat-card" style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%); border: 1px solid rgba(251, 191, 36, 0.2); padding: 2rem; text-align: center; border-radius: 8px; transition: all 0.3s ease; cursor: pointer;"
+             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 30px rgba(251, 191, 36, 0.2)'"
+             onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'">
+            <div style="color: var(--dev-yellow); font-size: 2.5rem; margin-bottom: 1rem;">
                 <i class="fas fa-percentage"></i>
             </div>
-            <div class="mono" style="color: var(--dev-yellow); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ stats.win_rate }}%</div>
+            <div class="mono" style="color: var(--dev-yellow); font-size: 2.8rem; font-weight: 600; margin-bottom: 0.5rem;">{{ stats.win_rate }}%</div>
             <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Win Rate</div>
         </div>
         
-        <div class="dev-card" style="text-align: center; padding: 2rem;">
-            <div style="color: var(--dev-blue-light); font-size: 2rem; margin-bottom: 1rem;">
+        <div class="stat-card" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%); border: 1px solid rgba(168, 85, 247, 0.2); padding: 2rem; text-align: center; border-radius: 8px; transition: all 0.3s ease; cursor: pointer;"
+             onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 30px rgba(168, 85, 247, 0.2)'"
+             onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'">
+            <div style="color: var(--dev-blue-light); font-size: 2.5rem; margin-bottom: 1rem;">
                 <i class="fas fa-handshake"></i>
             </div>
-            <div class="mono" style="color: var(--dev-blue-light); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ stats.draws }}</div>
+            <div class="mono" style="color: var(--dev-blue-light); font-size: 2.8rem; font-weight: 600; margin-bottom: 0.5rem;">{{ stats.draws }}</div>
             <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Draws</div>
         </div>
     </div>
@@ -53,223 +58,173 @@
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-bottom: 4rem;">
         
         <!-- AI Performance -->
-        <div class="dev-card">
-            <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem;">
-                // AI Performance
+        <div class="mode-card" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(29, 78, 216, 0.02) 100%); border: 1px solid rgba(59, 130, 246, 0.15); padding: 2.5rem; border-radius: 8px; transition: all 0.3s ease; min-height: 400px; display: flex; flex-direction: column;"
+             onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='rgba(59, 130, 246, 0.3)'"
+             onmouseout="this.style.transform='translateY(0px)'; this.style.borderColor='rgba(59, 130, 246, 0.15)'">
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center;">
+                <i class="fas fa-robot" style="color: var(--dev-blue); margin-right: 0.75rem;"></i>
+                AI Performance
             </h2>
             
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; flex-direction: column; gap: 1rem; flex: 1;">
                 <!-- Easy AI -->
-                <div class="dev-card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark);">
+                <div class="ai-stat" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: rgba(34, 197, 94, 0.08); border-radius: 6px; border: 1px solid rgba(34, 197, 94, 0.2); transition: all 0.2s ease;"
+                     onmouseover="this.style.background='rgba(34, 197, 94, 0.12)'; this.style.transform='scale(1.02)'"
+                     onmouseout="this.style.background='rgba(34, 197, 94, 0.08)'; this.style.transform='scale(1)'">
                     <div>
                         <div class="mono" style="color: var(--dev-green); font-size: 1rem; margin-bottom: 0.25rem;">
-                            <i class="fas fa-seedling" style="margin-right: 0.5rem;"></i>Easy AI
+                            <i class="fas fa-leaf" style="margin-right: 0.5rem;"></i>Easy AI
                         </div>
-                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem;">
-                            {{ stats.ai_stats.easy.wins }} wins / {{ stats.ai_stats.easy.total_games }} games
-                        </div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">Beginner Level</div>
                     </div>
-                    <div class="mono" style="color: var(--dev-green); font-size: 1.25rem; font-weight: 600;">
-                        {{ "%.1f"|format((stats.ai_stats.easy.wins * 100 / stats.ai_stats.easy.total_games) if stats.ai_stats.easy.total_games > 0 else 0) }}%
+                    <div style="text-align: right;">
+                        <div class="mono" style="color: var(--dev-green); font-size: 1.5rem; font-weight: 600;">{{ stats.ai_stats.easy.wins }}/{{ stats.ai_stats.easy.total_games }}</div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">wins/matches</div>
                     </div>
                 </div>
                 
                 <!-- Medium AI -->
-                <div class="dev-card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark);">
+                <div class="ai-stat" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: rgba(251, 191, 36, 0.08); border-radius: 6px; border: 1px solid rgba(251, 191, 36, 0.2); transition: all 0.2s ease;"
+                     onmouseover="this.style.background='rgba(251, 191, 36, 0.12)'; this.style.transform='scale(1.02)'"
+                     onmouseout="this.style.background='rgba(251, 191, 36, 0.08)'; this.style.transform='scale(1)'">
                     <div>
                         <div class="mono" style="color: var(--dev-yellow); font-size: 1rem; margin-bottom: 0.25rem;">
                             <i class="fas fa-brain" style="margin-right: 0.5rem;"></i>Medium AI
                         </div>
-                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem;">
-                            {{ stats.ai_stats.medium.wins }} wins / {{ stats.ai_stats.medium.total_games }} games
-                        </div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">Intermediate Level</div>
                     </div>
-                    <div class="mono" style="color: var(--dev-yellow); font-size: 1.25rem; font-weight: 600;">
-                        {{ "%.1f"|format((stats.ai_stats.medium.wins * 100 / stats.ai_stats.medium.total_games) if stats.ai_stats.medium.total_games > 0 else 0) }}%
+                    <div style="text-align: right;">
+                        <div class="mono" style="color: var(--dev-yellow); font-size: 1.5rem; font-weight: 600;">{{ stats.ai_stats.medium.wins }}/{{ stats.ai_stats.medium.total_games }}</div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">wins/matches</div>
                     </div>
                 </div>
                 
                 <!-- Hard AI -->
-                <div class="dev-card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark);">
+                <div class="ai-stat" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: rgba(239, 68, 68, 0.08); border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.2); transition: all 0.2s ease;"
+                     onmouseover="this.style.background='rgba(239, 68, 68, 0.12)'; this.style.transform='scale(1.02)'"
+                     onmouseout="this.style.background='rgba(239, 68, 68, 0.08)'; this.style.transform='scale(1)'">
                     <div>
                         <div class="mono" style="color: var(--dev-red); font-size: 1rem; margin-bottom: 0.25rem;">
                             <i class="fas fa-fire" style="margin-right: 0.5rem;"></i>Hard AI
                         </div>
-                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem;">
-                            {{ stats.ai_stats.hard.wins }} wins / {{ stats.ai_stats.hard.total_games }} games
-                        </div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">Expert Level</div>
                     </div>
-                    <div class="mono" style="color: var(--dev-red); font-size: 1.25rem; font-weight: 600;">
-                        {{ "%.1f"|format((stats.ai_stats.hard.wins * 100 / stats.ai_stats.hard.total_games) if stats.ai_stats.hard.total_games > 0 else 0) }}%
+                    <div style="text-align: right;">
+                        <div class="mono" style="color: var(--dev-red); font-size: 1.5rem; font-weight: 600;">{{ stats.ai_stats.hard.wins }}/{{ stats.ai_stats.hard.total_games }}</div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">wins/matches</div>
                     </div>
                 </div>
             </div>
         </div>
-
+        
         <!-- Multiplayer Performance -->
-        <div class="dev-card">
-            <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem;">
-                // Multiplayer Performance
+        <div class="mode-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.02) 100%); border: 1px solid rgba(16, 185, 129, 0.15); padding: 2.5rem; border-radius: 8px; transition: all 0.3s ease; min-height: 400px; display: flex; flex-direction: column;"
+             onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='rgba(16, 185, 129, 0.3)'"
+             onmouseout="this.style.transform='translateY(0px)'; this.style.borderColor='rgba(16, 185, 129, 0.15)'">
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center;">
+                <i class="fas fa-users" style="color: var(--dev-green); margin-right: 0.75rem;"></i>
+                Multiplayer
             </h2>
             
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; flex-direction: column; gap: 1rem; flex: 1;">
                 <!-- Local PvP -->
-                <div class="dev-card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark);">
+                <div class="mp-stat" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: rgba(16, 185, 129, 0.08); border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.2); transition: all 0.2s ease;"
+                     onmouseover="this.style.background='rgba(16, 185, 129, 0.12)'; this.style.transform='scale(1.02)'"
+                     onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'; this.style.transform='scale(1)'">
                     <div>
                         <div class="mono" style="color: var(--dev-green); font-size: 1rem; margin-bottom: 0.25rem;">
-                            <i class="fas fa-users" style="margin-right: 0.5rem;"></i>Local PvP
+                            <i class="fas fa-home" style="margin-right: 0.5rem;"></i>Local PvP
                         </div>
-                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem;">
-                            {{ stats.pvp_stats.wins }} wins / {{ stats.pvp_stats.total_games }} games
-                        </div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">Same Device</div>
                     </div>
-                    <div class="mono" style="color: var(--dev-green); font-size: 1.25rem; font-weight: 600;">
-                        {{ "%.1f"|format((stats.pvp_stats.wins * 100 / stats.pvp_stats.total_games) if stats.pvp_stats.total_games > 0 else 0) }}%
+                    <div style="text-align: right;">
+                        <div class="mono" style="color: var(--dev-green); font-size: 1.5rem; font-weight: 600;">{{ stats.pvp_stats.wins }}/{{ stats.pvp_stats.total_games }}</div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">wins/matches</div>
                     </div>
                 </div>
                 
                 <!-- Online PvP -->
-                <div class="dev-card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark); opacity: 0.6;">
+                <div class="mp-stat" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: rgba(239, 68, 68, 0.08); border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.2); transition: all 0.2s ease;"
+                     onmouseover="this.style.background='rgba(239, 68, 68, 0.12)'; this.style.transform='scale(1.02)'"
+                     onmouseout="this.style.background='rgba(239, 68, 68, 0.08)'; this.style.transform='scale(1)'">
                     <div>
-                        <div class="mono" style="color: var(--dev-blue); font-size: 1rem; margin-bottom: 0.25rem;">
-                            <i class="fas fa-globe" style="margin-right: 0.5rem;"></i>Online PvP
+                        <div class="mono" style="color: var(--dev-red); font-size: 1rem; margin-bottom: 0.25rem;">
+                            <i class="fas fa-wifi" style="margin-right: 0.5rem;"></i>Online PvP
                         </div>
-                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem;">
-                            Coming Soon
-                        </div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">Real-time</div>
                     </div>
-                    <div class="mono" style="color: var(--dev-text-gray); font-size: 1.25rem; font-weight: 600;">
-                        --
+                    <div style="text-align: right;">
+                        <div class="mono" style="color: var(--dev-red); font-size: 1.5rem; font-weight: 600;">0/0</div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">wins/matches</div>
+                    </div>
+                </div>
+                
+                <!-- Overall Multiplayer -->
+                <div class="mp-stat" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: rgba(168, 85, 247, 0.08); border-radius: 6px; border: 1px solid rgba(168, 85, 247, 0.2); transition: all 0.2s ease;"
+                     onmouseover="this.style.background='rgba(168, 85, 247, 0.12)'; this.style.transform='scale(1.02)'"
+                     onmouseout="this.style.background='rgba(168, 85, 247, 0.08)'; this.style.transform='scale(1)'">
+                    <div>
+                        <div class="mono" style="color: var(--dev-purple); font-size: 1rem; margin-bottom: 0.25rem;">
+                            <i class="fas fa-trophy" style="margin-right: 0.5rem;"></i>Total Multiplayer
+                        </div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">Combined Stats</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="mono" style="color: var(--dev-purple); font-size: 1.5rem; font-weight: 600;">{{ stats.pvp_stats.wins }}/{{ stats.pvp_stats.total_games }}</div>
+                        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">wins/matches</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Recent Game History -->
-    {% if stats.recent_games and stats.recent_games|length > 0 %}
-    <div class="dev-card" style="margin-bottom: 4rem;">
-        <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem;">
-            // Recent Game History
-        </h2>
-        
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
-                        <th style="text-align: left; padding: 1rem 0.75rem; border-bottom: 2px solid var(--border-color);">Date</th>
-                        <th style="text-align: left; padding: 1rem 0.75rem; border-bottom: 2px solid var(--border-color);">Game Type</th>
-                        <th style="text-align: left; padding: 1rem 0.75rem; border-bottom: 2px solid var(--border-color);">Opponent</th>
-                        <th style="text-align: left; padding: 1rem 0.75rem; border-bottom: 2px solid var(--border-color);">Result</th>
-                        <th style="text-align: left; padding: 1rem 0.75rem; border-bottom: 2px solid var(--border-color);">Duration</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for game in stats.recent_games %}
-                    <tr class="mono" style="color: var(--dev-white); font-size: 0.9rem;">
-                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
-                            {{ game.date if game.date else 'N/A' }}
-                        </td>
-                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
-                            {% if game.game_type == 'pvai' %}
-                                <span style="color: var(--dev-blue);">vs {{ game.ai_difficulty|title }} AI</span>
-                            {% elif game.game_type == 'pvp_local' %}
-                                <span style="color: var(--dev-green);">Local PvP</span>
-                            {% elif game.game_type == 'pvp_online' %}
-                                <span style="color: var(--dev-blue);">Online PvP</span>
-                            {% else %}
-                                {{ game.game_type|title }}
-                            {% endif %}
-                        </td>
-                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
-                            {% if game.game_type == 'pvai' %}
-                                <span style="color: var(--dev-text-gray);">AI</span>
-                            {% else %}
-                                <span style="color: var(--dev-text-gray);">{{ game.opponent if game.opponent else 'Player 2' }}</span>
-                            {% endif %}
-                        </td>
-                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
-                            {% if game.result == 'win' %}
-                                <span style="color: var(--dev-green); font-weight: 600;">Victory</span>
-                            {% elif game.result == 'lose' %}
-                                <span style="color: var(--dev-red); font-weight: 600;">Defeat</span>
-                            {% elif game.result == 'draw' %}
-                                <span style="color: var(--dev-yellow); font-weight: 600;">Draw</span>
-                            {% else %}
-                                <span style="color: var(--dev-text-gray);">{{ game.result|title }}</span>
-                            {% endif %}
-                        </td>
-                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
-                            <span style="color: var(--dev-text-gray);">{{ game.duration if game.duration else 'N/A' }}</span>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    {% if stats.total_games > 10 %}
+    <!-- Achievement Section -->
+    <div class="achievement-card" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%); border: 1px solid rgba(168, 85, 247, 0.2); padding: 2.5rem; border-radius: 8px; text-align: center; margin-bottom: 2rem; transition: all 0.3s ease;"
+         onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(168, 85, 247, 0.15)'"
+         onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='none'">
+        <div style="color: var(--dev-purple); font-size: 3rem; margin-bottom: 1rem;">
+            <i class="fas fa-star"></i>
         </div>
-        
-        {% if stats.total_games > 10 %}
-        <div style="text-align: center; margin-top: 2rem;">
-            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
-                // Showing last 10 games of {{ stats.total_games }} total
-            </div>
+        <h3 class="mono" style="color: var(--dev-white); font-size: 1.4rem; margin-bottom: 0.5rem;">
+            Veteran Player
+        </h3>
+        <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
+            You've played {{ stats.total_games }} games! You're becoming a Super Tic-Tac-Toe master.
         </div>
-        {% endif %}
     </div>
     {% endif %}
-
-    <!-- Performance Insights -->
-    <div class="dev-card">
-        <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem;">
-            // Performance Insights
-        </h2>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-            {% if stats.total_games > 0 %}
-            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 6px;">
-                <div class="mono" style="color: var(--dev-blue); font-size: 1rem; margin-bottom: 0.5rem;">
-                    <i class="fas fa-chart-line" style="margin-right: 0.5rem;"></i>Overall Progress
-                </div>
-                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
-                    {% if stats.win_rate >= 70 %}
-                        Excellent performance! You're dominating the game.
-                    {% elif stats.win_rate >= 50 %}
-                        Good progress! Keep practicing to improve further.
-                    {% elif stats.win_rate >= 30 %}
-                        You're learning fast! Focus on strategic positioning.
-                    {% else %}
-                        Every expert was once a beginner. Keep playing!
-                    {% endif %}
-                </div>
-            </div>
-            
-            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 6px;">
-                <div class="mono" style="color: var(--dev-green); font-size: 1rem; margin-bottom: 0.5rem;">
-                    <i class="fas fa-target" style="margin-right: 0.5rem;"></i>Recommended Focus
-                </div>
-                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
-                    {% if stats.ai_stats.hard.total_games == 0 %}
-                        Try challenging the Hard AI to test your skills!
-                    {% elif stats.ai_stats.hard.wins == 0 and stats.ai_stats.hard.total_games > 0 %}
-                        Keep practicing against Hard AI - you'll break through!
-                    {% elif stats.ai_stats.medium.total_games < stats.ai_stats.easy.total_games %}
-                        Try more Medium AI games to build intermediate skills.
-                    {% else %}
-                        Well-rounded player! Try local multiplayer next.
-                    {% endif %}
-                </div>
-            </div>
-            {% else %}
-            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 6px;">
-                <div class="mono" style="color: var(--dev-blue); font-size: 1rem; margin-bottom: 0.5rem;">
-                    <i class="fas fa-play" style="margin-right: 0.5rem;"></i>Get Started
-                </div>
-                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
-                    Play your first game to start tracking your progress!
-                </div>
-            </div>
-            {% endif %}
-        </div>
-    </div>
 </div>
+
+<style>
+.stat-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.stat-card:hover::before {
+    left: 100%;
+}
+
+.mode-card, .achievement-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-stat, .mp-stat {
+    cursor: pointer;
+}
+</style>
+
 {% endblock %}

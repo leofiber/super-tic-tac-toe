@@ -20,8 +20,24 @@ Werkzeug==2.3.7
 # Development tools
 python-dotenv==1.0.0
 
-# Production server
+# Production server options
 gunicorn==21.2.0
+gevent==23.7.0
+gevent-websocket==0.10.1
 
-# Session storage (optional for scaling)
+# Database drivers for production
+psycopg2-binary==2.9.7  # PostgreSQL
+PyMySQL==1.1.0          # MySQL
+
+# Session storage and caching
 redis==4.6.0
+
+# Security and monitoring
+flask-limiter==3.5.0    # Rate limiting
+flask-talisman==1.1.0   # Security headers
+
+# Environment and configuration
+python-dotenv==1.0.0
+
+# Optional: Monitoring and logging
+sentry-sdk[flask]==1.32.0
