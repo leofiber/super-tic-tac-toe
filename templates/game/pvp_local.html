@@ -4,6 +4,43 @@
 
 {% block extra_head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/developer-theme.css') }}?v=16">
+<style>
+/* Override matrix rain colors to green */
+.binary-char {
+    color: rgba(34, 197, 94, 0.4) !important;
+    text-shadow: 0 0 5px rgba(34, 197, 94, 0.3) !important;
+}
+
+@keyframes binaryFall {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+        color: rgba(34, 197, 94, 0.6) !important;
+        text-shadow: 0 0 8px rgba(34, 197, 94, 0.4) !important;
+    }
+    5% {
+        opacity: 1;
+        color: rgba(34, 197, 94, 0.5) !important;
+        text-shadow: 0 0 6px rgba(34, 197, 94, 0.3) !important;
+    }
+    50% {
+        opacity: 0.8;
+        color: rgba(34, 197, 94, 0.4) !important;
+        text-shadow: 0 0 4px rgba(34, 197, 94, 0.2) !important;
+    }
+    85% {
+        opacity: 0.6;
+        color: rgba(34, 197, 94, 0.3) !important;
+        text-shadow: 0 0 2px rgba(34, 197, 94, 0.1) !important;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+        color: rgba(34, 197, 94, 0.1) !important;
+        text-shadow: none !important;
+    }
+}
+</style>
 {% endblock %}
 
 {% block content %}
@@ -37,8 +74,8 @@
     </div>
 </div>
 
-<!-- Binary Background Animation -->
-<div class="binary-bg" id="binary-bg"></div>
+<!-- Matrix Rain Background -->
+<div class="binary-bg" id="binary-background" style="z-index: -999; pointer-events: none; position: fixed;"></div>
 
 <script>
 // Game state variables
@@ -224,35 +261,63 @@ document.addEventListener("DOMContentLoaded", () => {
   initGame();
 });
 
-// Binary background animation (reuse from simple_pvai.html)
-function createBinaryBackground() {
-  const binaryBg = document.getElementById('binary-bg');
-  const chars = ['1', '0'];
-  
-  function createBinaryChar() {
-    const char = document.createElement('div');
-    char.className = 'binary-char';
-    char.textContent = chars[Math.floor(Math.random() * chars.length)];
-    char.style.left = Math.random() * 100 + '%';
-    char.style.animationDelay = Math.random() * 2 + 's';
-    char.style.animationDuration = (Math.random() * 10 + 10) + 's';
+// Matrix Rain Animation
+function createMatrixRain() {
+    const container = document.getElementById('binary-background');
+    if (!container) return;
     
-    binaryBg.appendChild(char);
+    const chars = ['0', '1'];
+    const columns = Math.floor(window.innerWidth / 20);
+    const drops = [];
     
-    setTimeout(() => {
-      if (char.parentNode) {
-        char.parentNode.removeChild(char);
-      }
-    }, 20000);
-  }
-  
-  setInterval(createBinaryChar, 200);
-  
-  for (let i = 0; i < 50; i++) {
-    setTimeout(createBinaryChar, i * 100);
-  }
+    // Initialize drops
+    for (let i = 0; i < columns; i++) {
+        drops[i] = Math.random() * -100;
+    }
+    
+    function createDrop() {
+        for (let i = 0; i < columns; i++) {
+            if (Math.random() > 0.97) { // Much lower frequency - less crowded
+                const char = document.createElement('div');
+                char.className = 'binary-char';
+                char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                char.style.left = (i * 20) + 'px';
+                char.style.animationDelay = '0s'; // No delay at all
+                char.style.animationDuration = (Math.random() * 3 + 5) + 's'; // Slower, more elegant
+                char.style.zIndex = '-999';
+                char.style.color = 'rgba(34, 197, 94, 0.4)'; // Green matrix color
+                char.style.textShadow = '0 0 5px rgba(34, 197, 94, 0.3)'; // Green glow
+                
+                // Start some characters at random positions for immediate visibility
+                const startPosition = Math.random() > 0.6 ? 
+                    Math.random() * -50 + 'vh' :  // Some start closer (immediate visibility)
+                    '-100vh';                      // Others start from way up (traditional)
+                char.style.top = startPosition;
+                
+                container.appendChild(char);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    if (char.parentNode) {
+                        char.parentNode.removeChild(char);
+                    }
+                }, 8000);
+            }
+        }
+    }
+    
+    // Create initial drops immediately - fewer of them
+    for (let i = 0; i < 3; i++) {
+        createDrop();
+    }
+    
+    // Create drops less frequently
+    setInterval(createDrop, 120);
 }
 
-document.addEventListener('DOMContentLoaded', createBinaryBackground);
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    createMatrixRain();
+});
 </script>
 {% endblock %}

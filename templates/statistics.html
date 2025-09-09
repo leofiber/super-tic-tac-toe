@@ -7,7 +7,7 @@
     <!-- Header -->
     <div style="text-align: center; margin-bottom: 4rem;">
         <h1 id="stats-title" class="mono" style="color: var(--dev-white); font-size: 2.5rem; margin-bottom: 1rem; opacity: 0;"
-           data-typewriter="> Your Statistics" data-typewriter-speed="40" data-typewriter-delay="300">
+           data-typewriter="> Your_Statistics" data-typewriter-speed="40" data-typewriter-delay="300">
         </h1>
     </div>
 
@@ -178,6 +178,68 @@
         </div>
     </div>
 
+    <!-- Win Rate Comparison Chart -->
+    <div class="chart-card" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(29, 78, 216, 0.02) 100%); border: 1px solid rgba(59, 130, 246, 0.15); padding: 2.5rem; border-radius: 8px; margin-bottom: 2rem;">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem; display: flex; align-items: center;">
+            <i class="fas fa-chart-bar" style="color: var(--dev-blue); margin-right: 0.75rem;"></i>
+            Win Rate Comparison
+        </h2>
+        
+        <div class="win-rate-chart" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <!-- Easy AI Bar -->
+            <div class="chart-row">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span class="mono" style="color: var(--dev-green); font-size: 0.9rem;">
+                        <i class="fas fa-leaf" style="margin-right: 0.5rem;"></i>Easy AI
+                    </span>
+                    <span class="mono win-rate-value" style="color: var(--dev-green); font-size: 0.9rem;" data-value="{{ (stats.ai_stats.easy.wins / stats.ai_stats.easy.total_games * 100) if stats.ai_stats.easy.total_games > 0 else 0 }}">0%</span>
+                </div>
+                <div class="chart-bar-container" style="background: rgba(34, 197, 94, 0.1); height: 25px; border-radius: 4px; overflow: hidden;">
+                    <div class="chart-bar" style="background: linear-gradient(90deg, var(--dev-green), rgba(34, 197, 94, 0.8)); height: 100%; width: 0%; transition: width 2s ease-out; border-radius: 4px;" data-width="{{ (stats.ai_stats.easy.wins / stats.ai_stats.easy.total_games * 100) if stats.ai_stats.easy.total_games > 0 else 0 }}"></div>
+                </div>
+            </div>
+            
+            <!-- Medium AI Bar -->
+            <div class="chart-row">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span class="mono" style="color: var(--dev-yellow); font-size: 0.9rem;">
+                        <i class="fas fa-brain" style="margin-right: 0.5rem;"></i>Medium AI
+                    </span>
+                    <span class="mono win-rate-value" style="color: var(--dev-yellow); font-size: 0.9rem;" data-value="{{ (stats.ai_stats.medium.wins / stats.ai_stats.medium.total_games * 100) if stats.ai_stats.medium.total_games > 0 else 0 }}">0%</span>
+                </div>
+                <div class="chart-bar-container" style="background: rgba(251, 191, 36, 0.1); height: 25px; border-radius: 4px; overflow: hidden;">
+                    <div class="chart-bar" style="background: linear-gradient(90deg, var(--dev-yellow), rgba(251, 191, 36, 0.8)); height: 100%; width: 0%; transition: width 2s ease-out; border-radius: 4px;" data-width="{{ (stats.ai_stats.medium.wins / stats.ai_stats.medium.total_games * 100) if stats.ai_stats.medium.total_games > 0 else 0 }}"></div>
+                </div>
+            </div>
+            
+            <!-- Hard AI Bar -->
+            <div class="chart-row">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span class="mono" style="color: var(--dev-red); font-size: 0.9rem;">
+                        <i class="fas fa-fire" style="margin-right: 0.5rem;"></i>Hard AI
+                    </span>
+                    <span class="mono win-rate-value" style="color: var(--dev-red); font-size: 0.9rem;" data-value="{{ (stats.ai_stats.hard.wins / stats.ai_stats.hard.total_games * 100) if stats.ai_stats.hard.total_games > 0 else 0 }}">0%</span>
+                </div>
+                <div class="chart-bar-container" style="background: rgba(239, 68, 68, 0.1); height: 25px; border-radius: 4px; overflow: hidden;">
+                    <div class="chart-bar" style="background: linear-gradient(90deg, var(--dev-red), rgba(239, 68, 68, 0.8)); height: 100%; width: 0%; transition: width 2s ease-out; border-radius: 4px;" data-width="{{ (stats.ai_stats.hard.wins / stats.ai_stats.hard.total_games * 100) if stats.ai_stats.hard.total_games > 0 else 0 }}"></div>
+                </div>
+            </div>
+            
+            <!-- Multiplayer Bar -->
+            <div class="chart-row">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span class="mono" style="color: var(--dev-purple); font-size: 0.9rem;">
+                        <i class="fas fa-users" style="margin-right: 0.5rem;"></i>Multiplayer
+                    </span>
+                    <span class="mono win-rate-value" style="color: var(--dev-purple); font-size: 0.9rem;" data-value="{{ (stats.pvp_stats.wins / stats.pvp_stats.total_games * 100) if stats.pvp_stats.total_games > 0 else 0 }}">0%</span>
+                </div>
+                <div class="chart-bar-container" style="background: rgba(168, 85, 247, 0.1); height: 25px; border-radius: 4px; overflow: hidden;">
+                    <div class="chart-bar" style="background: linear-gradient(90deg, var(--dev-purple), rgba(168, 85, 247, 0.8)); height: 100%; width: 0%; transition: width 2s ease-out; border-radius: 4px;" data-width="{{ (stats.pvp_stats.wins / stats.pvp_stats.total_games * 100) if stats.pvp_stats.total_games > 0 else 0 }}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% if stats.total_games > 10 %}
     <!-- Achievement Section -->
     <div class="achievement-card" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%); border: 1px solid rgba(168, 85, 247, 0.2); padding: 2.5rem; border-radius: 8px; text-align: center; margin-bottom: 2rem; transition: all 0.3s ease;"
@@ -225,6 +287,66 @@
 .ai-stat, .mp-stat {
     cursor: pointer;
 }
+
+.chart-bar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-bar-container:hover .chart-bar {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    filter: brightness(1.1);
+}
 </style>
+
+<script>
+// Animate chart bars when scrolled into view
+document.addEventListener('DOMContentLoaded', function() {
+    const chartCard = document.querySelector('.chart-card');
+    let hasAnimated = false;
+    
+    function animateChart() {
+        if (hasAnimated) return;
+        hasAnimated = true;
+        
+        const bars = document.querySelectorAll('.chart-bar');
+        const values = document.querySelectorAll('.win-rate-value');
+        
+        bars.forEach((bar, index) => {
+            const targetWidth = parseFloat(bar.getAttribute('data-width'));
+            bar.style.width = targetWidth + '%';
+            
+            // Animate the percentage text
+            const valueElement = values[index];
+            const targetValue = parseFloat(valueElement.getAttribute('data-value'));
+            
+            let currentValue = 0;
+            const increment = targetValue / 60; // 60 steps for smooth animation
+            const timer = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= targetValue) {
+                    currentValue = targetValue;
+                    clearInterval(timer);
+                }
+                valueElement.textContent = Math.round(currentValue) + '%';
+            }, 33); // ~30fps
+        });
+    }
+    
+    // Create intersection observer to trigger animation when chart comes into view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateChart();
+            }
+        });
+    }, {
+        threshold: 0.3 // Trigger when 30% of the chart is visible
+    });
+    
+    if (chartCard) {
+        observer.observe(chartCard);
+    }
+});
+</script>
 
 {% endblock %}

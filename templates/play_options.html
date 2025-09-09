@@ -3,11 +3,14 @@
 {% block title %}Choose Game Mode - Super Tic-Tac-Toe{% endblock %}
 
 {% block content %}
-<div class="dev-container">
+<!-- Matrix Rain Background -->
+<div class="binary-bg" id="binary-background" style="z-index: -999; pointer-events: none; position: fixed;"></div>
+
+<div class="dev-container" style="position: relative; z-index: 1;">
     <!-- Header -->
     <div class="text-center mb-xl">
         <h1 id="play-title" class="mono" style="color: var(--dev-white); font-size: 2.5rem; margin-bottom: 2rem; opacity: 0;"
-           data-typewriter="> Choose Your Challenge" data-typewriter-speed="40" data-typewriter-delay="300">
+           data-typewriter="> Choose_Your_Challenge" data-typewriter-speed="40" data-typewriter-delay="300">
         </h1>
     </div>
 
@@ -18,7 +21,7 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
             
             <!-- AI Challenge Card -->
-            <div class="dev-card" style="position: relative; padding: 0; overflow: hidden; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%); border: 1px solid rgba(59, 130, 246, 0.2);">
+            <div class="dev-card" style="position: relative; padding: 0; overflow: hidden; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%), var(--dev-black); border: 1px solid rgba(59, 130, 246, 0.2); z-index: 2; backdrop-filter: blur(0px);">
                 <div style="padding: 2.5rem 2rem;">
                     <div style="color: var(--dev-blue); font-size: 3rem; margin-bottom: 1rem; text-align: center;">
                         <i class="fas fa-robot"></i>
@@ -79,7 +82,7 @@
             </div>
             
             <!-- Multiplayer Hub -->
-            <div class="dev-card" style="position: relative; padding: 0; overflow: hidden; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%); border: 1px solid rgba(16, 185, 129, 0.2);">
+            <div class="dev-card" style="position: relative; padding: 0; overflow: hidden; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%), var(--dev-black); border: 1px solid rgba(16, 185, 129, 0.2); z-index: 2; backdrop-filter: blur(0px);">
                 <div style="padding: 2.5rem 2rem;">
                     <div style="color: var(--dev-green); font-size: 3rem; margin-bottom: 1rem; text-align: center;">
                         <i class="fas fa-users"></i>
@@ -126,7 +129,7 @@
         </div>
         
         <!-- Quick Stats Dashboard -->
-        <div class="dev-card" style="background: linear-gradient(90deg, rgba(59, 130, 246, 0.05) 0%, rgba(16, 185, 129, 0.05) 50%, rgba(239, 68, 68, 0.05) 100%); border: 1px solid rgba(255, 255, 255, 0.1); padding: 2rem;">
+        <div class="dev-card" style="background: linear-gradient(90deg, rgba(59, 130, 246, 0.05) 0%, rgba(16, 185, 129, 0.05) 50%, rgba(239, 68, 68, 0.05) 100%), var(--dev-black); border: 1px solid rgba(255, 255, 255, 0.1); padding: 2rem; position: relative; z-index: 2; backdrop-filter: blur(0px);">
             <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
                 <div>
                     <div class="mono" style="color: var(--dev-blue); font-size: 1.8rem; font-weight: 600; margin-bottom: 0.25rem;">
@@ -170,6 +173,49 @@
 .dev-card:hover {
     transform: translateY(-3px);
 }
+
+/* Override matrix rain colors to green */
+.binary-char {
+    color: rgba(34, 197, 94, 0.4) !important;
+    text-shadow: 0 0 5px rgba(34, 197, 94, 0.3) !important;
+}
+
+@keyframes binaryFall {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+        color: rgba(34, 197, 94, 0.6) !important;
+        text-shadow: 0 0 8px rgba(34, 197, 94, 0.4) !important;
+    }
+    5% {
+        opacity: 1;
+        color: rgba(34, 197, 94, 0.5) !important;
+        text-shadow: 0 0 6px rgba(34, 197, 94, 0.3) !important;
+    }
+    50% {
+        opacity: 0.8;
+        color: rgba(34, 197, 94, 0.4) !important;
+        text-shadow: 0 0 4px rgba(34, 197, 94, 0.2) !important;
+    }
+    85% {
+        opacity: 0.6;
+        color: rgba(34, 197, 94, 0.3) !important;
+        text-shadow: 0 0 2px rgba(34, 197, 94, 0.1) !important;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+        color: rgba(34, 197, 94, 0.1) !important;
+        text-shadow: none !important;
+    }
+}
 </style>
+
+<script>
+// Initialize matrix rain on page load using centralized system
+document.addEventListener('DOMContentLoaded', function() {
+    startMatrixRain();
+});
+</script>
 
 {% endblock %}

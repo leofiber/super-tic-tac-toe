@@ -38,239 +38,216 @@
         </div>
     </div>
 
-    <!-- Global Stats Section -->
-    <div class="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 4rem;">
-        <div class="dev-card stat-card" style="text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%); border: 1px solid rgba(59, 130, 246, 0.2); transition: all 0.3s ease;">
-            <div style="color: var(--dev-blue); font-size: 2rem; margin-bottom: 1rem;">
-                <i class="fas fa-gamepad"></i>
+    <!-- Platform Statistics -->
+    <div class="dev-card" style="margin-bottom: 4rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(29, 78, 216, 0.03) 100%); border: 1px solid rgba(59, 130, 246, 0.15);">
+        <div style="display: flex; align-items: center; margin-bottom: 2rem;">
+            <div style="background: rgba(59, 130, 246, 0.1); padding: 0.75rem; border-radius: 8px; margin-right: 1rem;">
+                <i class="fas fa-chart-bar" style="color: var(--dev-blue); font-size: 1.25rem;"></i>
             </div>
-            <div class="mono" style="color: var(--dev-blue); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "{:,.0f}".format(total_games) }}</div>
-            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Total Games Played</div>
-            <div class="mono" style="color: var(--dev-blue); font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.8;">
-                AI: {{ "{:,.0f}".format(pvai_games) }} • PvP: {{ "{:,.0f}".format(pvp_local_games + pvp_online_games) }}
-            </div>
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.4rem; margin: 0;">
+                Platform Statistics
+            </h2>
         </div>
-        
-        <div class="dev-card stat-card" style="text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.05) 100%); border: 1px solid rgba(34, 197, 94, 0.2); transition: all 0.3s ease;">
-            <div style="color: var(--dev-green); font-size: 2rem; margin-bottom: 1rem;">
-                <i class="fas fa-users"></i>
-            </div>
-            <div class="mono" style="color: var(--dev-green); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "{:,}".format(total_users) }}</div>
-            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Registered Players</div>
-            <div class="mono" style="color: var(--dev-green); font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.8;">
-                {{ "{:,}".format(active_players) }} active (30 days)
-            </div>
-        </div>
-        
-        <div class="dev-card stat-card" style="text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%); border: 1px solid rgba(251, 191, 36, 0.2); transition: all 0.3s ease;">
-            <div style="color: var(--dev-yellow); font-size: 2rem; margin-bottom: 1rem;">
-                <i class="fas fa-robot"></i>
-            </div>
-            <div class="mono" style="color: var(--dev-yellow); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "{:,}".format(total_ai_games) }}</div>
-            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">AI Games Played</div>
-            <div class="mono" style="color: var(--dev-yellow); font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.8;">
-                Easy: {{ easy_ai_games }} • Med: {{ medium_ai_games }} • Hard: {{ hard_ai_games }}
-            </div>
-        </div>
-        
-        <div class="dev-card stat-card" style="text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%); border: 1px solid rgba(168, 85, 247, 0.2); transition: all 0.3s ease;">
-            <div style="color: var(--dev-blue-light); font-size: 2rem; margin-bottom: 1rem;">
-                <i class="fas fa-chart-line"></i>
-            </div>
-            <div class="mono" style="color: var(--dev-blue-light); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "{:,}".format(active_players) }}</div>
-            <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Active Players</div>
-            <div class="mono" style="color: var(--dev-blue-light); font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.8;">
-                Last 30 days
-            </div>
-        </div>
-    </div>
-    
-    <!-- Game Mode Breakdown -->
-    <div class="dev-card" style="margin-bottom: 4rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.05) 100%); border: 1px solid rgba(34, 197, 94, 0.2);">
-        <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem; text-align: center;">
-            Game Mode Statistics
-        </h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-            <div style="text-align: center; padding: 1.5rem; border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; background: rgba(59, 130, 246, 0.1);">
-                <div style="color: var(--dev-blue); font-size: 1.5rem; margin-bottom: 1rem;">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <div class="mono" style="color: var(--dev-blue); font-size: 2rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "{:,}".format(pvai_games) }}</div>
-                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Player vs AI</div>
-            </div>
-            
-            <div style="text-align: center; padding: 1.5rem; border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 8px; background: rgba(34, 197, 94, 0.1);">
-                <div style="color: var(--dev-green); font-size: 1.5rem; margin-bottom: 1rem;">
-                    <i class="fas fa-desktop"></i>
-                </div>
-                <div class="mono" style="color: var(--dev-green); font-size: 2rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "{:,}".format(pvp_local_games) }}</div>
-                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Local PvP</div>
-            </div>
-            
-            <div style="text-align: center; padding: 1.5rem; border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 8px; background: rgba(251, 191, 36, 0.1);">
-                <div style="color: var(--dev-yellow); font-size: 1.5rem; margin-bottom: 1rem;">
-                    <i class="fas fa-globe"></i>
-                </div>
-                <div class="mono" style="color: var(--dev-yellow); font-size: 2rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "{:,}".format(pvp_online_games) }}</div>
-                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Online PvP</div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Features Grid -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
-        
-        <!-- Smart AI Opponents -->
-        <div class="dev-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; min-height: 280px; justify-content: space-between;">
-            <div>
+        <div class="stats-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;">
+            <div class="stat-card" style="text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 8px; transition: all 0.3s ease;">
                 <div style="color: var(--dev-blue); font-size: 2rem; margin-bottom: 1rem;">
-                    <i class="fas fa-robot"></i>
+                    <i class="fas fa-gamepad"></i>
                 </div>
-                <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 1rem;">
-                    // Smart AI Opponents
-                </h2>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6; margin-bottom: 1rem; font-size: 0.9rem;">
-                    Challenge yourself against three difficulty levels – from beginner-friendly to expert-level AI that will test your strategic limits.
-                </p>
+                <div class="mono" style="color: var(--dev-blue); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "{:,.0f}".format(total_games) }}</div>
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Total Matches</div>
+                <div class="mono" style="color: var(--dev-blue); font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.8;">
+                    AI: {{ "{:,.0f}".format(pvai_games) }} • PvP: {{ "{:,.0f}".format(pvp_local_games + pvp_online_games) }}
+                </div>
             </div>
-            <div class="mono" style="color: var(--dev-blue-light); font-size: 0.9rem;">
-                easy • medium • hard
-            </div>
-        </div>
-
-        <!-- Multiplayer Modes -->
-        <div class="dev-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; min-height: 280px; justify-content: space-between;">
-            <div>
+            
+            <div class="stat-card" style="text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.05) 100%); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 8px; transition: all 0.3s ease;">
                 <div style="color: var(--dev-green); font-size: 2rem; margin-bottom: 1rem;">
                     <i class="fas fa-users"></i>
                 </div>
-                <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 1rem;">
-                    // Multiplayer Modes
-                </h2>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6; margin-bottom: 1rem; font-size: 0.9rem;">
-                    Play locally with friends on the same device or challenge players worldwide in real-time online matches.
-                </p>
+                <div class="mono" style="color: var(--dev-green); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "{:,}".format(total_users) }}</div>
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Players</div>
+                <div class="mono" style="color: var(--dev-green); font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.8;">
+                    {{ "{:,}".format(active_players) }} active
+                </div>
             </div>
-            <div class="mono" style="color: var(--dev-green); font-size: 0.9rem;">
-                local • online
+            
+            <div class="stat-card" style="text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%); border: 1px solid rgba(251, 191, 36, 0.2); border-radius: 8px; transition: all 0.3s ease;">
+                <div style="color: var(--dev-yellow); font-size: 2rem; margin-bottom: 1rem;">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="mono" style="color: var(--dev-yellow); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">{{ "{:,}".format(total_ai_games) }}</div>
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">AI Challenges</div>
+                <div class="mono" style="color: var(--dev-yellow); font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.8;">
+                    3 difficulty levels
+                </div>
+            </div>
+            
+            <div class="stat-card" style="text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 8px; transition: all 0.3s ease;">
+                <div style="color: var(--dev-purple); font-size: 2rem; margin-bottom: 1rem;">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="mono" style="color: var(--dev-purple); font-size: 2.5rem; font-weight: 600; margin-bottom: 0.5rem;">24/7</div>
+                <div class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">Online</div>
+                <div class="mono" style="color: var(--dev-purple); font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.8;">
+                    Always available
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Game Features -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+        
+        <!-- AI Intelligence -->
+        <div class="dev-card" style="padding: 2.5rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(29, 78, 216, 0.03) 100%); border: 1px solid rgba(59, 130, 246, 0.15);">
+            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                <div style="background: rgba(59, 130, 246, 0.1); padding: 0.75rem; border-radius: 8px; margin-right: 1rem;">
+                    <i class="fas fa-brain" style="color: var(--dev-blue); font-size: 1.25rem;"></i>
+                </div>
+                <h3 class="mono" style="color: var(--dev-white); font-size: 1.2rem; margin: 0;">
+                    Advanced AI
+                </h3>
+            </div>
+            <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                Three intelligent difficulty levels designed to challenge players at every skill level. From learning-friendly to tournament-grade opponents.
+            </p>
+            <div style="display: flex; gap: 0.5rem;">
+                <span class="mono" style="background: rgba(34, 197, 94, 0.1); color: var(--dev-green); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Easy</span>
+                <span class="mono" style="background: rgba(251, 191, 36, 0.1); color: var(--dev-yellow); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Medium</span>
+                <span class="mono" style="background: rgba(239, 68, 68, 0.1); color: var(--dev-red); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Hard</span>
             </div>
         </div>
 
-        <!-- Deep Strategy -->
-        <div class="dev-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; min-height: 280px; justify-content: space-between;">
-            <div>
-                <div style="color: var(--dev-yellow); font-size: 2rem; margin-bottom: 1rem;">
-                    <i class="fas fa-chess"></i>
+        <!-- Multiplayer -->
+        <div class="dev-card" style="padding: 2.5rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(22, 163, 74, 0.03) 100%); border: 1px solid rgba(34, 197, 94, 0.15);">
+            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                <div style="background: rgba(34, 197, 94, 0.1); padding: 0.75rem; border-radius: 8px; margin-right: 1rem;">
+                    <i class="fas fa-users" style="color: var(--dev-green); font-size: 1.25rem;"></i>
                 </div>
-                <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 1rem;">
-                    // Deep Strategy
-                </h2>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6; margin-bottom: 1rem; font-size: 0.9rem;">
-                    Every move creates ripple effects across the 9×9 board. Think several moves ahead to outsmart your opponent.
-                </p>
+                <h3 class="mono" style="color: var(--dev-white); font-size: 1.2rem; margin: 0;">
+                    Multiplayer
+                </h3>
             </div>
-            <div class="mono" style="color: var(--dev-yellow); font-size: 0.9rem;">
-                9x9_grid • strategic_depth
+            <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                Challenge friends locally or compete against players worldwide. Real-time online matches with seamless connectivity.
+            </p>
+            <div style="display: flex; gap: 0.5rem;">
+                <span class="mono" style="background: rgba(59, 130, 246, 0.1); color: var(--dev-blue); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Local</span>
+                <span class="mono" style="background: rgba(168, 85, 247, 0.1); color: var(--dev-purple); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Online</span>
+            </div>
+        </div>
+
+        <!-- Strategic Depth -->
+        <div class="dev-card" style="padding: 2.5rem; background: linear-gradient(135deg, rgba(251, 191, 36, 0.08) 0%, rgba(245, 158, 11, 0.03) 100%); border: 1px solid rgba(251, 191, 36, 0.15);">
+            <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                <div style="background: rgba(251, 191, 36, 0.1); padding: 0.75rem; border-radius: 8px; margin-right: 1rem;">
+                    <i class="fas fa-chess-knight" style="color: var(--dev-yellow); font-size: 1.25rem;"></i>
+                </div>
+                <h3 class="mono" style="color: var(--dev-white); font-size: 1.2rem; margin: 0;">
+                    Strategic Gameplay
+                </h3>
+            </div>
+            <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                Every move matters in this multi-layered game. Control individual boards while planning your path to overall victory.
+            </p>
+            <div style="display: flex; gap: 0.5rem;">
+                <span class="mono" style="background: rgba(168, 85, 247, 0.1); color: var(--dev-purple); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">9x9 Grid</span>
+                <span class="mono" style="background: rgba(239, 68, 68, 0.1); color: var(--dev-red); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Complex</span>
             </div>
         </div>
     </div>
 
-    <!-- Game Rules Section -->
-    <div class="dev-card" style="margin-bottom: 4rem;">
-        <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 2rem; text-align: center;">
-            // Game Rules
-        </h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
-            <div>
-                <h3 class="mono" style="color: var(--dev-blue); font-size: 1.2rem; margin-bottom: 1rem;">
-                    🎯 Objective
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
-                    Win 3 small boards in a row (horizontally, vertically, or diagonally) to claim overall victory. Each small board follows traditional tic-tac-toe rules.
+    <!-- Game Rules -->
+    <div class="dev-card" style="margin-bottom: 4rem; background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(147, 51, 234, 0.03) 100%); border: 1px solid rgba(168, 85, 247, 0.15);">
+        <div style="display: flex; align-items: center; margin-bottom: 2rem;">
+            <div style="background: rgba(168, 85, 247, 0.1); padding: 0.75rem; border-radius: 8px; margin-right: 1rem;">
+                <i class="fas fa-book-open" style="color: var(--dev-purple); font-size: 1.25rem;"></i>
+            </div>
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.4rem; margin: 0;">
+                How to Play
+            </h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+            <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                    <div style="background: rgba(59, 130, 246, 0.1); color: var(--dev-blue); width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-weight: 600; font-size: 0.9rem;">1</div>
+                    <h3 class="mono" style="color: var(--dev-white); font-size: 1rem; margin: 0;">Win Small Boards</h3>
+                </div>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.5; font-size: 0.85rem;">
+                    Each 3×3 section is a mini tic-tac-toe game. Get three in a row to claim that board.
                 </p>
             </div>
-            <div>
-                <h3 class="mono" style="color: var(--dev-green); font-size: 1.2rem; margin-bottom: 1rem;">
-                    🔄 Movement Rules
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
-                    Your move determines which small board your opponent must play on next. If that board is won or full, they can play anywhere.
+
+            <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                    <div style="background: rgba(34, 197, 94, 0.1); color: var(--dev-green); width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-weight: 600; font-size: 0.9rem;">2</div>
+                    <h3 class="mono" style="color: var(--dev-white); font-size: 1rem; margin: 0;">Follow Movement Rules</h3>
+                </div>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.5; font-size: 0.85rem;">
+                    Your move determines which board your opponent plays on next. Strategic positioning is key.
+                </p>
+            </div>
+
+            <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                    <div style="background: rgba(251, 191, 36, 0.1); color: var(--dev-yellow); width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-weight: 600; font-size: 0.9rem;">3</div>
+                    <h3 class="mono" style="color: var(--dev-white); font-size: 1rem; margin: 0;">Claim Victory</h3>
+                </div>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.5; font-size: 0.85rem;">
+                    Win three small boards in a row (horizontal, vertical, or diagonal) to win the match.
                 </p>
             </div>
         </div>
-        <div style="text-align: center;">
-            <a href="{{ url_for('main.about') }}" class="dev-btn dev-btn-ghost" style="font-size: 1rem; padding: 0.75rem 1.5rem;">
-                <i class="fas fa-book"></i>
-                View Advanced Rules
+
+        <div style="text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+            <a href="{{ url_for('main.about') }}" class="mono" style="color: var(--dev-purple); text-decoration: none; font-size: 0.9rem; padding: 0.75rem 1.5rem; background: rgba(168, 85, 247, 0.1); border-radius: 6px; border: 1px solid rgba(168, 85, 247, 0.2); display: inline-flex; align-items: center; transition: all 0.2s ease;"
+               onmouseover="this.style.background='rgba(168, 85, 247, 0.15)'; this.style.borderColor='rgba(168, 85, 247, 0.3)'"
+               onmouseout="this.style.background='rgba(168, 85, 247, 0.1)'; this.style.borderColor='rgba(168, 85, 247, 0.2)'">
+                <i class="fas fa-book" style="margin-right: 0.5rem; font-size: 0.8rem;"></i>
+                Complete Rules & Strategy Guide
             </a>
         </div>
     </div>
 
-    <!-- How to Play Quick Guide -->
-    <div class="dev-card" style="margin-bottom: 4rem;">
-        <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem; text-align: center;">
-            // How to Play
+    <!-- Call to Action -->
+    <div class="dev-card" style="text-align: center; padding: 3rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(22, 163, 74, 0.03) 100%); border: 1px solid rgba(34, 197, 94, 0.15);">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.6rem; margin-bottom: 1rem;">
+            Ready to Play?
         </h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-            <div style="text-align: center;">
-                <div class="mono" style="color: var(--dev-blue); font-size: 1.5rem; margin-bottom: 1rem;">
-                    Step 1
-                </div>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
-                    Make your move on any available cell in the 9×9 grid
-                </p>
-            </div>
-            <div style="text-align: center;">
-                <div class="mono" style="color: var(--dev-green); font-size: 1.5rem; margin-bottom: 1rem;">
-                    Step 2
-                </div>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
-                    Your move determines which small board your opponent must play on next
-                </p>
-            </div>
-            <div style="text-align: center;">
-                <div class="mono" style="color: var(--dev-yellow); font-size: 1.5rem; margin-bottom: 1rem;">
-                    Step 3
-                </div>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
-                    Win 3 small boards in a row to claim victory!
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Game Preview Section -->
-    <div class="dev-card" style="margin-bottom: 4rem;">
-        <h2 class="mono" style="color: var(--dev-white); font-size: 1.5rem; margin-bottom: 2rem; text-align: center;">
-            // Game Preview
-        </h2>
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <div style="display: inline-grid; grid-template-columns: repeat(3, 1fr); gap: 4px; background: var(--border-color); padding: 4px; border-radius: 8px; max-width: 300px;">
-                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
-                    <div class="mono" style="width: 20px; height: 20px; background: var(--dev-black); display: flex; align-items: center; justify-content: center; color: var(--dev-blue); font-size: 12px;">1</div>
-                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
-                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
-                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
-                    <div class="mono" style="width: 20px; height: 20px; background: var(--dev-black); display: flex; align-items: center; justify-content: center; color: var(--dev-red); font-size: 12px;">0</div>
-                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
-                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
-                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
-                    <div style="width: 20px; height: 20px; background: var(--dev-black);"></div>
-                </div>
-                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
-                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
-                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
-                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
-                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
-                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
-                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
-                <div style="background: var(--dev-gray-dark); padding: 1rem; border-radius: 4px;"></div>
-            </div>
-        </div>
-        <p class="mono" style="color: var(--dev-text-gray); text-align: center; line-height: 1.6;">
-            Each of the 9 small boards is a complete tic-tac-toe game.<br>
-            Win small boards to control positions in the larger game.
+        <p class="mono" style="color: var(--dev-text-gray); font-size: 1rem; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+            Join thousands of players in the ultimate strategic tic-tac-toe experience. Start your journey now.
         </p>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('main.play_options') }}" class="mono" style="color: var(--dev-white); text-decoration: none; font-size: 1rem; padding: 1rem 2rem; background: rgba(34, 197, 94, 0.2); border-radius: 6px; border: 1px solid rgba(34, 197, 94, 0.3); display: inline-flex; align-items: center; transition: all 0.2s ease; font-weight: 600;"
+                   onmouseover="this.style.background='rgba(34, 197, 94, 0.3)'; this.style.borderColor='rgba(34, 197, 94, 0.4)'"
+                   onmouseout="this.style.background='rgba(34, 197, 94, 0.2)'; this.style.borderColor='rgba(34, 197, 94, 0.3)'">
+                    <i class="fas fa-play" style="margin-right: 0.5rem;"></i>
+                    Start Playing
+                </a>
+                <a href="{{ url_for('main.dashboard') }}" class="mono" style="color: var(--dev-blue); text-decoration: none; font-size: 1rem; padding: 1rem 2rem; background: rgba(59, 130, 246, 0.1); border-radius: 6px; border: 1px solid rgba(59, 130, 246, 0.2); display: inline-flex; align-items: center; transition: all 0.2s ease;"
+                   onmouseover="this.style.background='rgba(59, 130, 246, 0.15)'; this.style.borderColor='rgba(59, 130, 246, 0.3)'"
+                   onmouseout="this.style.background='rgba(59, 130, 246, 0.1)'; this.style.borderColor='rgba(59, 130, 246, 0.2)'">
+                    <i class="fas fa-chart-line" style="margin-right: 0.5rem;"></i>
+                    View Dashboard
+                </a>
+            {% else %}
+                <a href="{{ url_for('auth.register') }}" class="mono" style="color: var(--dev-white); text-decoration: none; font-size: 1rem; padding: 1rem 2rem; background: rgba(34, 197, 94, 0.2); border-radius: 6px; border: 1px solid rgba(34, 197, 94, 0.3); display: inline-flex; align-items: center; transition: all 0.2s ease; font-weight: 600;"
+                   onmouseover="this.style.background='rgba(34, 197, 94, 0.3)'; this.style.borderColor='rgba(34, 197, 94, 0.4)'"
+                   onmouseout="this.style.background='rgba(34, 197, 94, 0.2)'; this.style.borderColor='rgba(34, 197, 94, 0.3)'">
+                    <i class="fas fa-user-plus" style="margin-right: 0.5rem;"></i>
+                    Create Account
+                </a>
+                <a href="{{ url_for('auth.guest_login') }}" class="mono" style="color: var(--dev-blue); text-decoration: none; font-size: 1rem; padding: 1rem 2rem; background: rgba(59, 130, 246, 0.1); border-radius: 6px; border: 1px solid rgba(59, 130, 246, 0.2); display: inline-flex; align-items: center; transition: all 0.2s ease;"
+                   onmouseover="this.style.background='rgba(59, 130, 246, 0.15)'; this.style.borderColor='rgba(59, 130, 246, 0.3)'"
+                   onmouseout="this.style.background='rgba(59, 130, 246, 0.1)'; this.style.borderColor='rgba(59, 130, 246, 0.2)'">
+                    <i class="fas fa-play" style="margin-right: 0.5rem;"></i>
+                    Try as Guest
+                </a>
+            {% endif %}
+        </div>
     </div>
 </div>
 

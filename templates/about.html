@@ -3,258 +3,289 @@
 {% block title %}About - Super Tic-Tac-Toe{% endblock %}
 
 {% block content %}
-`<div class="dev-container">
+<div class="dev-container">
     <!-- Header -->
     <div style="text-align: center; margin-bottom: 4rem;">
         <h1 id="about-title" class="mono" style="color: var(--dev-white); font-size: 2.5rem; margin-bottom: 1rem; opacity: 0;"
-           data-typewriter="> game_rules.exe --advanced" data-typewriter-speed="40" data-typewriter-delay="300">
+           data-typewriter="> advanced_rules.exe" data-typewriter-speed="40" data-typewriter-delay="300">
         </h1>
-
+        <p class="mono" style="color: var(--dev-text-gray); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+            Master the strategic depth of Super Tic-Tac-Toe with comprehensive rules and advanced tactics.
+        </p>
     </div>
 
-    <!-- Basic Rules -->
-    <div class="dev-card" style="margin-bottom: 3rem;">
-        <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 2rem;">
-            // Basic Rules
-        </h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
+    <!-- Core Rules -->
+    <div class="dev-card" style="margin-bottom: 4rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(29, 78, 216, 0.03) 100%); border: 1px solid rgba(59, 130, 246, 0.15);">
+        <div style="display: flex; align-items: center; margin-bottom: 2rem;">
+            <div style="background: rgba(59, 130, 246, 0.1); padding: 0.75rem; border-radius: 8px; margin-right: 1rem;">
+                <i class="fas fa-book-open" style="color: var(--dev-blue); font-size: 1.25rem;"></i>
+            </div>
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.4rem; margin: 0;">
+                Core Game Rules
+            </h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 300px; gap: 3rem; align-items: start;">
             <div>
-                <h3 class="mono" style="color: var(--dev-blue); font-size: 1.2rem; margin-bottom: 1rem;">
-                    🎯 The Board
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 2rem; line-height: 1.6;">
-                    Super Tic-Tac-Toe is played on a 9×9 grid, composed of nine 3×3 sub-grids (called "local boards"). 
-                    Each local board follows standard tic-tac-toe rules.
-                </p>
+                <div style="margin-bottom: 2rem;">
+                    <h3 class="mono" style="color: var(--dev-blue); font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center;">
+                        <div style="background: rgba(59, 130, 246, 0.1); width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem;">
+                            <i class="fas fa-th" style="font-size: 0.8rem; color: var(--dev-blue);"></i>
+                        </div>
+                        Game Board Structure
+                    </h3>
+                    <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6; font-size: 0.9rem;">
+                        The game is played on a 9×9 grid divided into nine 3×3 sub-grids. Each sub-grid functions as an independent tic-tac-toe board with standard win conditions.
+                    </p>
+                </div>
                 
-                <h3 class="mono" style="color: var(--dev-green); font-size: 1.2rem; margin-bottom: 1rem;">
-                    🏆 The Goal
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
-                    Win three local boards in a row (horizontally, vertically, or diagonally) to win the entire game.
-                </p>
+                <div style="margin-bottom: 2rem;">
+                    <h3 class="mono" style="color: var(--dev-green); font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center;">
+                        <div style="background: rgba(34, 197, 94, 0.1); width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem;">
+                            <i class="fas fa-trophy" style="font-size: 0.8rem; color: var(--dev-green);"></i>
+                        </div>
+                        Victory Condition
+                    </h3>
+                    <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6; font-size: 0.9rem;">
+                        Win three sub-grids in a row (horizontal, vertical, or diagonal) to claim overall victory. Each sub-grid win counts as one position in the larger game.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="mono" style="color: var(--dev-yellow); font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center;">
+                        <div style="background: rgba(251, 191, 36, 0.1); width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem;">
+                            <i class="fas fa-route" style="font-size: 0.8rem; color: var(--dev-yellow);"></i>
+                        </div>
+                        Movement Constraint
+                    </h3>
+                    <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6; font-size: 0.9rem;">
+                        Your move determines which sub-grid your opponent must play on next. This creates the strategic depth that defines the game.
+                    </p>
+                </div>
             </div>
+            
             <div style="display: flex; justify-content: center;">
-                <div style="background: var(--dev-gray-dark); padding: 2rem; border-radius: 8px;">
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 200px; height: 200px;">
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-blue); font-size: 1.5rem; font-weight: bold;" class="mono">1</div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-red); font-size: 1.5rem; font-weight: bold;" class="mono">0</div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-red); font-size: 1.5rem; font-weight: bold;" class="mono">0</div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color);"></div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-blue); font-size: 1.5rem; font-weight: bold;" class="mono">1</div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color);"></div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color);"></div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color);"></div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-blue); font-size: 1.5rem; font-weight: bold;" class="mono">1</div>
+                <div style="background: rgba(255, 255, 255, 0.02); padding: 2rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 180px; height: 180px;">
+                        <div style="background: var(--dev-black); border: 1px solid rgba(59, 130, 246, 0.3); display: flex; align-items: center; justify-content: center; color: var(--dev-blue); font-size: 1.2rem; font-weight: bold;" class="mono">X</div>
+                        <div style="background: var(--dev-black); border: 1px solid rgba(239, 68, 68, 0.3); display: flex; align-items: center; justify-content: center; color: var(--dev-red); font-size: 1.2rem; font-weight: bold;" class="mono">O</div>
+                        <div style="background: var(--dev-black); border: 1px solid rgba(239, 68, 68, 0.3); display: flex; align-items: center; justify-content: center; color: var(--dev-red); font-size: 1.2rem; font-weight: bold;" class="mono">O</div>
+                        <div style="background: var(--dev-black); border: 1px solid rgba(255, 255, 255, 0.1);"></div>
+                        <div style="background: var(--dev-black); border: 1px solid rgba(59, 130, 246, 0.3); display: flex; align-items: center; justify-content: center; color: var(--dev-blue); font-size: 1.2rem; font-weight: bold;" class="mono">X</div>
+                        <div style="background: var(--dev-black); border: 1px solid rgba(255, 255, 255, 0.1);"></div>
+                        <div style="background: var(--dev-black); border: 1px solid rgba(255, 255, 255, 0.1);"></div>
+                        <div style="background: var(--dev-black); border: 1px solid rgba(255, 255, 255, 0.1);"></div>
+                        <div style="background: var(--dev-black); border: 1px solid rgba(59, 130, 246, 0.3); display: flex; align-items: center; justify-content: center; color: var(--dev-blue); font-size: 1.2rem; font-weight: bold;" class="mono">X</div>
                     </div>
-                    <p class="mono" style="text-align: center; font-size: 0.9rem; color: var(--dev-blue); margin-top: 1rem;">
-                        1 wins this board
+                    <p class="mono" style="text-align: center; font-size: 0.8rem; color: var(--dev-blue); margin-top: 1rem;">
+                        X wins this sub-grid
                     </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Strategic Rules -->
-    <div class="dev-card" style="margin-bottom: 3rem;">
-        <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 2rem;">
-            // Strategic Constraint
-        </h2>
-        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-            <div>
-                <h3 class="mono" style="color: var(--dev-yellow); font-size: 1.2rem; margin-bottom: 1rem;">
-                    ⚡ The Sending Rule
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
-                    Your move determines which local board your opponent must play on next. If you play in the top-right cell of a local board, your opponent must play somewhere in the top-right local board.
-                </p>
+    <!-- Strategic Mechanics -->
+    <div class="dev-card" style="margin-bottom: 4rem; background: linear-gradient(135deg, rgba(251, 191, 36, 0.08) 0%, rgba(245, 158, 11, 0.03) 100%); border: 1px solid rgba(251, 191, 36, 0.15);">
+        <div style="display: flex; align-items: center; margin-bottom: 2rem;">
+            <div style="background: rgba(251, 191, 36, 0.1); padding: 0.75rem; border-radius: 8px; margin-right: 1rem;">
+                <i class="fas fa-chess-knight" style="color: var(--dev-yellow); font-size: 1.25rem;"></i>
             </div>
-            
-            <div>
-                <h3 class="mono" style="color: var(--dev-red); font-size: 1.2rem; margin-bottom: 1rem;">
-                    🚫 Completed Boards
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
-                    If you're sent to a local board that's already won or completely filled, you can play anywhere on the entire board.
-                </p>
-            </div>
-            
-            <div>
-                <h3 class="mono" style="color: var(--dev-blue); font-size: 1.2rem; margin-bottom: 1rem;">
-                    🎯 Strategic Depth
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
-                    This constraint creates incredible strategic depth. You must think not only about winning the current local board, but also about where you'll send your opponent and what opportunities that creates.
-                </p>
-            </div>
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.4rem; margin: 0;">
+                Strategic Mechanics
+            </h2>
         </div>
-    </div>
 
-    <!-- Advanced Strategy -->
-    <div class="dev-card" style="margin-bottom: 3rem;">
-        <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 2rem;">
-            // Advanced Strategy
-        </h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            
-            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
-                <h3 class="mono" style="color: var(--dev-green); font-size: 1.1rem; margin-bottom: 1rem;">
-                    <i class="fas fa-chess-pawn" style="margin-right: 0.5rem;"></i>Opening Strategy
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
-                    Control the center local board early. Center moves give you the most flexibility and put pressure on your opponent.
-                </p>
-            </div>
-            
-            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
-                <h3 class="mono" style="color: var(--dev-blue); font-size: 1.1rem; margin-bottom: 1rem;">
-                    <i class="fas fa-target" style="margin-right: 0.5rem;"></i>Board Control
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
-                    Try to win local boards in strategic positions. Corner boards are powerful, but edge boards can create surprising threats.
-                </p>
-            </div>
-            
-            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
-                <h3 class="mono" style="color: var(--dev-yellow); font-size: 1.1rem; margin-bottom: 1rem;">
-                    <i class="fas fa-route" style="margin-right: 0.5rem;"></i>Sending Tactics
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
-                    Send your opponent to boards where they have limited good options. Avoid sending them to empty boards where they can set up threats.
-                </p>
-            </div>
-            
-            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
-                <h3 class="mono" style="color: var(--dev-red); font-size: 1.1rem; margin-bottom: 1rem;">
-                    <i class="fas fa-shield-alt" style="margin-right: 0.5rem;"></i>Defensive Play
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
-                    Sometimes it's better to sacrifice a local board to maintain control. Don't let your opponent dictate the flow of the game.
-                </p>
-            </div>
-            
-            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
-                <h3 class="mono" style="color: var(--dev-blue-light); font-size: 1.1rem; margin-bottom: 1rem;">
-                    <i class="fas fa-bolt" style="margin-right: 0.5rem;"></i>Forcing Moves
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
-                    Create threats that force your opponent into bad positions. Multiple simultaneous threats are often game-winning.
-                </p>
-            </div>
-            
-            <div style="padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
-                <h3 class="mono" style="color: var(--dev-green); font-size: 1.1rem; margin-bottom: 1rem;">
-                    <i class="fas fa-clock" style="margin-right: 0.5rem;"></i>Endgame
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem; line-height: 1.5;">
-                    In the endgame, count your threats carefully. Sometimes drawing a local board is better than losing it.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Game Notation -->
-    <div class="dev-card" style="margin-bottom: 3rem;">
-        <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 2rem;">
-            // Game Notation
-        </h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
-            <div>
-                <h3 class="mono" style="color: var(--dev-blue); font-size: 1.2rem; margin-bottom: 1rem;">
-                    📍 Position Notation
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); margin-bottom: 1.5rem; line-height: 1.6;">
-                    Each cell is identified by two coordinates: first the local board (1-9), then the cell within that board (1-9).
-                </p>
-                
-                <h3 class="mono" style="color: var(--dev-green); font-size: 1.2rem; margin-bottom: 1rem;">
-                    🔢 Board Numbering
-                </h3>
-                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.6;">
-                    Boards and cells are numbered 1-9, reading left to right, top to bottom (like reading text).
-                </p>
-            </div>
-            <div style="display: flex; justify-content: center;">
-                <div style="background: var(--dev-gray-dark); padding: 2rem; border-radius: 8px;">
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 150px; height: 150px;">
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">1</div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">2</div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">3</div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">4</div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">5</div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">6</div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">7</div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">8</div>
-                        <div style="background: var(--dev-black); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--dev-white); font-size: 1rem; font-weight: bold;" class="mono">9</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+            <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                    <div style="background: rgba(251, 191, 36, 0.1); color: var(--dev-yellow); width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <i class="fas fa-arrow-right" style="font-size: 0.9rem;"></i>
                     </div>
-                    <p class="mono" style="text-align: center; font-size: 0.9rem; color: var(--dev-text-gray); margin-top: 1rem;">
-                        Board numbering pattern
-                    </p>
+                    <h3 class="mono" style="color: var(--dev-white); font-size: 1rem; margin: 0;">Sending Rule</h3>
                 </div>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.5; font-size: 0.85rem;">
+                    The position of your move within a sub-grid determines which sub-grid your opponent must play on next. This creates a chain of strategic decisions.
+                </p>
+            </div>
+
+            <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                    <div style="background: rgba(239, 68, 68, 0.1); color: var(--dev-red); width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <i class="fas fa-ban" style="font-size: 0.9rem;"></i>
+                    </div>
+                    <h3 class="mono" style="color: var(--dev-white); font-size: 1rem; margin: 0;">Completed Boards</h3>
+                </div>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.5; font-size: 0.85rem;">
+                    When sent to a completed or full sub-grid, you gain the freedom to play anywhere on the board. Use this strategically.
+                </p>
+            </div>
+
+            <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                    <div style="background: rgba(168, 85, 247, 0.1); color: var(--dev-purple); width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <i class="fas fa-layer-group" style="font-size: 0.9rem;"></i>
+                    </div>
+                    <h3 class="mono" style="color: var(--dev-white); font-size: 1rem; margin: 0;">Multi-Level Thinking</h3>
+                </div>
+                <p class="mono" style="color: var(--dev-text-gray); line-height: 1.5; font-size: 0.85rem;">
+                    Success requires thinking on multiple levels: immediate sub-grid tactics and long-term board positioning strategy.
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- AI Difficulties -->
-    <div class="dev-card" style="margin-bottom: 3rem;">
-        <h2 class="mono" style="color: var(--dev-white); font-size: 1.8rem; margin-bottom: 2rem;">
-            // AI Difficulty Levels
+    <!-- Advanced Tactics -->
+    <div class="dev-card" style="margin-bottom: 4rem; background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(22, 163, 74, 0.03) 100%); border: 1px solid rgba(34, 197, 94, 0.15);">
+        <div style="display: flex; align-items: center; margin-bottom: 2rem;">
+            <div style="background: rgba(34, 197, 94, 0.1); padding: 0.75rem; border-radius: 8px; margin-right: 1rem;">
+                <i class="fas fa-chess-queen" style="color: var(--dev-green); font-size: 1.25rem;"></i>
+            </div>
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.4rem; margin: 0;">
+                Advanced Tactics
+            </h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+            
+            <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid var(--dev-blue);">
+                <h3 class="mono" style="color: var(--dev-blue); font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center;">
+                    <i class="fas fa-chess-pawn" style="margin-right: 0.5rem; font-size: 0.9rem;"></i>Opening Control
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
+                    Prioritize center sub-grids early. Center positions provide maximum flexibility and control over opponent movement.
+                </p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid var(--dev-green);">
+                <h3 class="mono" style="color: var(--dev-green); font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center;">
+                    <i class="fas fa-crosshairs" style="margin-right: 0.5rem; font-size: 0.9rem;"></i>Threat Creation
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
+                    Build multiple simultaneous threats across different sub-grids. Force opponents into impossible defensive positions.
+                </p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid var(--dev-yellow);">
+                <h3 class="mono" style="color: var(--dev-yellow); font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center;">
+                    <i class="fas fa-route" style="margin-right: 0.5rem; font-size: 0.9rem;"></i>Board Manipulation
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
+                    Send opponents to disadvantageous sub-grids. Avoid giving them access to empty boards where they can establish control.
+                </p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid var(--dev-red);">
+                <h3 class="mono" style="color: var(--dev-red); font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center;">
+                    <i class="fas fa-shield-alt" style="margin-right: 0.5rem; font-size: 0.9rem;"></i>Strategic Sacrifice
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
+                    Sometimes conceding a sub-grid maintains overall control. Don't let opponents dictate the game flow through forced wins.
+                </p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid var(--dev-purple);">
+                <h3 class="mono" style="color: var(--dev-purple); font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center;">
+                    <i class="fas fa-bolt" style="margin-right: 0.5rem; font-size: 0.9rem;"></i>Forcing Sequences</h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
+                    Create chains of forced moves that lead to favorable positions. Advanced players can plan 3-4 moves ahead.
+                </p>
+            </div>
+            
+            <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 3px solid var(--dev-blue-light);">
+                <h3 class="mono" style="color: var(--dev-blue-light); font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center;">
+                    <i class="fas fa-clock" style="margin-right: 0.5rem; font-size: 0.9rem;"></i>Endgame Precision
+                </h3>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
+                    In endgame scenarios, calculate all possible outcomes. Sometimes drawing a sub-grid prevents opponent victories.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Opponents -->
+    <div class="dev-card" style="margin-bottom: 4rem; background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(147, 51, 234, 0.03) 100%); border: 1px solid rgba(168, 85, 247, 0.15);">
+        <div style="display: flex; align-items: center; margin-bottom: 2rem;">
+            <div style="background: rgba(168, 85, 247, 0.1); padding: 0.75rem; border-radius: 8px; margin-right: 1rem;">
+                <i class="fas fa-robot" style="color: var(--dev-purple); font-size: 1.25rem;"></i>
+            </div>
+            <h2 class="mono" style="color: var(--dev-white); font-size: 1.4rem; margin: 0;">
+                AI Challenge Levels
+            </h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+            
+            <div style="padding: 2rem; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.1); border-radius: 8px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center;">
+                        <div style="background: rgba(34, 197, 94, 0.1); color: var(--dev-green); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                            <i class="fas fa-seedling" style="font-size: 1.1rem;"></i>
+                        </div>
+                        <h3 class="mono" style="color: var(--dev-green); font-size: 1.1rem; margin: 0;">Easy AI</h3>
+                    </div>
+                    <span class="mono" style="background: rgba(34, 197, 94, 0.1); color: var(--dev-green); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Beginner</span>
+                </div>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
+                    Makes legal moves with basic pattern recognition. Ideal for learning game mechanics and building confidence.
+                </p>
+            </div>
+            
+            <div style="padding: 2rem; background: rgba(251, 191, 36, 0.05); border: 1px solid rgba(251, 191, 36, 0.1); border-radius: 8px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center;">
+                        <div style="background: rgba(251, 191, 36, 0.1); color: var(--dev-yellow); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                            <i class="fas fa-brain" style="font-size: 1.1rem;"></i>
+                        </div>
+                        <h3 class="mono" style="color: var(--dev-yellow); font-size: 1.1rem; margin: 0;">Medium AI</h3>
+                    </div>
+                    <span class="mono" style="background: rgba(251, 191, 36, 0.1); color: var(--dev-yellow); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Intermediate</span>
+                </div>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
+                    Employs tactical awareness and basic strategy. Recognizes threats and opportunities within 1-2 moves ahead.
+                </p>
+            </div>
+            
+            <div style="padding: 2rem; background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.1); border-radius: 8px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center;">
+                        <div style="background: rgba(239, 68, 68, 0.1); color: var(--dev-red); width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                            <i class="fas fa-fire" style="font-size: 1.1rem;"></i>
+                        </div>
+                        <h3 class="mono" style="color: var(--dev-red); font-size: 1.1rem; margin: 0;">Hard AI</h3>
+                    </div>
+                    <span class="mono" style="background: rgba(239, 68, 68, 0.1); color: var(--dev-red); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem;">Expert</span>
+                </div>
+                <p class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; line-height: 1.5;">
+                    Advanced strategic AI with deep analysis and long-term planning. Challenges even experienced players with complex tactics.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="dev-card" style="text-align: center; padding: 3rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(29, 78, 216, 0.03) 100%); border: 1px solid rgba(59, 130, 246, 0.15);">
+        <h2 class="mono" style="color: var(--dev-white); font-size: 1.6rem; margin-bottom: 1rem;">
+            Ready to Master the Game?
         </h2>
-        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
-                <div>
-                    <h3 class="mono" style="color: var(--dev-green); font-size: 1.2rem; margin-bottom: 0.5rem;">
-                        <i class="fas fa-seedling" style="margin-right: 0.5rem;"></i>Easy AI
-                    </h3>
-                    <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
-                        Makes random but legal moves. Perfect for learning the rules.
-                    </p>
-                </div>
-                <div class="mono" style="color: var(--dev-green); font-size: 1rem; padding: 0.5rem 1rem; background: var(--dev-black); border-radius: 4px;">
-                    Beginner
-                </div>
-            </div>
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
-                <div>
-                    <h3 class="mono" style="color: var(--dev-yellow); font-size: 1.2rem; margin-bottom: 0.5rem;">
-                        <i class="fas fa-brain" style="margin-right: 0.5rem;"></i>Medium AI
-                    </h3>
-                    <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
-                        Uses basic strategy and tactical awareness. Provides a good challenge.
-                    </p>
-                </div>
-                <div class="mono" style="color: var(--dev-yellow); font-size: 1rem; padding: 0.5rem 1rem; background: var(--dev-black); border-radius: 4px;">
-                    Intermediate
-                </div>
-            </div>
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: var(--dev-gray-dark); border-radius: 8px;">
-                <div>
-                    <h3 class="mono" style="color: var(--dev-red); font-size: 1.2rem; margin-bottom: 0.5rem;">
-                        <i class="fas fa-fire" style="margin-right: 0.5rem;"></i>Hard AI
-                    </h3>
-                    <p class="mono" style="color: var(--dev-text-gray); font-size: 0.9rem;">
-                        Advanced strategic AI with deep lookahead. Extremely challenging.
-                    </p>
-                </div>
-                <div class="mono" style="color: var(--dev-red); font-size: 1rem; padding: 0.5rem 1rem; background: var(--dev-black); border-radius: 4px;">
-                    Expert
-                </div>
-            </div>
+        <p class="mono" style="color: var(--dev-text-gray); font-size: 1rem; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+            Put your strategic knowledge to the test. Choose your challenge and start playing.
+        </p>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+            <a href="{{ url_for('main.play_options') }}" class="mono" style="color: var(--dev-white); text-decoration: none; font-size: 1rem; padding: 1rem 2rem; background: rgba(59, 130, 246, 0.2); border-radius: 6px; border: 1px solid rgba(59, 130, 246, 0.3); display: inline-flex; align-items: center; transition: all 0.2s ease; font-weight: 600;"
+               onmouseover="this.style.background='rgba(59, 130, 246, 0.3)'; this.style.borderColor='rgba(59, 130, 246, 0.4)'"
+               onmouseout="this.style.background='rgba(59, 130, 246, 0.2)'; this.style.borderColor='rgba(59, 130, 246, 0.3)'">
+                <i class="fas fa-play" style="margin-right: 0.5rem;"></i>
+                Start Playing
+            </a>
+            <a href="{{ url_for('main.index') }}" class="mono" style="color: var(--dev-blue); text-decoration: none; font-size: 1rem; padding: 1rem 2rem; background: rgba(59, 130, 246, 0.1); border-radius: 6px; border: 1px solid rgba(59, 130, 246, 0.2); display: inline-flex; align-items: center; transition: all 0.2s ease;"
+               onmouseover="this.style.background='rgba(59, 130, 246, 0.15)'; this.style.borderColor='rgba(59, 130, 246, 0.3)'"
+               onmouseout="this.style.background='rgba(59, 130, 246, 0.1)'; this.style.borderColor='rgba(59, 130, 246, 0.2)'">
+                <i class="fas fa-home" style="margin-right: 0.5rem;"></i>
+                Back to Home
+            </a>
         </div>
-    </div>
-
-    <!-- Back to Game -->
-    <div style="text-align: center; margin-bottom: 2rem;">
-        <a href="{{ url_for('main.play_options') }}" 
-           class="mono" style="display: inline-flex; align-items: center; padding: 1rem 2rem; background: var(--dev-blue); color: var(--dev-white); text-decoration: none; border-radius: 6px; font-size: 1.1rem; transition: background 0.2s;"
-           onmouseover="this.style.background='var(--dev-blue-light)'"
-           onmouseout="this.style.background='var(--dev-blue)'">
-            <i class="fas fa-play" style="margin-right: 0.5rem;"></i>
-            Start Playing
-        </a>
     </div>
 </div>
 {% endblock %}

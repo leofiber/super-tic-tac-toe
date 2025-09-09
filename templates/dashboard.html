@@ -208,16 +208,20 @@
                                         {% else %}Player{% endif %}
                                     {% else %}Player{% endif %}
                                 </td>
-                                <td class="mono" style="color: {% if (game.player1_id == current_user.id and game.winner == 1) or (game.player2_id == current_user.id and game.winner == -1) %}var(--dev-green){% elif game.winner == 0 %}var(--dev-yellow){% else %}var(--dev-red){% endif %}; font-size: 0.85rem; padding: 1rem;">
-                                    {% if (game.player1_id == current_user.id and game.winner == 1) or (game.player2_id == current_user.id and game.winner == -1) %}Win
-                                    {% elif game.winner == 0 %}Draw
+                                {% set user_won = (game.player1_id == current_user.id and game.winner == 1) or (game.player2_id == current_user.id and game.winner == -1) %}
+                                {% set is_draw = game.winner == 0 %}
+                                <td class="mono result-cell {% if user_won %}result-win{% elif is_draw %}result-draw{% else %}result-loss{% endif %}" style="font-size: 0.85rem; padding: 1rem;">
+                                    {% if user_won %}Win
+                                    {% elif is_draw %}Draw
                                     {% else %}Loss{% endif %}
                                 </td>
                                 <td class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; padding: 1rem;">{{ game.finished_at.strftime('%m/%d %H:%M') if game.finished_at else game.created_at.strftime('%m/%d %H:%M') }}</td>
                             {% else %}
                                 <td class="mono" style="color: var(--dev-blue); font-size: 0.85rem; padding: 1rem;">{{ game.mode if game.mode else (game.game_type|title + ' ' + game.ai_difficulty|title if game.ai_difficulty else game.game_type|title) }}</td>
                                 <td class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; padding: 1rem;">{{ game.opponent if game.opponent else (game.ai_difficulty|title + ' AI' if game.ai_difficulty else 'Player') }}</td>
-                                <td class="mono" style="color: {% if game.result == 'Win' or game.result == 'Won' %}var(--dev-green){% elif game.result == 'Loss' or game.result == 'Lost' %}var(--dev-red){% else %}var(--dev-yellow){% endif %}; font-size: 0.85rem; padding: 1rem;">{{ game.result }}</td>
+                                {% set guest_won = game.result == 'Win' or game.result == 'Won' %}
+                                {% set guest_lost = game.result == 'Loss' or game.result == 'Lost' %}
+                                <td class="mono result-cell {% if guest_won %}result-win{% elif guest_lost %}result-loss{% else %}result-draw{% endif %}" style="font-size: 0.85rem; padding: 1rem;">{{ game.result }}</td>
                                 <td class="mono" style="color: var(--dev-text-gray); font-size: 0.85rem; padding: 1rem;">{{ game.finished_at }}</td>
                             {% endif %}
                         </tr>
@@ -265,6 +269,34 @@
 
 .stat-card:hover::before {
     left: 100%;
+}
+
+.result-cell.result-win {
+    color: var(--dev-green);
+}
+
+.result-cell.result-loss {
+    color: var(--dev-red);
+}
+
+.result-cell.result-draw {
+    color: var(--dev-yellow);
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .actions-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 
