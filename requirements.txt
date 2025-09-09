@@ -5,9 +5,9 @@ Flask-Login==0.6.3
 Flask-SocketIO==5.3.6
 Flask-CORS==4.0.0
 
-# Build tools (ensure wheels build properly on Render)
-setuptools>=68
-wheel>=0.41
+# Build tools (ensure wheels build properly on Render - Python 3.13 compatible)
+setuptools>=72
+wheel>=0.44
 
 # Database
 SQLAlchemy==2.0.21
