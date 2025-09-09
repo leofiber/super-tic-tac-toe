@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: super-tictactoe
+    env: python
+    pythonVersion: 3.11.9
+    buildCommand: pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
+    startCommand: gunicorn --worker-class gevent --workers 1 --worker-connections 1000 --bind 0.0.0.0:$PORT run:app
+    envVars:
+      - key: FLASK_CONFIG
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+    plan: free
+
+databases:
+  - name: supertictactoe-db
+    plan: free
