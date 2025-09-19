@@ -1,81 +1,76 @@
-"""
-Super Tic-Tac-Toe Flask Application Factory
-"""
-import os
-from flask import Flask, render_template
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_socketio import SocketIO
-from config import config
+import os
 
-# Initialize extensions
 db = SQLAlchemy()
 login_manager = LoginManager()
 socketio = SocketIO()
 
 def create_app(config_name=None):
-    """Create and configure the Flask application."""
+    app = Flask(__name__)
     
+    # Load configuration
     if config_name is None:
-        config_name = os.environ.get('FLASK_CONFIG') or 'default'
+        config_name = os.environ.get('FLASK_CONFIG', 'development')
     
-    app = Flask(__name__, 
-                template_folder='../templates',
-                static_folder='../static')
-    app.config.from_object(config[config_name])
+    if config_name == 'production':
+        from config import ProductionConfig
+        app.config.from_object(ProductionConfig)
+    elif config_name == 'testing':
+        from config import TestingConfig
+        app.config.from_object(TestingConfig)
+    else:
+        from config import DevelopmentConfig
+        app.config.from_object(DevelopmentConfig)
     
-    # Initialize extensions with app
+    # Initialize extensions
     db.init_app(app)
     login_manager.init_app(app)
-    socketio.init_app(app, cors_allowed_origins="*")
+    socketio.init_app(app, async_mode='gevent', cors_allowed_origins="*")
     
     # Configure login manager
     login_manager.login_view = 'auth.login'
     login_manager.login_message = 'Please log in to access this page.'
     login_manager.login_message_category = 'info'
     
-    @login_manager.user_loader
-    def load_user(user_id):
-        from app.models import User
-        return User.query.get(int(user_id))
-    
-    # Register blueprints
+    # Import and register blueprints
     from app.routes.main import main_bp
-    from app.routes.game import game_bp
     from app.routes.auth import auth_bp
+    from app.routes.game import game_bp
     from app.routes.api import api_bp
+    from app.routes.websocket import websocket_bp
     
     app.register_blueprint(main_bp)
-    app.register_blueprint(game_bp, url_prefix='/game')
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(game_bp, url_prefix='/game')
     app.register_blueprint(api_bp, url_prefix='/api')
+    app.register_blueprint(websocket_bp)
     
-    # Register WebSocket events
-    from app.routes.websocket import register_socketio_events
-    register_socketio_events(socketio)
+    # Import models
+    from app.models import user, game, room
     
-    # Create database tables with error handling
+    # Create tables with persistence check
     with app.app_context():
         try:
-            db.create_all()
-            app.logger.info("Database tables created successfully")
+            # Check if database exists and has data
+            from app.models.user import User
+            existing_users = User.query.count()
+            
+            if existing_users == 0:
+                print("🔄 No existing data found, creating fresh database...")
+                db.create_all()
+                print("✅ Database tables created successfully")
+            else:
+                print(f"✅ Database exists with {existing_users} users - preserving data")
+                # Only create missing tables, don't drop existing ones
+                db.create_all()
+                
         except Exception as e:
-            app.logger.error(f"Error creating database tables: {e}")
-            if not app.config.get('TESTING'):
-                raise
-    
-    # Add error handlers for production
-    @app.errorhandler(404)
-    def not_found_error(error):
-        return render_template('errors/404.html'), 404
-    
-    @app.errorhandler(500)
-    def internal_error(error):
-        db.session.rollback()
-        return render_template('errors/500.html'), 500
-    
-    @app.errorhandler(503)
-    def service_unavailable(error):
-        return render_template('errors/503.html'), 503
+            print(f"⚠️ Database initialization: {e}")
+            # Fallback: create tables anyway
+            db.create_all()
+            print("✅ Database tables created (fallback)")
     
     return app
