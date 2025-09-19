@@ -154,7 +154,7 @@
                         <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">Real-time</div>
                     </div>
                     <div style="text-align: right;">
-                        <div class="mono" style="color: var(--dev-red); font-size: 1.5rem; font-weight: 600;">0/0</div>
+                        <div class="mono" style="color: var(--dev-red); font-size: 1.5rem; font-weight: 600;">{{ stats.pvp_online_stats.wins }}/{{ stats.pvp_online_stats.total_games }}</div>
                         <div class="mono" style="color: var(--dev-text-gray); font-size: 0.8rem;">wins/matches</div>
                     </div>
                 </div>
@@ -313,18 +313,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         bars.forEach((bar, index) => {
             const targetWidth = parseFloat(bar.getAttribute('data-width'));
-            bar.style.width = targetWidth + '%';
+            const finalWidth = Math.max(0, Math.min(100, targetWidth)); // Ensure 0-100% range
+            bar.style.width = finalWidth + '%';
             
             // Animate the percentage text
             const valueElement = values[index];
             const targetValue = parseFloat(valueElement.getAttribute('data-value'));
+            const finalValue = Math.max(0, Math.min(100, targetValue)); // Ensure 0-100% range
             
             let currentValue = 0;
-            const increment = targetValue / 60; // 60 steps for smooth animation
+            const increment = finalValue / 60; // 60 steps for smooth animation
             const timer = setInterval(() => {
                 currentValue += increment;
-                if (currentValue >= targetValue) {
-                    currentValue = targetValue;
+                if (currentValue >= finalValue) {
+                    currentValue = finalValue;
                     clearInterval(timer);
                 }
                 valueElement.textContent = Math.round(currentValue) + '%';

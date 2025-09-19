@@ -103,7 +103,7 @@ function renderBoard(board, smallStatus) {
       if (smallWinner === 1) {
         console.log(`🔵 PLAYER 1 captured board [${bigRow}][${bigCol}]!`);
         smallBoard.classList.add('won-x');
-      } else if (smallWinner === -1) {
+      } else if (smallWinner === 2) {
         console.log(`🔴 PLAYER 2 captured board [${bigRow}][${bigCol}]!`);
         smallBoard.classList.add('won-o');
       }

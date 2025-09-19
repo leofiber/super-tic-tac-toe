@@ -101,7 +101,7 @@ function renderBoard(board, smallStatus) {
       if (smallWinner === 1) {
         console.log(`🔵 PLAYER captured board [${bigRow}][${bigCol}]!`);
         smallBoard.classList.add('won-x');
-      } else if (smallWinner === -1 || smallWinner === 2) {
+      } else if (smallWinner === 2) {
         console.log(`🔴 AI captured board [${bigRow}][${bigCol}]!`);
         smallBoard.classList.add('won-o');
       }

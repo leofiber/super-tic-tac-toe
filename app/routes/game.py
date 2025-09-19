@@ -202,14 +202,33 @@ def get_user_stats():
                 elif game.winner == 0:
                     ai_stats[difficulty]['draws'] += 1
         
-        # PvP stats breakdown (both local and online)
-        pvp_games = [g for g in user_games if g.game_type in ['pvp_local', 'pvp_online']]
-        pvp_stats = {
-            'wins': sum(1 for g in pvp_games if 
+        # PvP stats breakdown (separate local and online)
+        pvp_local_games = [g for g in user_games if g.game_type == 'pvp_local']
+        pvp_online_games = [g for g in user_games if g.game_type == 'pvp_online']
+        all_pvp_games = pvp_local_games + pvp_online_games
+        
+        pvp_local_stats = {
+            'wins': sum(1 for g in pvp_local_games if 
                        (g.player1_id == current_user.id and g.winner == 1) or 
                        (g.player2_id == current_user.id and g.winner == -1)),
-            'draws': sum(1 for g in pvp_games if g.winner == 0),
-            'total_games': len(pvp_games)
+            'draws': sum(1 for g in pvp_local_games if g.winner == 0),
+            'total_games': len(pvp_local_games)
+        }
+        
+        pvp_online_stats = {
+            'wins': sum(1 for g in pvp_online_games if 
+                       (g.player1_id == current_user.id and g.winner == 1) or 
+                       (g.player2_id == current_user.id and g.winner == -1)),
+            'draws': sum(1 for g in pvp_online_games if g.winner == 0),
+            'total_games': len(pvp_online_games)
+        }
+        
+        pvp_stats = {
+            'wins': sum(1 for g in all_pvp_games if 
+                       (g.player1_id == current_user.id and g.winner == 1) or 
+                       (g.player2_id == current_user.id and g.winner == -1)),
+            'draws': sum(1 for g in all_pvp_games if g.winner == 0),
+            'total_games': len(all_pvp_games)
         }
         
         return {
@@ -218,7 +237,9 @@ def get_user_stats():
             'draws': draws,
             'win_rate': round(win_rate, 1),
             'ai_stats': ai_stats,
-            'pvp_stats': pvp_stats
+            'pvp_stats': pvp_stats,
+            'pvp_local_stats': pvp_local_stats,
+            'pvp_online_stats': pvp_online_stats
         }
 
 def init_game_session(session_id, difficulty='medium'):

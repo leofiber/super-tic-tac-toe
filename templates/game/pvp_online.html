@@ -547,7 +547,7 @@ function renderBoard(board, smallStatus) {
             const smallWinner = smallStatus[bigRow][bigCol];
             if (smallWinner === 1) {
                 smallBoard.classList.add('won-x');
-            } else if (smallWinner === -1) {
+            } else if (smallWinner === 2) {
                 smallBoard.classList.add('won-o');
             }
             

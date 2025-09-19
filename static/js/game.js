@@ -18,7 +18,7 @@ function renderBoard(board, smallStatus) {
       
       if (smallBoardStatus === 1) {
         boardClasses += " won-x";
-      } else if (smallBoardStatus === -1 || smallBoardStatus === 2) {
+      } else if (smallBoardStatus === 2) {
         boardClasses += " won-o";
       }
       
